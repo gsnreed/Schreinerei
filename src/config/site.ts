@@ -16,32 +16,33 @@
 export const SITE = {
   // --- Identity & URLs -------------------------------------------------------
   url: "https://astro-chalet.vercel.app", // NO trailing slash
-  lang: "en",
+  lang: "de",
   // BCP 47 locale used for Open Graph (e.g. "en_US", "fr_FR", "de_DE")
-  ogLocale: "en_US",
-  name: "The Alpine Loaf",
-  tagline: "Artisan bakery at the foot of Mont Blanc",
+  ogLocale: "de_DE",
+  name: "Alexander Siegfried",
+  tagline: "Handwerk, das bleibt",
   description:
-    "Artisan bakery in Chamonix: naturally leavened sourdough, all-butter pastries and homemade cakes, fresh from the oven every day from 6:30am.",
+  "Schreinerei-Meisterbetrieb in Pocking bei Passau für maßgefertigte Möbel, Küchen und individuellen Innenausbau. Hochwertiges Schreinerhandwerk, persönliche Beratung und individuelle Lösungen für Pocking, Passau und Umgebung.",
 
   // --- Business (powers the JSON-LD LocalBusiness markup) --------------------
   business: {
+    "@context": "https://schema.org",
     // The most specific schema.org type you can find. Useful examples:
     // "Bakery", "Restaurant", "LodgingBusiness", "HairSalon", "Plumber",
     // "SportingGoodsStore", "TouristInformationCenter"... (see schema.org)
-    schemaType: "Bakery",
-    phone: "+33450000000",
-    email: "hello@alpineloaf.example.com",
+    schemaType: "LocalBusiness",
+    phone: "+49 162 4106237",
+    email: "schreinerei-siegfried@yahoo.com",
     address: {
-      street: "12 rue du Docteur Paccard",
-      postalCode: "74400",
-      city: "Chamonix-Mont-Blanc",
-      country: "FR",
+      street: "Oberer Mühlweg 2",
+      postalCode: "81549",
+      city: "Pocking",
+      country: "DE",
     },
     // GPS coordinates (Google Maps → right-click the location → copy)
-    geo: { latitude: 45.9219, longitude: 6.8696 },
+    geo: { latitude: 48.4248, longitude: 13.3476 },
     // Price range shown by Google: "€", "€€", "€€€" (or "$", "$$"...)
-    priceRange: "€",
+    priceRange: "€€",
     // Link to the business's Google Business Profile
     googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",
     socialProfiles: [
@@ -53,23 +54,23 @@ export const SITE = {
   // --- Opening hours (shown on the site AND injected into the JSON-LD) -------
   // days: 0 = Monday ... 6 = Sunday. closed: true = closing day.
   openingHours: [
-    { label: "Monday", days: [0], opens: "06:30", closes: "19:00" },
-    { label: "Tuesday", days: [1], opens: "06:30", closes: "19:00" },
-    { label: "Wednesday", days: [2], closed: true },
-    { label: "Thursday", days: [3], opens: "06:30", closes: "19:00" },
-    { label: "Friday", days: [4], opens: "06:30", closes: "19:00" },
-    { label: "Saturday", days: [5], opens: "06:30", closes: "19:30" },
-    { label: "Sunday", days: [6], opens: "07:00", closes: "13:00" },
+    { label: "Montag", days: [0], opens: "06:30", closes: "19:00" },
+    { label: "Dienstag", days: [1], opens: "06:30", closes: "19:00" },
+    { label: "Mittwoch", days: [2], opens: "06:30", closes: "19:00" },
+    { label: "Donnerstag", days: [3], opens: "06:30", closes: "19:00" },
+    { label: "Freitag", days: [4], opens: "06:30", closes: "19:00" },
+    { label: "Samstag", days: [5], opens: "06:30", closes: "19:30" },
+    { label: "Sonntag", days: [6], closed: true },
   ] as OpeningHours[],
 
   // --- Navigation (home page anchors + pages) --------------------------------
   navigation: [
-    { label: "Our products", href: "/#services" },
-    { label: "Our story", href: "/#about" },
-    { label: "Gallery", href: "/#gallery" },
-    { label: "Reviews", href: "/#reviews" },
-    { label: "Visit us", href: "/#info" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Leistungen", href: "/#services" },
+    { label: "Über uns", href: "/#about" },
+    { label: "Bilder", href: "/#gallery" },
+    // { label: "Rezensionen", href: "/#reviews" },
+    { label: "Info", href: "/#info" },
+    { label: "Kontakt", href: "/#contact" },
   ],
 
   // --- Hero section -----------------------------------------------------------
@@ -79,70 +80,76 @@ export const SITE = {
     // "split"     = text left, framed photo right, on the dark background
     //               (best with a product close-up).
     layout: "immersive" as "immersive" | "split",
-    title: "Real bread, baked in Chamonix",
+    title: "Schreinermeisterei aus Pocking",
     // Optional: a substring of the title rendered in italic accent color.
     // Leave "" to disable.
-    titleHighlight: "Chamonix",
+    titleHighlight: "Pocking",
     subtitle:
-      "Natural sourdough, stone-milled flour and homemade pastries, prepared every night in our town-centre bakehouse.",
+      "Indiviudelle Möbel und Schreinerarbeiten aus Meisterhand. Gefertigt mit Liebe zum Detail - von der Planung bis zur Montage.",
     image: "/images/hero.webp",
-    imageAlt: "Freshly baked sourdough loaf held on a linen cloth",
-    primaryCta: { label: "See our products", href: "/#services" },
-    secondaryCta: { label: "Find us", href: "/#info" },
+    imageAlt: "Hobel trägt Holzspäne von einer Holzplatte ab",
+    primaryCta: { label: "Unsere Leistungen", href: "/#services" },
+    secondaryCta: { label: "Projekt anfragen", href: "/#info" },
     // Trust badges shown under the buttons (2 to 4 short items).
     // Great spots for the Google rating, founding year, a signature promise.
-    highlights: ["★ 4.7 on Google", "Family-run since 1987", "Fresh from 6:30am"],
+    highlights: ["Familienbetrieb seit 2010", "Meisterbetrieb"],
   },
 
   // --- Services / products (3 to 6 cards) -------------------------------------
   services: {
-    eyebrow: "What we bake", // small uppercase label above the title ("" hides it)
-    title: "Our products",
-    intro: "Everything is kneaded, shaped and baked on site, every single day.",
+    eyebrow: "Was wir für Sie fertigen", // small uppercase label above the title ("" hides it)
+    title: "Unsere Leistungen",
+    intro: "Von der ersten Idee bis zur fertigen Montage: Wir verbinden traditionelles Schreinerhandwerk mit moderner Planung und hochwertigen Materialien.",
     items: [
       {
-        title: "Sourdough breads",
-        description:
-          "Stone-milled boules, country loaves, seeded or plain: a slow 24-hour fermentation for bread that keeps all week.",
-        icon: "bread",
-      },
-      {
-        title: "All-butter pastries",
-        description:
-          "Croissants, pains au chocolat and flaky brioches made with AOP Charentes-Poitou butter, baked in batches until noon.",
-        icon: "croissant",
-      },
-      {
-        title: "Homemade cakes",
-        description:
-          "Seasonal fruit tarts, éclairs and our famous mont-blanc with Ardèche chestnut cream.",
-        icon: "cake",
-      },
-      {
-        title: "Lunch on the go",
-        description:
-          "Baguette sandwiches, fougasses and quiches — perfect to slip into your pack before riding the cable car.",
-        icon: "sandwich",
-      },
+      title: "Möbel nach Maß",
+      description:
+        "Individuelle Möbelstücke, die perfekt zu Ihren Räumen passen – von Einbauschränken und Regalen bis hin zu Sideboards und Einzelanfertigungen.",
+      icon: "wardrobe",
+    },
+    {
+      title: "Innenausbau",
+      description:
+        "Wir gestalten Wohn- und Geschäftsräume mit maßgefertigten Lösungen für Küche, Wohnzimmer, Büro, Praxis und mehr.",
+      icon: "home",
+    },
+    {
+      title: "Küchen & Essbereiche",
+      description:
+        "Funktionale und langlebige Küchen nach Maß – individuell geplant, hochwertig gefertigt und fachgerecht montiert.",
+      icon: "kitchen",
+    },
+    {
+      title: "Türen & Treppen",
+      description:
+        "Hochwertige Türen, Treppen und Holzlösungen, individuell auf Ihre Räume und persönlichen Vorstellungen abgestimmt.",
+      icon: "stairs",
+    },
+    {
+      title: "Reparaturen & Restaurierung",
+      description:
+        "Wir geben beschädigten oder in die Jahre gekommenen Möbeln und Holzelementen eine zweite Chance – fachgerecht und mit viel Liebe zum Detail.",
+      icon: "tools",
+    },
     ],
   },
 
   // --- About -------------------------------------------------------------------
   about: {
-    eyebrow: "Since 1987",
-    title: "Our story",
+    eyebrow: "Seit 2010 in Pocking",
+    title: "Über uns",
     paragraphs: [
-      "Settled on rue du Docteur Paccard since 1987, The Alpine Loaf has been run by the Ravanel family for three generations. We work exclusively with stone-milled Alpine flours and a sourdough starter we have kept alive for over thirty years.",
-      "Summer and winter alike, the ovens are lit at 3am so that mountain guides, seasonal workers and families find warm bread the minute we open.",
+      "Seit 2010 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinermeister verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
+      "Ob Möbel nach Maß, individueller Innenausbau oder passgenaue Einzelanfertigungen - jedes Projekt entsteht mit viel Liebe zum Detail und wird von der ersten Idee bis zur fertigen Umsetzung persönlich begleitet."
     ],
     image: "/images/about.webp",
-    imageAlt: "Baker's hands kneading floured dough on a dark workbench",
+    imageAlt: "Alexander Siegfried, Schreinermeister, steht in seiner Werkstatt vor einem Holzregal mit Werkzeugen",
   },
 
   // --- Gallery (4 to 8 images) ---------------------------------------------------
   gallery: {
-    eyebrow: "Behind the counter",
-    title: "In pictures",
+    eyebrow: "Bildergalerie",
+    title: "Kundenprojekte",
     // The first image is featured (2×2 in the grid): 5 or 7 images fill the
     // grid perfectly on desktop.
     images: [
@@ -181,50 +188,60 @@ export const SITE = {
 
   // --- FAQ (SEO bonus: questions people actually type into Google) ---------------
   faq: {
-    eyebrow: "Good to know",
-    title: "Frequently asked questions",
+    eyebrow: "Gut zu wissen",
+    title: "Häufig gestellte Fragen",
     items: [
       {
-        question: "Do you bake special breads to order?",
-        answer:
-          "Yes: rye loaves, gluten-free (dedicated oven on Tuesdays) and large pieces for restaurants and mountain huts, ordered 48 hours ahead by phone.",
-      },
-      {
-        question: "Can I order a birthday or wedding cake?",
-        answer:
-          "Of course. Allow one week's notice for tiered and custom cakes. Drop by the shop and we'll design it together.",
-      },
-      {
-        question: "Are you open between seasons?",
-        answer:
-          "Yes, all year round except Wednesdays and three weeks in November. Holiday dates are posted in the shop and on our Google profile.",
-      },
-      {
-        question: "Where can I park near the bakery?",
-        answer:
-          "The Mont-Blanc car park is a 3-minute walk away, and there is a drop-off zone right outside the shop on rue du Docteur Paccard.",
-      },
+      question: "Welche Arbeiten übernimmt die Schreinerei?",
+      answer:
+        "Wir fertigen individuelle Möbel, Innenausbauten und Einbauten nach Maß. Auch Reparaturen und kleinere Holzarbeiten übernehmen wir gerne.",
+    },
+    {
+      question: "Kann ich ein Möbelstück individuell anfertigen lassen?",
+      answer:
+        "Ja. Wir planen und fertigen Möbel individuell nach Ihren Wünschen, räumlichen Gegebenheiten und Vorstellungen. Gerne beraten wir Sie persönlich zu Material, Gestaltung und Ausführung.",
+    },
+    {
+      question: "Wie läuft eine Anfrage ab?",
+      answer:
+        "Am besten kontaktieren Sie uns telefonisch oder per E-Mail. Nach einem ersten Gespräch besprechen wir die Anforderungen und vereinbaren bei Bedarf einen Termin vor Ort für ein genaues Aufmaß.",
+    },
+    {
+      question: "Wie lange dauert die Anfertigung?",
+      answer:
+        "Die Fertigungszeit hängt vom Umfang und der Art des Projekts ab. Nach der Planung und Auftragserteilung nennen wir Ihnen einen verbindlichen voraussichtlichen Fertigstellungstermin.",
+    },
+    {
+      question: "In welchem Gebiet ist die Schreinerei tätig?",
+      answer:
+        "Wir arbeiten hauptsächlich im Landkreis Passau und übernehmen Projekte nach Absprache auch in umliegenden Orten. Fragen Sie uns gerne, ob wir Ihr Vorhaben an Ihrem Standort umsetzen können.",
+    },
+    {
+      question: "Kann ich ein Angebot für mein Projekt erhalten?",
+      answer:
+        "Natürlich. Schicken Sie uns gerne erste Informationen, Fotos oder Maße zu Ihrem Vorhaben. Nach einer ersten Einschätzung besprechen wir die nächsten Schritte und erstellen Ihnen ein individuelles Angebot.",
+    },
     ],
   },
 
   // --- Call-to-action banner ------------------------------------------------------
   ctaBanner: {
-    title: "Planning an event?",
-    text: "Buffets, weddings, seminars or mountain-hut resupply: write to us and we'll send a quote within 24 hours.",
-    button: { label: "Request a quote", href: "/#contact" },
+    title: "Planen Sie ein Projekt?",
+    text: "Wir beraten Sie gerne und erstellen Ihnen ein individuelles Angebot für Ihre maßgefertigten Möbel oder Schreinerarbeiten.",
+    button: { label: "Angebot anfordern", href: "/#contact" },
   },
 
   // --- Contact form ------------------------------------------------------------------
   contact: {
-    eyebrow: "Get in touch",
-    title: "Write to us",
+    eyebrow: "Kontakt",
+    title: "Schreiben Sie uns",
     intro:
-      "A question, a special order? Leave us a message — we reply within one business day.",
+      "Eine Frage, ein Sonderauftrag? Schreiben Sie uns - wir antworten innerhalb eines Geschäftstages.",
     // Form endpoint. Options:
     //  1. Formspree/Basin: paste the URL the service gives you.
     //  2. Your own backend (any endpoint accepting a classic form POST).
     //  3. Leave empty "": the form falls back to a mailto button automatically.
-    endpoint: "",
+    endpoint: "POST",
     // Name of the hidden anti-spam (honeypot) field. Your backend must reject
     // any submission where this field is filled in. Keep the default unless
     // your form backend expects a specific field name.
@@ -249,30 +266,30 @@ export const SITE = {
   // Every fixed label used by the components. Translate this section (plus the
   // content above) to ship the site in another language — no component edits.
   ui: {
-    skipToContent: "Skip to content",
-    menuOpenLabel: "Open menu",
-    closedLabel: "Closed",
-    hoursTitle: "Opening hours",
-    findUsTitle: "Find us",
-    infoEyebrow: "Practical",
-    infoTitle: "Visit us",
-    directionsLabel: "Directions on Google Maps",
-    googleProfileLabel: "Our Google profile",
-    readAllReviews: "Read all reviews on Google →",
-    ratingLabel: "Rating:", // followed by "4 out of 5"
-    ratingOutOf: "out of 5",
-    reviewsScoreLabel: "from Google reviews", // under the big average score
-    formNameLabel: "Your name",
-    formEmailLabel: "Your email",
-    formMessageLabel: "Your message",
-    formSubmitLabel: "Send message",
-    formHoneypotLabel: "Leave this field empty",
-    legalNoticeLabel: "Legal notice",
-    privacyPolicyLabel: "Privacy policy",
-    allRightsReserved: "All rights reserved",
-    notFoundTitle: "Page not found",
-    notFoundText: "The page you are looking for does not exist or has moved.",
-    notFoundCta: "Back to the home page",
+    skipToContent: "Weiter zum Inhalt",
+    menuOpenLabel: "Menü öffnen",
+    closedLabel: "Geschlossen",
+    hoursTitle: "Öffnungszeiten",
+    findUsTitle: "Besuchen Sie uns",
+    infoEyebrow: "Zum Betrieb",
+    infoTitle: "Informationen",
+    directionsLabel: "Google Maps",
+    googleProfileLabel: "Google Profil",
+    readAllReviews: "Reviews auf Google →",
+    ratingLabel: "Bewertung:", // followed by "4 out of 5"
+    ratingOutOf: "von 5",
+    reviewsScoreLabel: "laut Google reviews", // under the big average score
+    formNameLabel: "Ihr Name",
+    formEmailLabel: "Ihre Email",
+    formMessageLabel: "Ihre Nachricht",
+    formSubmitLabel: "Nachricht senden",
+    formHoneypotLabel: "Lassen Sie dieses Feld leer",
+    legalNoticeLabel: "Rechtliche Hinweise",
+    privacyPolicyLabel: "Datenschutzbestimmungen",
+    allRightsReserved: "Alle Rechte vorbehalten",
+    notFoundTitle: "Seite nicht gefunden",
+    notFoundText: "Die Seite, die Sie suchen, existiert nicht oder wurde verschoben.",
+    notFoundCta: "Zurück zur Startseite",
   },
 } as const;
 

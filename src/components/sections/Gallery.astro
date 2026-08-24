@@ -28,6 +28,12 @@ const { gallery } = SITE;
         ))
       }
     </div>
+    
+    <div class="gallery-action">
+      <a href="/Projects" class="button">
+        Mehr Projekte ansehen
+      </a>
+    </div>
   </div>
 </section>
 
@@ -67,6 +73,12 @@ const { gallery } = SITE;
     background: linear-gradient(180deg, transparent 62%, rgba(29, 20, 13, 0.5) 100%);
     opacity: 0;
     transition: opacity var(--transition);
+  }
+
+  .gallery-action {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2.5rem;
   }
 
   @media (hover: hover) {

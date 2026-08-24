@@ -21,6 +21,12 @@ const { about } = SITE;
       {about.eyebrow && <p class="section-eyebrow">{about.eyebrow}</p>}
       <h2>{about.title}</h2>
       {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+
+       <div class="about-action">
+        <a href="/workshop" class="button">
+          Werkstatt & Team
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -43,6 +49,12 @@ const { about } = SITE;
     box-shadow: var(--shadow-lift);
     width: 100%;
     object-fit: cover;
+  }
+
+  .about-action {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2.5rem;
   }
 
   /* Decorative offset shapes behind the image */
