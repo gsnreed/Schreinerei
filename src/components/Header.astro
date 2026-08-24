@@ -7,7 +7,14 @@ import { SITE } from "../config/site";
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href="/" class="brand">{SITE.name}</a>
+    <a href="/" class="brand">
+      <span class="brand-name">
+        {SITE.brand}
+      </span>
+      <span class="brand-owner">
+        {SITE.name}
+      </span>
+    </a>
 
     <button
       id="menu-burger"
@@ -46,16 +53,33 @@ import { SITE } from "../config/site";
   }
 
   .brand {
-    font-family: var(--font-heading);
-    font-size: 1.35rem;
-    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    line-height: 1;
     color: var(--color-dark-text);
     text-decoration: none;
-    letter-spacing: 0.01em;
   }
 
   .brand:hover {
     color: var(--color-accent-bright);
+  }
+
+  .brand-name {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    transition: color 0.2s ease;
+  }
+
+  .brand-owner {
+    margin: 0;
+    font-weight: 400;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-dark-text-muted);
   }
 
   .nav {
@@ -64,33 +88,82 @@ import { SITE } from "../config/site";
     flex-wrap: wrap;
   }
 
+  .nav {
+    position: relative;
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
   .nav a {
+    position: relative;
+    display: inline-block;
     color: var(--color-dark-text-muted);
     text-decoration: none;
     font-size: var(--text-sm);
     font-weight: 600;
-    transition: color var(--transition);
+    transition: color 300ms ease;
+    padding-bottom: 6px;
+  }
+
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent-bright);
+
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease;
   }
 
   .nav a:hover {
     color: var(--color-accent-bright);
   }
 
+  .nav a:hover::after {
+    transform: scaleX(1);
+  }
+
   .burger {
     display: none;
     flex-direction: column;
-    gap: 5px;
+    justify-content: space-between;
+    width: 32px;
+    height: 24px;
     background: none;
     border: none;
-    padding: var(--space-1);
+    padding: 0;
     cursor: pointer;
   }
 
   .burger span {
-    width: 24px;
-    height: 2.5px;
+    display: block;
+    width: 100%;
+    height: 2px;
+    border-radius: 999px;
     background: var(--color-dark-text);
-    border-radius: 2px;
+
+    transition:
+      transform 300ms ease,
+      opacity 300ms ease;
+    transform-origin: center;
+  }
+
+  .burger.open span:nth-child(1) {
+    transform: translateY(11px) rotate(45deg);
+  }
+
+  .burger.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger.open span:nth-child(3) {
+    transform: translateY(-11px) rotate(-45deg);
   }
 
   @media (max-width: 820px) {
@@ -99,19 +172,37 @@ import { SITE } from "../config/site";
     }
 
     .nav {
-      display: none;
       position: absolute;
       top: 70px;
       left: 0;
       right: 0;
+
+      display: flex;
       flex-direction: column;
       gap: 0;
+
       background: var(--color-dark-bg);
       border-bottom: 1px solid rgba(247, 240, 228, 0.12);
+
+      /* geschlossen */
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(-12px);
+
+      /* Animation */
+      transition:
+        opacity 300ms ease,
+        transform 300ms ease,
+        visibility 300ms ease;
     }
 
+    /* geöffnet */
     .nav.open {
-      display: flex;
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
     }
 
     .nav a {
@@ -128,6 +219,7 @@ import { SITE } from "../config/site";
 
   burger?.addEventListener("click", () => {
     const open = menu?.classList.toggle("open");
+    burger?.classList.toggle("open", Boolean(open));
     burger.setAttribute("aria-expanded", String(Boolean(open)));
   });
 
@@ -135,6 +227,7 @@ import { SITE } from "../config/site";
   menu?.addEventListener("click", (e) => {
     if ((e.target as HTMLElement).tagName === "A") {
       menu.classList.remove("open");
+      burger?.classList.remove("open");
       burger?.setAttribute("aria-expanded", "false");
     }
   });

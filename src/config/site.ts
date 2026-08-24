@@ -19,6 +19,7 @@ export const SITE = {
   lang: "de",
   // BCP 47 locale used for Open Graph (e.g. "en_US", "fr_FR", "de_DE")
   ogLocale: "de_DE",
+  brand: "Schreinerei",
   name: "Alexander Siegfried",
   tagline: "Handwerk, das bleibt",
   description:
@@ -67,9 +68,9 @@ export const SITE = {
   navigation: [
     { label: "Leistungen", href: "/#services" },
     { label: "Über uns", href: "/#about" },
-    { label: "Bilder", href: "/#gallery" },
+    { label: "Portfolio", href: "/#gallery" },
     // { label: "Rezensionen", href: "/#reviews" },
-    { label: "Info", href: "/#info" },
+    { label: "Öffnungszeiten", href: "/#info" },
     { label: "Kontakt", href: "/#contact" },
   ],
 
