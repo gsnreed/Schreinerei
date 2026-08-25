@@ -70,7 +70,7 @@ import { SITE } from "../config/site";
     font-weight: 500;
     line-height: 1;
     letter-spacing: -0.02em;
-    transition: color 0.2s ease;
+    transition: color var(--transition);
   }
 
   .brand-owner {
@@ -80,12 +80,6 @@ import { SITE } from "../config/site";
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--color-dark-text-muted);
-  }
-
-  .nav {
-    display: flex;
-    gap: var(--space-3);
-    flex-wrap: wrap;
   }
 
   .nav {
@@ -102,7 +96,7 @@ import { SITE } from "../config/site";
     text-decoration: none;
     font-size: var(--text-sm);
     font-weight: 600;
-    transition: color 300ms ease;
+    transition: color var(--transition);
     padding-bottom: 6px;
   }
 
@@ -118,7 +112,7 @@ import { SITE } from "../config/site";
 
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 300ms ease;
+    transition: transform var(--transition);
   }
 
   .nav a:hover {
@@ -149,8 +143,8 @@ import { SITE } from "../config/site";
     background: var(--color-dark-text);
 
     transition:
-      transform 300ms ease,
-      opacity 300ms ease;
+      transform var(--transition),
+      opacity var(--transition);
     transform-origin: center;
   }
 

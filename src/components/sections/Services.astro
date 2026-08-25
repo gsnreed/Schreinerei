@@ -6,6 +6,23 @@ import { SITE } from "../../config/site";
 import Icon from "../Icon.astro";
 
 const { services } = SITE;
+
+const jsonLdServices = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Schreinerarbeiten nach Maß in Pocking",
+  description: "Möbel nach Maß, Innenausbau, Küchen, Türen, Treppen sowie Reparatur und Restaurierung in Pocking, im Landkreis Passau und in Niederbayern.",
+  numberOfItems: services.items.length,
+  itemListElement: services.items.map((item, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    item: {
+      "@type": "Service",
+      name: item.title,
+      description: item.description,
+    }
+  })),
+};
 ---
 
 <section id="services" class="section">
@@ -31,6 +48,8 @@ const { services } = SITE;
     </div>
   </div>
 </section>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdServices)} />
 
 <style>
   .intro {

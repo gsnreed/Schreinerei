@@ -92,5 +92,5 @@
   /* --- Motion ---------------------------------------------------------------- */
   /* One duration + one easing for every micro-interaction: coherent feel.
      prefers-reduced-motion is handled globally in global.css. */
-  --transition: 220ms ease;
+  --transition: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
