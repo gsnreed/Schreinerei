@@ -137,7 +137,7 @@ const jsonLdFaq = {
     color: var(--color-accent);
     line-height: 1;
 
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform var(--transition);
     flex: none;
   }
 
@@ -158,9 +158,9 @@ const jsonLdFaq = {
     overflow: hidden;
 
     transition:
-      height 300ms cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 300ms ease,
-      transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+      height var(--transition),
+      opacity var(--transition),
+      transform var(--transition);
 
     opacity: 0;
     transform: translateY(-8px);
