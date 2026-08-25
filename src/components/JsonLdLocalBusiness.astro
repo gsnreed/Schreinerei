@@ -31,8 +31,8 @@ const hoursSchema = SITE.openingHours
 const data = {
   "@context": "https://schema.org",
   "@type": SITE.business.schemaType,
-  name: SITE.name,
-  description: SITE.description,
+  name: SITE.business.name,
+  description: SITE.business.description,
   url: SITE.url,
   telephone: SITE.business.phone,
   email: SITE.business.email,
@@ -50,6 +50,10 @@ const data = {
     latitude: SITE.business.geo.latitude,
     longitude: SITE.business.geo.longitude,
   },
+  areaServed: SITE.business.areaServed.map((area) => ({
+    "@type": area["@type"],
+    name: area.name,
+  })),
   openingHoursSpecification: hoursSchema,
   sameAs: [...SITE.business.socialProfiles, SITE.business.googleBusinessUrl],
 };

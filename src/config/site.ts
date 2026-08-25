@@ -23,7 +23,7 @@ export const SITE = {
   name: "Alexander Siegfried",
   tagline: "Handwerk, das bleibt",
   description:
-  "Schreinerei-Meisterbetrieb in Pocking bei Passau für maßgefertigte Möbel, Küchen und individuellen Innenausbau. Hochwertiges Schreinerhandwerk, persönliche Beratung und individuelle Lösungen für Pocking, Passau und Umgebung.",
+  "Schreinerei-Meisterbetrieb für maßgefertigte Möbel, Küchen und individuellen Innenausbau. Hochwertiges Schreinerhandwerk, persönliche Beratung und individuelle Lösungen für Pocking, Passau und Umgebung.",
 
   // --- Business (powers the JSON-LD LocalBusiness markup) --------------------
   business: {
@@ -32,6 +32,9 @@ export const SITE = {
     // "Bakery", "Restaurant", "LodgingBusiness", "HairSalon", "Plumber",
     // "SportingGoodsStore", "TouristInformationCenter"... (see schema.org)
     schemaType: "LocalBusiness",
+    name: "Schreinerei Alexander Siegfried",
+    description:
+    "Schreinerei in Pocking für Möbel nach Maß, individuellen Innenausbau, Küchen, Türen und Treppen sowie Reparatur und Restaurierung.",
     phone: "+49 162 4106237",
     email: "schreinerei-siegfried@yahoo.com",
     address: {
@@ -43,7 +46,21 @@ export const SITE = {
     // GPS coordinates (Google Maps → right-click the location → copy)
     geo: { latitude: 48.4248, longitude: 13.3476 },
     // Price range shown by Google: "€", "€€", "€€€" (or "$", "$$"...)
-    priceRange: "€€",
+    priceRange: "€€€",
+    areaServed: [
+      {
+        "@type": "City",
+        name: "Pocking",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Landkreis Passau",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Niederbayern",
+      }
+    ],
     // Link to the business's Google Business Profile
     googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",
     socialProfiles: [
@@ -98,40 +115,46 @@ export const SITE = {
 
   // --- Services / products (3 to 6 cards) -------------------------------------
   services: {
-    eyebrow: "Was wir für Sie fertigen", // small uppercase label above the title ("" hides it)
-    title: "Unsere Leistungen",
-    intro: "Von der ersten Idee bis zur fertigen Montage: Wir verbinden traditionelles Schreinerhandwerk mit moderner Planung und hochwertigen Materialien.",
+    eyebrow: "Schreinerei in Pocking",
+    title: "Schreinerarbeiten nach Maß",
+    intro:
+      "Individuelle Möbel, Innenausbau und hochwertige Holzarbeiten für Pocking, den Landkreis Passau und die Region Niederbayern. Von der ersten Planung bis zur fertigen Montage setzen wir Ihre Vorstellungen mit handwerklicher Präzision um.",
+
     items: [
       {
-      title: "Möbel nach Maß",
-      description:
-        "Individuelle Möbelstücke, die perfekt zu Ihren Räumen passen – von Einbauschränken und Regalen bis hin zu Sideboards und Einzelanfertigungen.",
-      icon: "wardrobe",
-    },
-    {
-      title: "Innenausbau",
-      description:
-        "Wir gestalten Wohn- und Geschäftsräume mit maßgefertigten Lösungen für Küche, Wohnzimmer, Büro, Praxis und mehr.",
-      icon: "home",
-    },
-    {
-      title: "Küchen & Essbereiche",
-      description:
-        "Funktionale und langlebige Küchen nach Maß – individuell geplant, hochwertig gefertigt und fachgerecht montiert.",
-      icon: "kitchen",
-    },
-    {
-      title: "Türen & Treppen",
-      description:
-        "Hochwertige Türen, Treppen und Holzlösungen, individuell auf Ihre Räume und persönlichen Vorstellungen abgestimmt.",
-      icon: "stairs",
-    },
-    {
-      title: "Reparaturen & Restaurierung",
-      description:
-        "Wir geben beschädigten oder in die Jahre gekommenen Möbeln und Holzelementen eine zweite Chance – fachgerecht und mit viel Liebe zum Detail.",
-      icon: "tools",
-    },
+        title: "Möbel nach Maß",
+        description:
+          "Individuelle Möbel nach Maß für Wohn- und Geschäftsräume. Wir fertigen Einbauschränke, Regale, Sideboards und weitere Einzelanfertigungen passend zu Ihren Räumen.",
+        icon: "wardrobe",
+      },
+
+      {
+        title: "Innenausbau",
+        description:
+          "Individueller Innenausbau für Wohnungen, Häuser, Büros und Praxen. Maßgefertigte Lösungen, die Funktionalität, Design und hochwertiges Schreinerhandwerk verbinden.",
+        icon: "home",
+      },
+
+      {
+        title: "Küchen nach Maß",
+        description:
+          "Individuell geplante und gefertigte Küchen nach Maß. Von der Planung über die Fertigung bis zur fachgerechten Montage entstehen Küchen, die optimal zu Ihren Räumen und Bedürfnissen passen.",
+        icon: "kitchen",
+      },
+
+      {
+        title: "Türen & Treppen",
+        description:
+          "Individuell gefertigte Türen und Treppen aus hochwertigen Materialien. Wir planen und fertigen langlebige Holzlösungen passend zu Architektur, Raum und Einrichtung.",
+        icon: "stairs",
+      },
+
+      {
+        title: "Reparatur & Restaurierung",
+        description:
+          "Fachgerechte Reparatur und Restaurierung von Möbeln und Holzelementen. Wir erhalten und erneuern beschädigte oder in die Jahre gekommene Stücke mit Erfahrung und Liebe zum Detail.",
+        icon: "tools",
+      },
     ],
   },
 
