@@ -28,11 +28,9 @@ const { gallery } = SITE;
         ))
       }
     </div>
-    
+
     <div class="gallery-action">
-      <a href="/Projects" class="button">
-        Mehr Projekte ansehen
-      </a>
+      <a href="/projects" class="button"> Mehr Projekte ansehen </a>
     </div>
   </div>
 </section>
@@ -70,7 +68,11 @@ const { gallery } = SITE;
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 62%, rgba(29, 20, 13, 0.5) 100%);
+    background: linear-gradient(
+      180deg,
+      transparent 62%,
+      rgba(29, 20, 13, 0.5) 100%
+    );
     opacity: 0;
     transition: opacity var(--transition);
   }

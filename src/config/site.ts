@@ -22,6 +22,8 @@ export const SITE = {
   brand: "Schreinerei",
   name: "Alexander Siegfried",
   tagline: "Handwerk, das bleibt",
+  workshop: "Werkstatt",
+  projects: "Projekte",
   description:
   "Schreinerei-Meisterbetrieb in Pocking bei Passau für maßgefertigte Möbel, Küchen und individuellen Innenausbau. Hochwertiges Schreinerhandwerk, persönliche Beratung und individuelle Lösungen für Pocking, Passau und Umgebung.",
 
@@ -149,7 +151,7 @@ export const SITE = {
 
   // --- Gallery (4 to 8 images) ---------------------------------------------------
   gallery: {
-    eyebrow: "Bildergalerie",
+    eyebrow: "Portfolio",
     title: "Kundenprojekte",
     // The first image is featured (2×2 in the grid): 5 or 7 images fill the
     // grid perfectly on desktop.
