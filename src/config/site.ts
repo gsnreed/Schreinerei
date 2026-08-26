@@ -288,7 +288,7 @@ export const SITE = {
     //  1. Formspree/Basin: paste the URL the service gives you.
     //  2. Your own backend (any endpoint accepting a classic form POST).
     //  3. Leave empty "": the form falls back to a mailto button automatically.
-    endpoint: "/contact.php",
+    endpoint: "/server/contact.php",
     // Name of the hidden anti-spam (honeypot) field. Your backend must reject
     // any submission where this field is filled in. Keep the default unless
     // your form backend expects a specific field name.
