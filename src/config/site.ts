@@ -41,7 +41,7 @@ export const SITE = {
     email: "schreinerei-siegfried@yahoo.com",
     address: {
       street: "Oberer Mühlweg 2",
-      postalCode: "81549",
+      postalCode: "94060",
       city: "Pocking",
       country: "DE",
     },
@@ -64,9 +64,9 @@ export const SITE = {
       }
     ],
     // Link to the business's Google Business Profile
-    googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",
+    googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",  //TODO
     socialProfiles: [
-      "https://www.instagram.com/example",
+      "https://www.instagram.com/example",  //TODO
       "https://www.facebook.com/example",
     ],
   },
