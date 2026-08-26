@@ -70,8 +70,8 @@ export const SITE = {
     // Link to the business's Google Business Profile
     googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",  //TODO
     socialProfiles: [
-      "https://www.instagram.com/example",  //TODO
-      "https://www.facebook.com/example",
+      //"https://www.instagram.com/example",  //TODO
+      //"https://www.facebook.com/example",
     ],
   },
 
@@ -328,6 +328,7 @@ export const SITE = {
     reviewsScoreLabel: "laut Google reviews", // under the big average score
     formNameLabel: "Ihr Name",
     formEmailLabel: "Ihre Email",
+    formTelephoneLabel: "Ihre Telefonnummer",
     formMessageLabel: "Ihre Nachricht",
     formSubmitLabel: "Nachricht senden",
     formHoneypotLabel: "Lassen Sie dieses Feld leer",
