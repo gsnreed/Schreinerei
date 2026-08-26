@@ -6,6 +6,16 @@ const { faq } = SITE;
 const jsonLdFaq = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
+  "@id": `${SITE.url}/#faq`,
+  name: "Häufig gestellte Fragen (FAQ) zur Schreinerei in Pocking",
+  description: "Antworten auf häufig gestellte Fragen zu unseren Dienstleistungen, Öffnungszeiten, Anfragen und Beratungsterminen in der Schreinerei in Pocking.",
+  url: `${SITE.url}/#faq`,
+  "isPartOf": {
+    "@id": `${SITE.url}/#website`,
+  },
+  "about": {
+    "@id": `${SITE.url}/#business`,
+  },
   mainEntity: faq.items.map((item) => ({
     "@type": "Question",
     name: item.question,

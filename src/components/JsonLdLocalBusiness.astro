@@ -30,32 +30,48 @@ const hoursSchema = SITE.openingHours
 
 const data = {
   "@context": "https://schema.org",
-  "@type": SITE.business.schemaType,
-  name: SITE.business.name,
-  description: SITE.business.description,
-  url: SITE.url,
-  telephone: SITE.business.phone,
-  email: SITE.business.email,
-  image: new URL(SITE.hero.image, SITE.url).href,
-  priceRange: SITE.business.priceRange,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: SITE.business.address.street,
-    postalCode: SITE.business.address.postalCode,
-    addressLocality: SITE.business.address.city,
-    addressCountry: SITE.business.address.country,
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: SITE.business.geo.latitude,
-    longitude: SITE.business.geo.longitude,
-  },
-  areaServed: SITE.business.areaServed.map((area) => ({
-    "@type": area["@type"],
-    name: area.name,
-  })),
-  openingHoursSpecification: hoursSchema,
-  sameAs: [...SITE.business.socialProfiles, SITE.business.googleBusinessUrl],
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#website`,
+      name: SITE.name,
+      description: SITE.description,
+      url: SITE.url,
+      inLanguage: SITE.lang,
+      publisher: {
+        "@id": `${SITE.url}/#business`,
+      },
+    },
+    {
+      "@type": SITE.business.schemaType,
+      "@id": `${SITE.url}/#business`,
+      name: SITE.business.name,
+      description: SITE.business.description,
+      url: SITE.url,
+      telephone: SITE.business.phone,
+      email: SITE.business.email,
+      image: new URL(SITE.hero.image, SITE.url).href,
+      priceRange: SITE.business.priceRange,
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: SITE.business.address.street,
+        postalCode: SITE.business.address.postalCode,
+        addressLocality: SITE.business.address.city,
+        addressCountry: SITE.business.address.country,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: SITE.business.geo.latitude,
+        longitude: SITE.business.geo.longitude,
+      },
+      areaServed: SITE.business.areaServed.map((area) => ({
+        "@type": area["@type"],
+        name: area.name,
+      })),
+      openingHoursSpecification: hoursSchema,
+      sameAs: [...SITE.business.socialProfiles, SITE.business.googleBusinessUrl].filter(Boolean),
+    }
+  ],
 };
 ---
 

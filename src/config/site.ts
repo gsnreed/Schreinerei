@@ -61,6 +61,10 @@ export const SITE = {
       {
         "@type": "AdministrativeArea",
         name: "Niederbayern",
+      },
+      {
+        "@type": "AdministrativeArea",
+        name: "Oberösterreich",
       }
     ],
     // Link to the business's Google Business Profile
@@ -218,35 +222,52 @@ export const SITE = {
     title: "Häufig gestellte Fragen",
     items: [
       {
-      question: "Welche Arbeiten übernimmt die Schreinerei?",
-      answer:
-        "Wir fertigen individuelle Möbel, Innenausbauten und Einbauten nach Maß. Auch Reparaturen und kleinere Holzarbeiten übernehmen wir gerne.",
-    },
-    {
-      question: "Kann ich ein Möbelstück individuell anfertigen lassen?",
-      answer:
-        "Ja. Wir planen und fertigen Möbel individuell nach Ihren Wünschen, räumlichen Gegebenheiten und Vorstellungen. Gerne beraten wir Sie persönlich zu Material, Gestaltung und Ausführung.",
-    },
-    {
-      question: "Wie läuft eine Anfrage ab?",
-      answer:
-        "Am besten kontaktieren Sie uns telefonisch oder per E-Mail. Nach einem ersten Gespräch besprechen wir die Anforderungen und vereinbaren bei Bedarf einen Termin vor Ort für ein genaues Aufmaß.",
-    },
-    {
-      question: "Wie lange dauert die Anfertigung?",
-      answer:
-        "Die Fertigungszeit hängt vom Umfang und der Art des Projekts ab. Nach der Planung und Auftragserteilung nennen wir Ihnen einen verbindlichen voraussichtlichen Fertigstellungstermin.",
-    },
-    {
-      question: "In welchem Gebiet ist die Schreinerei tätig?",
-      answer:
-        "Wir arbeiten hauptsächlich im Landkreis Passau und übernehmen Projekte nach Absprache auch in umliegenden Orten. Fragen Sie uns gerne, ob wir Ihr Vorhaben an Ihrem Standort umsetzen können.",
-    },
-    {
-      question: "Kann ich ein Angebot für mein Projekt erhalten?",
-      answer:
-        "Natürlich. Schicken Sie uns gerne erste Informationen, Fotos oder Maße zu Ihrem Vorhaben. Nach einer ersten Einschätzung besprechen wir die nächsten Schritte und erstellen Ihnen ein individuelles Angebot.",
-    },
+        question: "Wie kann ich eine Anfrage stellen?",
+        answer:
+          "Kontaktieren Sie uns am besten telefonisch, per E-Mail oder über das Kontaktformular und beschreiben Sie kurz Ihr Vorhaben. Gerne können Sie uns auch erste Fotos oder Maße zukommen lassen.",
+      },
+
+      {
+        question: "Wie läuft ein Projekt ab?",
+        answer:
+          "Nach Ihrer Anfrage besprechen wir zunächst Ihre Wünsche und die Anforderungen an das Projekt. Bei Bedarf vereinbaren wir einen Termin vor Ort, nehmen die notwendigen Maße auf und besprechen anschließend die weitere Planung.",
+      },
+
+      {
+        question: "Kann ich vorab ein Angebot erhalten?",
+        answer:
+          "Ja. Nach einer ersten Einschätzung Ihres Vorhabens besprechen wir die nächsten Schritte und erstellen Ihnen ein individuelles Angebot.",
+      },
+
+      {
+        question: "Wie lange dauert die Umsetzung eines Projekts?",
+        answer:
+          "Die Dauer hängt vom Umfang und der Art des Projekts ab. Nach der Planung und Auftragserteilung besprechen wir mit Ihnen den voraussichtlichen Fertigstellungstermin.",
+      },
+
+      {
+        question: "Ist ein Termin vor Ort möglich?",
+        answer:
+          "Ja. Wenn es für die Planung erforderlich ist, vereinbaren wir einen Termin vor Ort, um die räumlichen Gegebenheiten zu besprechen und ein genaues Aufmaß zu erstellen.",
+      },
+
+      {
+        question: "In welchem Gebiet ist die Schreinerei tätig?",
+        answer:
+          "Unsere Schreinerei befindet sich in Pocking. Wir arbeiten hauptsächlich in Pocking und im gesamten Landkreis Passau, sowie Niederbayern und Oberösterreich. Projekte in umliegenden Orten und Regionen sind nach Absprache ebenfalls möglich.",
+      },
+
+      {
+        question: "Kann ich eigene Vorstellungen oder Materialien einbringen?",
+        answer:
+          "Natürlich. Ihre persönlichen Vorstellungen sind ein wichtiger Bestandteil der Planung. Besondere Wünsche zu Gestaltung, Materialien oder Ausführung können wir gemeinsam besprechen und nach Möglichkeit berücksichtigen.",
+      },
+
+      {
+        question: "Wie kann ich einen persönlichen Beratungstermin vereinbaren?",
+        answer:
+          "Rufen Sie uns gerne an, schreiben Sie uns eine E-Mail oder nutzen Sie das Kontaktformular. Wir besprechen Ihr Anliegen und vereinbaren anschließend einen passenden Termin.",
+      },
     ],
   },
 

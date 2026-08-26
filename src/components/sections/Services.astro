@@ -2,6 +2,7 @@
 // Services/products section: a card grid driven by SITE.services.
 // Icons are real inline SVGs in a gradient chip (see Icon.astro) — never
 // emoji. Each card carries a serif index number that lights up on hover.
+import { $brand } from "astro:schema";
 import { SITE } from "../../config/site";
 import Icon from "../Icon.astro";
 
@@ -10,6 +11,7 @@ const { services } = SITE;
 const jsonLdServices = {
   "@context": "https://schema.org",
   "@type": "ItemList",
+  "@id": `${SITE.url}/#services`,
   name: "Schreinerarbeiten nach Maß in Pocking",
   description: "Möbel nach Maß, Innenausbau, Küchen, Türen, Treppen sowie Reparatur und Restaurierung in Pocking, im Landkreis Passau und in Niederbayern.",
   numberOfItems: services.items.length,
@@ -20,6 +22,9 @@ const jsonLdServices = {
       "@type": "Service",
       name: item.title,
       description: item.description,
+      provider: {
+        "@id": `${SITE.url}/#business`,
+      }
     }
   })),
 };
