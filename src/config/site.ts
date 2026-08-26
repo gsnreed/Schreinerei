@@ -15,7 +15,7 @@
 
 export const SITE = {
   // --- Identity & URLs -------------------------------------------------------
-  url: "https://astro-chalet.vercel.app", // NO trailing slash
+  url: "https://schreinerei-siegfried.de", // NO trailing slash
   lang: "de",
   // BCP 47 locale used for Open Graph (e.g. "en_US", "fr_FR", "de_DE")
   ogLocale: "de_DE",
@@ -109,7 +109,7 @@ export const SITE = {
     image: "/images/hero.webp",
     imageAlt: "Hobel trägt Holzspäne von einer Holzplatte ab",
     primaryCta: { label: "Unsere Leistungen", href: "/#services" },
-    secondaryCta: { label: "Projekt anfragen", href: "/#info" },
+    secondaryCta: { label: "Projekt anfragen", href: "/#contact" },
     // Trust badges shown under the buttons (2 to 4 short items).
     // Great spots for the Google rating, founding year, a signature promise.
     highlights: ["Familienbetrieb seit 2010", "Meisterbetrieb"],
@@ -278,13 +278,13 @@ export const SITE = {
   // Shown on /legal-notice/ — mandatory for professional sites in many
   // EU countries (e.g. France's LCEN, Germany's Impressumspflicht).
   legal: {
-    companyType: "SARL with a capital of €10,000",
-    registrationNumber: "000 000 000 00000",
-    publisher: "Jeanne Ravanel",
+    companyType: "SARL with a capital of €10,000",  // TODO
+    registrationNumber: "000 000 000 00000",  // TODO
+    publisher: "Alexander Siegfried",
     host: {
-      name: "Vercel Inc.",
-      address: "440 N Barranca Ave #4133, Covina, CA 91723, USA",
-      url: "https://vercel.com",
+      name: "Hetzner Online GmbH",
+      address: "440 N Barranca Ave #4133, Covina, CA 91723, USA", // TODO
+      url: "https://www.hetzner.com",
     },
   },
 

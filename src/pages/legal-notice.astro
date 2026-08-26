@@ -12,15 +12,15 @@ const { legal, business, ui } = SITE;
 
 <Base
   title={`${ui.legalNoticeLabel} — ${SITE.name}`}
-  description={`Legal notice for ${SITE.name}.`}
+  description={`Impressum von ${SITE.brand} ${SITE.name}.`}
   noindex
 >
   <div class="container page-content">
     <h1>{ui.legalNoticeLabel}</h1>
 
-    <h2>Site publisher</h2>
+    <h2>Webseitenbetreiber</h2>
     <p>
-      {SITE.name}, {legal.companyType}<br />
+      {SITE.brand} {SITE.name}, {legal.companyType}<br />
       {business.address.street}, {business.address.postalCode}
       {business.address.city}<br />
       Registration number: {legal.registrationNumber}<br />
@@ -28,7 +28,7 @@ const { legal, business, ui } = SITE;
       Email: <a href={`mailto:${business.email}`}>{business.email}</a>
     </p>
 
-    <h2>Publishing director</h2>
+    <h2>Verantwortlicher für den Inhalt</h2>
     <p>{legal.publisher}</p>
 
     <h2>Hosting</h2>
@@ -40,11 +40,11 @@ const { legal, business, ui } = SITE;
       </a>
     </p>
 
-    <h2>Intellectual property</h2>
+    <h2>Geistiges Eigentum</h2>
     <p>
-      All content on this site (text, images, logo) is the exclusive property
-      of {SITE.name} unless stated otherwise. Any reproduction, even partial,
-      requires prior written permission.
+      Alle Inhalte auf dieser Website (Texte, Bilder, Logo) sind das ausschließliche Eigentum 
+      von {SITE.name}, sofern nicht anders angegeben. Jede Vervielfältigung, auch teilweise, 
+      bedarf der vorherigen schriftlichen Genehmigung.
     </p>
   </div>
 </Base>
