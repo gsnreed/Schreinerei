@@ -25,13 +25,11 @@ const jsonLdFaq = {
     <div class="faq-list">
       {
         faq.items.map((item) => (
-          <details class="faq-item">
+          <details class="faq-item" > <!-- name="faq" einfügen, falls nur ein Feld offen sein soll -->
             <summary>{item.question}</summary>
 
-            <div class="faq-answer-wrapper">
-              <div class="faq-answer">
-                <p>{item.answer}</p>
-              </div>
+            <div class="faq-answer">
+              <p>{item.answer}</p>
             </div>
           </details>
         ))
@@ -46,150 +44,14 @@ const jsonLdFaq = {
   set:html={JSON.stringify(jsonLdFaq)}
 />
 
-<script>
-  const faqItems = document.querySelectorAll<HTMLDetailsElement>(".faq-item");
-
-  faqItems.forEach((item) => {
-    const summary = item.querySelector<HTMLElement>("summary");
-    const wrapper = item.querySelector<HTMLElement>(".faq-answer-wrapper");
-
-    if (!summary || !wrapper) return;
-
-    let animation: Animation | null = null;
-
-    const setHeight = (height: number | "auto") => {
-      wrapper.style.height = height === "auto" ? "auto" : `${height}px`;
-    };
-
-    const cleanup = () => {
-      animation?.cancel();
-      animation = null;
-
-      item.classList.remove("is-closing", "is-opening");
-      setHeight("auto");
-    };
-
-    const openItem = () => {
-      animation?.cancel();
-
-      item.classList.remove("is-closing");
-      item.classList.add("is-opening");
-
-      item.setAttribute("open", "");
-
-      // Start at 0 so the opening can animate.
-      setHeight(0);
-
-      // Force layout before measuring the target height.
-      wrapper.offsetHeight;
-
-      const targetHeight = wrapper.scrollHeight;
-
-      animation = wrapper.animate(
-        [
-          {
-            height: "0px",
-            opacity: 0,
-            transform: "translateY(-8px)",
-          },
-          {
-            height: `${targetHeight}px`,
-            opacity: 1,
-            transform: "translateY(0)",
-          },
-        ],
-        {
-          duration: 250,
-          easing: "ease",
-          fill: "forwards",
-        },
-      );
-
-      animation.onfinish = () => {
-        animation = null;
-        item.classList.remove("is-opening");
-        setHeight("auto");
-      };
-
-      animation.oncancel = () => {
-        animation = null;
-      };
-    };
-
-    const closeItem = () => {
-      animation?.cancel();
-
-      const startHeight = wrapper.getBoundingClientRect().height;
-
-      item.classList.add("is-closing");
-      item.classList.remove("is-opening");
-
-      // Freeze the current height before starting the closing animation.
-      setHeight(startHeight);
-
-      animation = wrapper.animate(
-        [
-          {
-            height: `${startHeight}px`,
-            opacity: 1,
-            transform: "translateY(0)",
-          },
-          {
-            height: "0px",
-            opacity: 0,
-            transform: "translateY(-8px)",
-          },
-        ],
-        {
-          duration: 250,
-          easing: "ease",
-          fill: "forwards",
-        },
-      );
-
-      animation.onfinish = () => {
-        animation = null;
-
-        item.removeAttribute("open");
-        item.classList.remove("is-closing");
-
-        setHeight(0);
-      };
-
-      animation.oncancel = () => {
-        animation = null;
-      };
-    };
-
-    summary.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      if (item.hasAttribute("open")) {
-        closeItem();
-      } else {
-        openItem();
-      }
-    });
-
-    // Keep the native <details> behavior sane if something else
-    // changes the open attribute.
-    item.addEventListener("toggle", () => {
-      if (!item.hasAttribute("open") && animation) {
-        animation.cancel();
-        animation = null;
-        item.classList.remove("is-opening", "is-closing");
-        setHeight(0);
-      }
-    });
-  });
-</script>
-
 <style>
   .faq-list {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
     max-width: var(--prose-width);
+
+    interpolate-size: allow-keywords;
   }
 
   .faq-item {
@@ -200,8 +62,21 @@ const jsonLdFaq = {
     transition: border-color var(--transition);
   }
 
-  .faq-item[open] {
-    border-color: var(--color-accent);
+  .faq-item::details-content {
+    block-size: 0;
+    overflow-y: clip;
+
+    transition:
+      block-size var(--transition),
+      content-visibility 300ms allow-discrete;
+      opacity var(--transition),
+      transform var(--transition),
+  }
+
+  .faq-item[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .faq-item summary {
@@ -243,11 +118,6 @@ const jsonLdFaq = {
     color: var(--color-accent);
   }
 
-  .faq-answer-wrapper {
-    height: 0;
-    overflow: hidden;
-  }
-
   .faq-answer {
     padding-top: var(--space-2);
     color: var(--color-text-muted);
@@ -259,12 +129,12 @@ const jsonLdFaq = {
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .faq-answer-wrapper {
-      height: auto !important;
+    .faq-item::details-content {
+      transition: none;
     }
 
-    .faq-item summary::after {
-      transition: none;
+    .faq-item[open]::details-content {
+      block-size: auto;
     }
   }
 </style>
