@@ -4,6 +4,7 @@
 // bottom gradient (both disabled under prefers-reduced-motion / touch).
 // Tip: 5 or 7 images fill the desktop grid perfectly.
 import { SITE } from "../../config/site";
+import { Image } from "astro:assets";
 
 const { gallery } = SITE;
 ---
@@ -16,7 +17,7 @@ const { gallery } = SITE;
       {
         gallery.images.map((image) => (
           <figure class="gallery-item reveal">
-            <img
+            <Image
               src={image.src}
               alt={image.alt}
               loading="lazy"

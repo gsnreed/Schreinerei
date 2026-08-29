@@ -37,9 +37,11 @@ const jsonLdFaq = {
         faq.items.map((item) => (
           <details class="faq-item" > <!-- name="faq" einfügen, falls nur ein Feld offen sein soll -->
             <summary>{item.question}</summary>
-
-            <div class="faq-answer">
-              <p>{item.answer}</p>
+            
+            <div class="faq-content">
+              <div class="faq-answer">
+                <p>{item.answer}</p>
+              </div>
             </div>
           </details>
         ))
@@ -78,9 +80,9 @@ const jsonLdFaq = {
 
     transition:
       block-size var(--transition),
-      content-visibility 300ms allow-discrete;
+      content-visibility 300ms allow-discrete,
       opacity var(--transition),
-      transform var(--transition),
+      transform var(--transition);
   }
 
   .faq-item[open]::details-content {

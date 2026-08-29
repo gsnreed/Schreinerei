@@ -13,6 +13,14 @@
 // content below to ship the site in any language (a full French example is
 // provided in examples/french-bakery/).
 
+import workshopImage from "../images/workshop.jpg";
+import heroImage from "../images/hero.jpeg";
+import gallery1 from "../images/gallery-1.jpg";
+import gallery2 from "../images/gallery-2.jpg";
+import gallery3 from "../images/gallery-3.jpg";
+import gallery4 from "../images/gallery-4.jpg";
+import gallery5 from "../images/gallery-5.jpg";
+
 export const SITE = {
   // --- Identity & URLs -------------------------------------------------------
   url: "https://schreinerei-siegfried.de", // NO trailing slash
@@ -21,7 +29,7 @@ export const SITE = {
   ogLocale: "de_DE",
   brand: "Schreinerei",
   name: "Alexander Siegfried",
-  tagline: "Handwerk, das bleibt",
+  tagline: "Traditionelles Handwerk. Modern gedacht.",
   workshop: "Werkstatt",
   projects: "Projekte",
   description:
@@ -37,8 +45,8 @@ export const SITE = {
     name: "Schreinerei Alexander Siegfried",
     description:
     "Schreinerei in Pocking für Möbel nach Maß, individuellen Innenausbau, Küchen, Türen und Treppen sowie Reparatur und Restaurierung.",
-    phone: "+49 162 4106237",
-    email: "schreinerei-siegfried@yahoo.com",
+    phone: "+49 8531 9130931",
+    email: "schreinerei_siegfried@yahoo.com",
     address: {
       street: "Oberer Mühlweg 2",
       postalCode: "94060",
@@ -68,7 +76,7 @@ export const SITE = {
       }
     ],
     // Link to the business's Google Business Profile
-    googleBusinessUrl: "https://maps.google.com/?cid=EXAMPLE",  //TODO
+    googleBusinessUrl: "https://share.google/ymASqFChMcwKLtKoY",  //TODO
     socialProfiles: [
       //"https://www.instagram.com/example",  //TODO
       //"https://www.facebook.com/example",
@@ -78,12 +86,12 @@ export const SITE = {
   // --- Opening hours (shown on the site AND injected into the JSON-LD) -------
   // days: 0 = Monday ... 6 = Sunday. closed: true = closing day.
   openingHours: [
-    { label: "Montag", days: [0], opens: "06:30", closes: "19:00" },
-    { label: "Dienstag", days: [1], opens: "06:30", closes: "19:00" },
-    { label: "Mittwoch", days: [2], opens: "06:30", closes: "19:00" },
-    { label: "Donnerstag", days: [3], opens: "06:30", closes: "19:00" },
-    { label: "Freitag", days: [4], opens: "06:30", closes: "19:00" },
-    { label: "Samstag", days: [5], opens: "06:30", closes: "19:30" },
+    { label: "Montag", days: [0], opens: "07:00", closes: "18:00" },
+    { label: "Dienstag", days: [1], opens: "07:00", closes: "18:00" },
+    { label: "Mittwoch", days: [2], opens: "07:00", closes: "18:00" },
+    { label: "Donnerstag", days: [3], opens: "07:00", closes: "18:00" },
+    { label: "Freitag", days: [4], opens: "07:00", closes: "12:30" },
+    { label: "Samstag", days: [5], closed: true },
     { label: "Sonntag", days: [6], closed: true },
   ] as OpeningHours[],
 
@@ -91,9 +99,9 @@ export const SITE = {
   navigation: [
     { label: "Leistungen", href: "/#services" },
     { label: "Über uns", href: "/#about" },
-    { label: "Portfolio", href: "/#gallery" },
+    { label: "Projekte", href: "/#gallery" },
     // { label: "Rezensionen", href: "/#reviews" },
-    { label: "Öffnungszeiten", href: "/#info" },
+    { label: "Anfahrt", href: "/#info" },
     { label: "Kontakt", href: "/#contact" },
   ],
 
@@ -104,25 +112,25 @@ export const SITE = {
     // "split"     = text left, framed photo right, on the dark background
     //               (best with a product close-up).
     layout: "immersive" as "immersive" | "split",
-    title: "Schreinermeisterei aus Pocking",
+    title: "Individuelles Handwerk aus Pocking",
     // Optional: a substring of the title rendered in italic accent color.
     // Leave "" to disable.
     titleHighlight: "Pocking",
     subtitle:
-      "Indiviudelle Möbel und Schreinerarbeiten aus Meisterhand. Gefertigt mit Liebe zum Detail - von der Planung bis zur Montage.",
-    image: "/images/hero.webp",
+      "Maßgefertigte Möbel und individuelle Schreinerarbeiten aus Meisterhand. Gefertigt mit Liebe zum Detail - von der Planung bis zur Montage.",
+    image: heroImage,
     imageAlt: "Hobel trägt Holzspäne von einer Holzplatte ab",
     primaryCta: { label: "Unsere Leistungen", href: "/#services" },
     secondaryCta: { label: "Projekt anfragen", href: "/#contact" },
     // Trust badges shown under the buttons (2 to 4 short items).
     // Great spots for the Google rating, founding year, a signature promise.
-    highlights: ["Familienbetrieb seit 2010", "Meisterbetrieb"],
+    highlights: ["Familienbetrieb seit 2008", "Meisterbetrieb"],
   },
 
   // --- Services / products (3 to 6 cards) -------------------------------------
   services: {
-    eyebrow: "Schreinerei in Pocking",
-    title: "Schreinerarbeiten nach Maß",
+    eyebrow: "Schreinerarbeiten nach Maß",
+    title: "Was wir für Sie fertigen",
     intro:
       "Individuelle Möbel, Innenausbau und hochwertige Holzarbeiten für Pocking, den Landkreis Passau und die Region Niederbayern. Von der ersten Planung bis zur fertigen Montage setzen wir Ihre Vorstellungen mit handwerklicher Präzision um.",
 
@@ -166,28 +174,28 @@ export const SITE = {
 
   // --- About -------------------------------------------------------------------
   about: {
-    eyebrow: "Seit 2010 in Pocking",
-    title: "Über uns",
+    eyebrow: "Handwerk mit Geschichte",
+    title: "Was uns ausmacht",
     paragraphs: [
-      "Seit 2010 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinermeister verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
+      "Seit 2008 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinermeister verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
       "Ob Möbel nach Maß, individueller Innenausbau oder passgenaue Einzelanfertigungen - jedes Projekt entsteht mit viel Liebe zum Detail und wird von der ersten Idee bis zur fertigen Umsetzung persönlich begleitet."
     ],
-    image: "/images/about.webp",
-    imageAlt: "Alexander Siegfried, Schreinermeister, steht in seiner Werkstatt vor einem Holzregal mit Werkzeugen",
+    image: workshopImage,
+    imageAlt: "Holzregal in einer Werkstatt mit Werkzeugen",
   },
 
   // --- Gallery (4 to 8 images) ---------------------------------------------------
   gallery: {
-    eyebrow: "Portfolio",
-    title: "Kundenprojekte",
+    eyebrow: "Mit Liebe zum Detail",
+    title: "Was aus Holz entstehen kann",
     // The first image is featured (2×2 in the grid): 5 or 7 images fill the
     // grid perfectly on desktop.
     images: [
-      { src: "/images/gallery-1.webp", alt: "Wooden shelves stacked with rustic sourdough loaves" },
-      { src: "/images/gallery-2.webp", alt: "Golden croissants in the bakery display case" },
-      { src: "/images/gallery-3.webp", alt: "Éclairs and cream puffs lined up on the pastry counter" },
-      { src: "/images/gallery-4.webp", alt: "The bakery storefront and its green woodwork" },
-      { src: "/images/gallery-5.webp", alt: "Baker presenting a crusty boule over the wooden counter" },
+      { src: gallery1, alt: "Komplette Kücheneinrichtung mit Holzverkleidung" },
+      { src: gallery2, alt: "Küchenmittelinsel mit Holzverkleidung" },
+      { src: gallery3, alt: "Holzfußboden" },
+      { src: gallery4, alt: "Hölzernes Treppenhaus mit Geländer" },
+      { src: gallery5, alt: "Natürlicher Holztisch" },
     ],
   },
 
@@ -219,7 +227,7 @@ export const SITE = {
   // --- FAQ (SEO bonus: questions people actually type into Google) ---------------
   faq: {
     eyebrow: "Gut zu wissen",
-    title: "Häufig gestellte Fragen",
+    title: "Ihre Fragen. Unsere Antworten.",
     items: [
       {
         question: "Wie kann ich eine Anfrage stellen?",
@@ -280,10 +288,10 @@ export const SITE = {
 
   // --- Contact form ------------------------------------------------------------------
   contact: {
-    eyebrow: "Kontakt",
-    title: "Schreiben Sie uns",
+    eyebrow: "Ihr Projekt beginnt hier",
+    title: "Erzählen Sie uns von Ihrer Idee",
     intro:
-      "Eine Frage, ein Sonderauftrag? Schreiben Sie uns - wir antworten innerhalb eines Geschäftstages.",
+      "Sie haben eine Idee, eine Frage oder ein konkretes Vorhaben? Erzählen Sie uns davon - wir beraten Sie persönlich und melden uns innerhalb eines Geschäftstages bei Ihnen.",
     // Form endpoint. Options:
     //  1. Formspree/Basin: paste the URL the service gives you.
     //  2. Your own backend (any endpoint accepting a classic form POST).
@@ -318,8 +326,8 @@ export const SITE = {
     closedLabel: "Geschlossen",
     hoursTitle: "Öffnungszeiten",
     findUsTitle: "Besuchen Sie uns",
-    infoEyebrow: "Zum Betrieb",
-    infoTitle: "Informationen",
+    infoEyebrow: "Wo ihre Idee entsteht",
+    infoTitle: "Öffnungszeiten & Anfahrt",
     directionsLabel: "Google Maps",
     googleProfileLabel: "Google Profil",
     readAllReviews: "Reviews auf Google →",
@@ -332,8 +340,8 @@ export const SITE = {
     formMessageLabel: "Ihre Nachricht",
     formSubmitLabel: "Nachricht senden",
     formHoneypotLabel: "Lassen Sie dieses Feld leer",
-    legalNoticeLabel: "Rechtliche Hinweise",
-    privacyPolicyLabel: "Datenschutzbestimmungen",
+    legalNoticeLabel: "Impressum",
+    privacyPolicyLabel: "Datenschutzerklärung",
     allRightsReserved: "Alle Rechte vorbehalten",
     notFoundTitle: "Seite nicht gefunden",
     notFoundText: "Die Seite, die Sie suchen, existiert nicht oder wurde verschoben.",

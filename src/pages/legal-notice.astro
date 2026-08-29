@@ -11,40 +11,73 @@ const { legal, business, ui } = SITE;
 ---
 
 <Base
-  title={`${ui.legalNoticeLabel} — ${SITE.name}`}
+  title={`${ui.legalNoticeLabel} — ${SITE.brand} ${SITE.name}`}
   description={`Impressum von ${SITE.brand} ${SITE.name}.`}
   noindex
 >
   <div class="container page-content">
     <h1>{ui.legalNoticeLabel}</h1>
 
-    <h2>Webseitenbetreiber</h2>
     <p>
-      {SITE.brand} {SITE.name}, {legal.companyType}<br />
-      {business.address.street}, {business.address.postalCode}
-      {business.address.city}<br />
-      Registration number: {legal.registrationNumber}<br />
-      Phone: <a href={`tel:${business.phone}`}>{business.phone}</a><br />
-      Email: <a href={`mailto:${business.email}`}>{business.email}</a>
+      Alexander Siegfried<br />
+      Schreinerei Alexander Siegfried<br />
+      Oberer M&uuml;hlweg 2<br />
+      94060 Pocking
     </p>
 
-    <h2>Verantwortlicher für den Inhalt</h2>
-    <p>{legal.publisher}</p>
-
-    <h2>Hosting</h2>
+    <h2>Kontakt</h2>
     <p>
-      {legal.host.name}<br />
-      {legal.host.address}<br />
-      <a href={legal.host.url} target="_blank" rel="noopener noreferrer">
-        {legal.host.url}
-      </a>
+      Telefon: 08531 9130931<br />
+      E-Mail: schreinerei_siegfried@yahoo.com
     </p>
 
-    <h2>Geistiges Eigentum</h2>
+    <h2>Umsatzsteuer-ID</h2>
     <p>
-      Alle Inhalte auf dieser Website (Texte, Bilder, Logo) sind das ausschließliche Eigentum 
-      von {SITE.name}, sofern nicht anders angegeben. Jede Vervielfältigung, auch teilweise, 
-      bedarf der vorherigen schriftlichen Genehmigung.
+      Umsatzsteuer-Identifikationsnummer gem&auml;&szlig; &sect; 27 a
+      Umsatzsteuergesetz:<br />
+      DE319502756
+    </p>
+
+    <h2>Aufsichtsbeh&ouml;rde</h2>
+    <p>
+      Handwerkskammer Niederbayern-Oberpfalz<br />
+      Nikolastra&szlig;e 10<br />
+      94032 Passau
+    </p>
+    <p>
+      <a href="https://www.hwkno.de/" target="_blank" rel="noopener noreferrer"
+        >https://www.hwkno.de/</a
+      >
+    </p>
+
+    <h2>Berufsbezeichnung und berufsrechtliche Regelungen</h2>
+    <p>
+      Berufsbezeichnung:<br />
+      Schreiner-/Tischlermeister
+    </p>
+    <p>
+      Zust&auml;ndige Kammer:<br />
+      Handwerkskammer Niederbayern-Oberpfalz<br />
+      Nikolastra&szlig;e 10<br />
+      94032 Passau
+    </p>
+    <p>
+      Verliehen in:<br />
+      Deutschland
+    </p>
+    <h2>Angaben zur Berufs&shy;haftpflicht&shy;versicherung</h2>
+    <p>
+      <strong>Name und Sitz des Versicherers:</strong><br />
+      Allianz Versicherung
+    </p>
+    <p><strong>Geltungsraum der Versicherung:</strong><br />Weltweit</p>
+
+    <h2>
+      Verbraucher&shy;streit&shy;beilegung/Universal&shy;schlichtungs&shy;stelle
+    </h2>
+    <p>
+      Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor
+      einer Verbraucherschlichtungsstelle teilzunehmen.
     </p>
   </div>
 </Base>

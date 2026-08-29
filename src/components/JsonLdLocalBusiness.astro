@@ -68,9 +68,12 @@ const data = {
         "@type": area["@type"],
         name: area.name,
       })),
-      openingHoursSpecification: hoursSchema,
-      sameAs: [...SITE.business.socialProfiles, SITE.business.googleBusinessUrl].filter(Boolean),
-    }
+      // openingHoursSpecification: hoursSchema,
+      sameAs: [
+        ...SITE.business.socialProfiles,
+        SITE.business.googleBusinessUrl,
+      ].filter(Boolean),
+    },
   ],
 };
 ---

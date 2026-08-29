@@ -9,6 +9,10 @@ import { SITE } from "../../config/site";
 
 const { contact, business, ui } = SITE;
 const hasEndpoint = contact.endpoint.length > 0;
+
+const sent = Astro.url.searchParams.get("sent");
+const formSuccess = sent === "1";
+const formError = sent === "0";
 ---
 
 <section id="contact" class="section">
@@ -16,6 +20,40 @@ const hasEndpoint = contact.endpoint.length > 0;
     {contact.eyebrow && <p class="section-eyebrow">{contact.eyebrow}</p>}
     <h2>{contact.title}</h2>
     <p class="intro">{contact.intro}</p>
+
+    {
+      formSuccess && (
+        <div class="form-status form-status-success" role="status">
+          <div class="form-status-icon" aria-hidden="true">
+            ✓
+          </div>
+          <div>
+            <strong>Vielen Dank für Ihre Anfrage!</strong>
+            <p>
+              Ihre Nachricht wurde erfolgreich übermittelt. Wir melden uns so
+              schnell wie möglich bei Ihnen.
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+    {
+      formError && (
+        <div class="form-status form-status-error" role="alert">
+          <div class="form-status-icon" aria-hidden="true">
+            !
+          </div>
+          <div>
+            <strong>Ihre Nachricht konnte leider nicht gesendet werden.</strong>
+            <p>
+              Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per
+              E-Mail oder Telefon.
+            </p>
+          </div>
+        </div>
+      )
+    }
 
     {
       hasEndpoint ? (
@@ -81,7 +119,8 @@ const hasEndpoint = contact.endpoint.length > 0;
               <span>
                 Ich akzeptiere die
                 <a href="/privacy-policy/">Datenschutzerklärung</a>
-                und stimme der Verarbeitung meiner Angaben zur Bearbeitung meiner Anfrage zu.
+                und stimme der Verarbeitung meiner Angaben zur Bearbeitung
+                meiner Anfrage zu.
               </span>
             </label>
           </div>
@@ -165,5 +204,65 @@ const hasEndpoint = contact.endpoint.length > 0;
 
   #message {
     resize: none;
+  }
+
+  .form-status {
+    max-width: 640px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+
+    margin-bottom: var(--space-2);
+    padding: 1.1rem 1.25rem;
+
+    border-radius: 0.75rem;
+    border: 1px solid;
+  }
+
+  .form-status strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .form-status p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .form-status-icon {
+    width: 2rem;
+    height: 2rem;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .form-status-success {
+    color: #155724;
+    background: #edf8f0;
+    border-color: #b8dfc2;
+  }
+
+  .form-status-success .form-status-icon {
+    color: white;
+    background: #2e8b57;
+  }
+
+  /* Fehler */
+
+  .form-status-error {
+    color: #842029;
+    background: #fff1f2;
+    border-color: #f3b8bd;
+  }
+
+  .form-status-error .form-status-icon {
+    color: white;
+    background: #c0392b;
   }
 </style>

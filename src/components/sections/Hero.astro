@@ -14,6 +14,8 @@
 // browser treats it as the LCP priority.
 import { SITE } from "../../config/site";
 
+import { Image } from "astro:assets";
+
 const { hero } = SITE;
 const immersive = hero.layout === "immersive";
 
@@ -21,14 +23,17 @@ const immersive = hero.layout === "immersive";
 const hl = hero.titleHighlight;
 const hasHighlight = hl.length > 0 && hero.title.includes(hl);
 const [beforeHl, afterHl] = hasHighlight
-  ? [hero.title.slice(0, hero.title.indexOf(hl)), hero.title.slice(hero.title.indexOf(hl) + hl.length)]
+  ? [
+      hero.title.slice(0, hero.title.indexOf(hl)),
+      hero.title.slice(hero.title.indexOf(hl) + hl.length),
+    ]
   : [hero.title, ""];
 ---
 
 <section class:list={["hero", { immersive }]}>
   {
     immersive && (
-      <img
+      <Image
         src={hero.image}
         alt=""
         class="hero-backdrop"
@@ -42,17 +47,22 @@ const [beforeHl, afterHl] = hasHighlight
     <div class="hero-text">
       <p class="hero-eyebrow">{SITE.tagline}</p>
       <h1>
-        {hasHighlight ? (
-          <>
-            {beforeHl}<em>{hl}</em>{afterHl}
-          </>
-        ) : (
-          hero.title
-        )}
+        {
+          hasHighlight ? (
+            <>
+              {beforeHl}
+              <em>{hl}</em>
+              {afterHl}
+            </>
+          ) : (
+            hero.title
+          )
+        }
       </h1>
       <p class="hero-subtitle">{hero.subtitle}</p>
       <p class="hero-actions">
-        <a class="button" href={hero.primaryCta.href}>{hero.primaryCta.label}</a>
+        <a class="button" href={hero.primaryCta.href}>{hero.primaryCta.label}</a
+        >
         <a class="button button-secondary" href={hero.secondaryCta.href}>
           {hero.secondaryCta.label}
         </a>
@@ -70,7 +80,7 @@ const [beforeHl, afterHl] = hasHighlight
     {
       !immersive && (
         <figure class="hero-figure">
-          <img
+          <Image
             src={hero.image}
             alt={hero.imageAlt}
             class="hero-image"
@@ -83,8 +93,15 @@ const [beforeHl, afterHl] = hasHighlight
     }
   </div>
   <!-- Mountain-ridge divider into the light sections -->
-  <svg class="hero-ridge" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
-    <path d="M0 70V38L180 12l150 22 190-30 170 26 160-14 210 22 180-28 200 24V70z" />
+  <svg
+    class="hero-ridge"
+    viewBox="0 0 1440 70"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <path
+      d="M0 70V38L180 12l150 22 190-30 170 26 160-14 210 22 180-28 200 24V70z"
+    ></path>
   </svg>
 </section>
 
@@ -124,8 +141,18 @@ const [beforeHl, afterHl] = hasHighlight
     inset: 0;
     z-index: -2;
     background:
-      linear-gradient(100deg, rgba(29, 20, 13, 0.86) 0%, rgba(29, 20, 13, 0.52) 52%, rgba(29, 20, 13, 0.18) 100%),
-      linear-gradient(180deg, rgba(29, 20, 13, 0.35) 0%, transparent 30%, rgba(29, 20, 13, 0.55) 100%);
+      linear-gradient(
+        100deg,
+        rgba(29, 20, 13, 0.86) 0%,
+        rgba(29, 20, 13, 0.52) 52%,
+        rgba(29, 20, 13, 0.18) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(29, 20, 13, 0.35) 0%,
+        transparent 30%,
+        rgba(29, 20, 13, 0.55) 100%
+      );
   }
 
   .hero-stage {
@@ -146,8 +173,16 @@ const [beforeHl, afterHl] = hasHighlight
     inset: 0;
     z-index: -2;
     background:
-      radial-gradient(58% 68% at 82% 18%, rgba(194, 95, 8, 0.34) 0%, transparent 62%),
-      radial-gradient(42% 52% at 8% 88%, rgba(146, 64, 14, 0.28) 0%, transparent 64%),
+      radial-gradient(
+        58% 68% at 82% 18%,
+        rgba(194, 95, 8, 0.34) 0%,
+        transparent 62%
+      ),
+      radial-gradient(
+        42% 52% at 8% 88%,
+        rgba(146, 64, 14, 0.28) 0%,
+        transparent 64%
+      ),
       var(--color-dark-bg);
   }
 

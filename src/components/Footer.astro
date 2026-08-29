@@ -22,10 +22,11 @@ function socialLabel(url: string): string {
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <p class="footer-brand">{SITE.name}</p>
+      <p class="footer-brand">{SITE.brand} {SITE.name}</p>
       <p class="footer-text">
         {SITE.business.address.street}<br />
-        {SITE.business.address.postalCode} {SITE.business.address.city}
+        {SITE.business.address.postalCode}
+        {SITE.business.address.city}
       </p>
       <p class="footer-text">
         <a href={`tel:${SITE.business.phone}`}>{SITE.business.phone}</a><br />
@@ -48,7 +49,9 @@ function socialLabel(url: string): string {
 
   <div class="container">
     <p class="footer-copyright">
-      &copy; {year} {SITE.name} — {SITE.ui.allRightsReserved}
+      &copy; {year}
+      {SITE.brand}
+      {SITE.name} — {SITE.ui.allRightsReserved}
     </p>
   </div>
 </footer>

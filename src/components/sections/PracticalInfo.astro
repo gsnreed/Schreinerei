@@ -7,7 +7,7 @@ import { SITE } from "../../config/site";
 const { openingHours, business, ui } = SITE;
 
 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-  `${SITE.name} ${business.address.street} ${business.address.city}`
+  "Schreinerei Siegfried, Oberer Mühlweg 2, 94060 Pocking, Deutschland",
 )}`;
 ---
 
@@ -16,7 +16,7 @@ const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${enco
     {ui.infoEyebrow && <p class="section-eyebrow">{ui.infoEyebrow}</p>}
     <h2>{ui.infoTitle}</h2>
     <div class="grid-2">
-      <div class="card">
+      <!-- <div class="card">
         <h3>{ui.hoursTitle}</h3>
         <table class="hours-table">
           <tbody>
@@ -30,19 +30,25 @@ const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${enco
             }
           </tbody>
         </table>
-      </div>
+      </div> -->
 
       <div class="card">
         <h3>{ui.findUsTitle}</h3>
         <p>
           {business.address.street}<br />
-          {business.address.postalCode} {business.address.city}
+          {business.address.postalCode}
+          {business.address.city}
         </p>
         <p>
           <a href={`tel:${business.phone}`}>{business.phone}</a>
         </p>
         <p class="info-actions">
-          <a class="button" href={directionsUrl} target="_blank" rel="noopener noreferrer">
+          <a
+            class="button"
+            href={directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             {ui.directionsLabel}
           </a>
           <a

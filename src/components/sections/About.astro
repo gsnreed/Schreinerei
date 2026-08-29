@@ -1,6 +1,7 @@
 ---
 // About section: the business's story — framed image + text with a drop cap.
 import { SITE } from "../../config/site";
+import { Image } from "astro:assets";
 
 const { about } = SITE;
 ---
@@ -8,7 +9,7 @@ const { about } = SITE;
 <section id="about" class="section section-alt">
   <div class="container about-grid">
     <figure class="about-figure reveal">
-      <img
+      <Image
         src={about.image}
         alt={about.imageAlt}
         class="about-image"
