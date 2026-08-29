@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 // Konfiguration
 
-$recipient = 'schreinerei-siegfried@yahoo.com';
+$recipient = 'schreinerei_siegfried@yahoo.com';
 
 $sender = 'kontakt@schreinerei-siegfried.de';
 

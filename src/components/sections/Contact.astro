@@ -10,9 +10,8 @@ import { SITE } from "../../config/site";
 const { contact, business, ui } = SITE;
 const hasEndpoint = contact.endpoint.length > 0;
 
-const sent = Astro.url.searchParams.get("sent");
-const formSuccess = sent === "1";
-const formError = sent === "0";
+const formSuccess = false;
+const formError = false;
 ---
 
 <section id="contact" class="section">
@@ -21,39 +20,37 @@ const formError = sent === "0";
     <h2>{contact.title}</h2>
     <p class="intro">{contact.intro}</p>
 
-    {
-      formSuccess && (
-        <div class="form-status form-status-success" role="status">
-          <div class="form-status-icon" aria-hidden="true">
-            ✓
-          </div>
-          <div>
-            <strong>Vielen Dank für Ihre Anfrage!</strong>
-            <p>
-              Ihre Nachricht wurde erfolgreich übermittelt. Wir melden uns so
-              schnell wie möglich bei Ihnen.
-            </p>
-          </div>
-        </div>
-      )
-    }
+    <div
+      id="form-success"
+      class="form-status form-status-success"
+      role="status"
+      hidden
+    >
+      <div class="form-status-icon" aria-hidden="true">✓</div>
+      <div>
+        <strong>Vielen Dank für Ihre Anfrage!</strong>
+        <p>
+          Ihre Nachricht wurde erfolgreich übermittelt. Wir melden uns so
+          schnell wie möglich bei Ihnen.
+        </p>
+      </div>
+    </div>
 
-    {
-      formError && (
-        <div class="form-status form-status-error" role="alert">
-          <div class="form-status-icon" aria-hidden="true">
-            !
-          </div>
-          <div>
-            <strong>Ihre Nachricht konnte leider nicht gesendet werden.</strong>
-            <p>
-              Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per
-              E-Mail oder Telefon.
-            </p>
-          </div>
-        </div>
-      )
-    }
+    <div
+      id="form-error"
+      class="form-status form-status-error"
+      role="alert"
+      hidden
+    >
+      <div class="form-status-icon" aria-hidden="true">!</div>
+      <div>
+        <strong>Ihre Nachricht konnte leider nicht gesendet werden.</strong>
+        <p>
+          Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per
+          E-Mail oder Telefon.
+        </p>
+      </div>
+    </div>
 
     {
       hasEndpoint ? (
@@ -138,6 +135,21 @@ const formError = sent === "0";
       )
     }
   </div>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const sent = params.get("sent");
+
+    const success = document.getElementById("form-success");
+    const error = document.getElementById("form-error");
+
+    if (sent === "1" && success) {
+      success.hidden = false;
+    }
+
+    if (sent === "0" && error) {
+      error.hidden = false;
+    }
+  </script>
 </section>
 
 <style>
@@ -264,5 +276,9 @@ const formError = sent === "0";
   .form-status-error .form-status-icon {
     color: white;
     background: #c0392b;
+  }
+
+  .form-status[hidden] {
+    display: none;
   }
 </style>
