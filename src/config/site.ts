@@ -177,7 +177,7 @@ export const SITE = {
     eyebrow: "Handwerk mit Geschichte",
     title: "Was uns ausmacht",
     paragraphs: [
-      "Seit 2008 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinermeister verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
+      "Seit 2008 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinerbetrieb verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
       "Ob Möbel nach Maß, individueller Innenausbau oder passgenaue Einzelanfertigungen - jedes Projekt entsteht mit viel Liebe zum Detail und wird von der ersten Idee bis zur fertigen Umsetzung persönlich begleitet."
     ],
     image: workshopImage,
@@ -327,7 +327,7 @@ export const SITE = {
     hoursTitle: "Öffnungszeiten",
     findUsTitle: "Besuchen Sie uns",
     infoEyebrow: "Wo ihre Idee entsteht",
-    infoTitle: "Öffnungszeiten & Anfahrt",
+    infoTitle: "Anfahrt",
     directionsLabel: "Google Maps",
     googleProfileLabel: "Google Profil",
     readAllReviews: "Reviews auf Google →",
