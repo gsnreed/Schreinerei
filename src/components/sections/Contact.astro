@@ -70,7 +70,10 @@ const formError = false;
 
           <div class="contact-grid">
             <div>
-              <label for="name">{ui.formNameLabel}</label>
+              <label for="name">
+                {ui.formNameLabel}
+                <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 id="name"
@@ -80,7 +83,10 @@ const formError = false;
               />
             </div>
             <div>
-              <label for="email">{ui.formEmailLabel}</label>
+              <label for="email">
+                {ui.formEmailLabel}
+                <span class="required">*</span>
+              </label>
               <input
                 type="email"
                 id="email"
@@ -95,13 +101,15 @@ const formError = false;
                 type="tel"
                 id="telephone"
                 name="telephone"
-                required
                 autocomplete="tel"
               />
             </div>
           </div>
 
-          <label for="message">{ui.formMessageLabel}</label>
+          <label for="message">
+            {ui.formMessageLabel}
+            <span class="required">*</span>
+          </label>
           <textarea id="message" name="message" rows="5" required />
 
           <div class="privacy-consent">
@@ -117,7 +125,7 @@ const formError = false;
                 Ich akzeptiere die
                 <a href="/privacy-policy/">Datenschutzerklärung</a>
                 und stimme der Verarbeitung meiner Angaben zur Bearbeitung
-                meiner Anfrage zu.
+                meiner Anfrage zu.<span class="required">*</span>
               </span>
             </label>
           </div>
@@ -153,6 +161,11 @@ const formError = false;
 </section>
 
 <style>
+  .required {
+    color: #dc2626;
+    font-weight: 700;
+  }
+
   .intro {
     color: var(--color-text-muted);
     margin-bottom: var(--space-3);
