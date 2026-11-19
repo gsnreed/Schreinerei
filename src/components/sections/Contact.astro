@@ -5,13 +5,18 @@
 //    → the form POSTs to it.
 //  - endpoint empty → no form: a prominent mailto button is shown instead
 //    (a broken form is worse than no form).
+//
+// Submission: works as a plain POST + redirect (?sent=1 / ?sent=0&reason=…)
+// without JavaScript. With JavaScript, the script below sends it in the
+// background (Accept: application/json), shows a loading state, prevents
+// double submits, shows field errors and keeps the input on errors.
+// Field limits must match MAX_LENGTH in public/server/contact.php.
 import { SITE } from "../../config/site";
 
 const { contact, business, ui } = SITE;
 const hasEndpoint = contact.endpoint.length > 0;
 
-const formSuccess = false;
-const formError = false;
+const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
 ---
 
 <section id="contact" class="section">
@@ -24,6 +29,7 @@ const formError = false;
       id="form-success"
       class="form-status form-status-success"
       role="status"
+      tabindex="-1"
       hidden
     >
       <div class="form-status-icon" aria-hidden="true">✓</div>
@@ -40,14 +46,19 @@ const formError = false;
       id="form-error"
       class="form-status form-status-error"
       role="alert"
+      tabindex="-1"
       hidden
     >
       <div class="form-status-icon" aria-hidden="true">!</div>
       <div>
         <strong>Ihre Nachricht konnte leider nicht gesendet werden.</strong>
-        <p>
+        <p data-error-text>
           Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per
           E-Mail oder Telefon.
+        </p>
+        <p>
+          Telefon: <a href={`tel:${business.phone.replace(/\s/g, "")}`}>{business.phone}</a>
+          · E-Mail: <a href={`mailto:${business.email}`}>{business.email}</a>
         </p>
       </div>
     </div>
@@ -55,6 +66,7 @@ const formError = false;
     {
       hasEndpoint ? (
         <form
+          id="contact-form"
           class="contact-form card"
           method="POST"
           action={contact.endpoint}
@@ -83,9 +95,12 @@ const formError = false;
                 type="text"
                 id="name"
                 name="name"
+                maxlength={maxLength.name}
+                aria-describedby="name-error"
                 required
                 autocomplete="name"
               />
+              <p class="field-error" id="name-error" hidden />
             </div>
             <div>
               <label for="email">
@@ -96,9 +111,12 @@ const formError = false;
                 type="email"
                 id="email"
                 name="email"
+                maxlength={maxLength.email}
+                aria-describedby="email-error"
                 required
                 autocomplete="email"
               />
+              <p class="field-error" id="email-error" hidden />
             </div>
             <div>
               <label for="telephone">{ui.formTelephoneLabel}</label>
@@ -106,8 +124,11 @@ const formError = false;
                 type="tel"
                 id="telephone"
                 name="telephone"
+                maxlength={maxLength.telephone}
+                aria-describedby="telephone-error"
                 autocomplete="tel"
               />
+              <p class="field-error" id="telephone-error" hidden />
             </div>
           </div>
 
@@ -115,7 +136,15 @@ const formError = false;
             {ui.formMessageLabel}
             <span class="required">*</span>
           </label>
-          <textarea id="message" name="message" rows="5" required />
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            maxlength={maxLength.message}
+            aria-describedby="message-error"
+          />
+          <p class="field-error" id="message-error" hidden />
 
           <div class="privacy-consent">
             <label for="privacy-consent">
@@ -125,6 +154,7 @@ const formError = false;
                 name="privacy_consent"
                 value="yes"
                 required
+                aria-describedby="privacy_consent-error"
               />
               <span>
                 Ich akzeptiere die
@@ -133,9 +163,13 @@ const formError = false;
                 meiner Anfrage zu.<span class="required">*</span>
               </span>
             </label>
+            <p class="field-error" id="privacy_consent-error" hidden />
           </div>
 
-          <button class="button" type="submit">
+          {/* Filled in by the script: time spent on the form (bot check) */}
+          <input type="hidden" name="form_elapsed" value="" />
+
+          <button class="button" type="submit" data-label={ui.formSubmitLabel}>
             {ui.formSubmitLabel}
           </button>
         </form>
@@ -149,20 +183,127 @@ const formError = false;
     }
   </div>
   <script>
-    document.addEventListener("astro:page-load", () => {
-      const params = new URLSearchParams(window.location.search);
-      const sent = params.get("sent");
+    const MESSAGES: Record<string, string> = {
+      validation: "Bitte prüfen Sie Ihre Eingaben.",
+      rate_limited:
+        "Zu viele Anfragen in kurzer Zeit. Bitte versuchen Sie es in einigen Minuten erneut.",
+      network:
+        "Keine Verbindung zum Server. Bitte prüfen Sie Ihre Internetverbindung und versuchen Sie es erneut.",
+      default:
+        "Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt per E-Mail oder Telefon.",
+    };
 
+    document.addEventListener("astro:page-load", () => {
+      const form = document.getElementById("contact-form") as HTMLFormElement | null;
       const success = document.getElementById("form-success");
       const error = document.getElementById("form-error");
+      const errorText = error?.querySelector<HTMLElement>("[data-error-text]");
+      if (!success || !error) return;
 
-      if (sent === "1" && success) {
+      const showSuccess = () => {
+        error.hidden = true;
         success.hidden = false;
-      }
-
-      if (sent === "0" && error) {
+        success.focus();
+      };
+      const showError = (code: string, message?: string) => {
+        success.hidden = true;
+        if (errorText) errorText.textContent = message || MESSAGES[code] || MESSAGES.default;
         error.hidden = false;
-      }
+        error.focus();
+      };
+
+      // Result of the no-JavaScript flow (redirect back with ?sent=…)
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("sent") === "1") showSuccess();
+      if (params.get("sent") === "0") showError(params.get("reason") ?? "default");
+
+      if (!form) return;
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const elapsedField = form.querySelector<HTMLInputElement>('input[name="form_elapsed"]');
+      const startedAt = Date.now();
+      let sending = false;
+
+      const clearFieldErrors = () => {
+        form.querySelectorAll<HTMLElement>(".field-error").forEach((el) => {
+          el.hidden = true;
+          el.textContent = "";
+        });
+        form.querySelectorAll("[aria-invalid]").forEach((el) => el.removeAttribute("aria-invalid"));
+      };
+
+      const showFieldErrors = (errors: Record<string, string>) => {
+        let first: HTMLElement | null = null;
+        for (const [name, text] of Object.entries(errors)) {
+          const input = form.elements.namedItem(name) as HTMLElement | null;
+          const slot = document.getElementById(`${name}-error`);
+          if (slot) {
+            slot.textContent = text;
+            slot.hidden = false;
+          }
+          input?.setAttribute("aria-invalid", "true");
+          first ??= input;
+        }
+        first?.focus();
+      };
+
+      const setSending = (state: boolean) => {
+        sending = state;
+        form.setAttribute("aria-busy", String(state));
+        if (button) {
+          button.disabled = state;
+          button.textContent = state ? "Wird gesendet …" : (button.dataset.label ?? "");
+        }
+      };
+
+      form.addEventListener("submit", async (event) => {
+        // Native validation already passed (otherwise no submit event).
+        event.preventDefault();
+        if (sending) return;
+
+        if (elapsedField) elapsedField.value = String(Date.now() - startedAt);
+        clearFieldErrors();
+        setSending(true);
+
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 20000);
+
+        try {
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" },
+            signal: controller.signal,
+          });
+
+          let data: { ok?: boolean; code?: string; message?: string; errors?: Record<string, string> } = {};
+          if (response.headers.get("content-type")?.includes("application/json")) {
+            data = await response.json().catch(() => ({}));
+          }
+
+          if (response.ok && data.ok) {
+            form.reset();
+            form.hidden = true;
+            showSuccess();
+            return;
+          }
+
+          if (response.status === 422 && data.errors) {
+            showFieldErrors(data.errors);
+            if (errorText) errorText.textContent = data.message || MESSAGES.validation;
+            error.hidden = false;
+            success.hidden = true;
+            return;
+          }
+
+          // 429, 4xx/5xx, or a non-JSON answer (e.g. PHP not running)
+          showError(data.code ?? "default", data.message);
+        } catch {
+          showError("network");
+        } finally {
+          clearTimeout(timeout);
+          setSending(false);
+        }
+      });
     });
   </script>
 </section>
@@ -296,6 +437,35 @@ const formError = false;
   .form-status-error .form-status-icon {
     color: white;
     background: #c0392b;
+  }
+
+  .field-error {
+    margin: -0.5rem 0 var(--space-2);
+    color: #b91c1c;
+    font-size: var(--text-sm);
+  }
+
+  [aria-invalid="true"] {
+    border-color: #b91c1c;
+  }
+
+  .contact-form button[disabled] {
+    opacity: 0.7;
+    cursor: progress;
+    transform: none;
+  }
+
+  .form-status:focus {
+    outline: none;
+  }
+
+  .form-status a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  .form-status p + p {
+    margin-top: 0.4rem;
   }
 
   .form-status[hidden] {
