@@ -349,7 +349,6 @@ export const SITE = {
     similarProjectMessage:
       "Guten Tag, ich interessiere mich für ein ähnliches Projekt wie „{project}“. ",
     serviceProjectsTitle: "Projekte zu dieser Leistung",
-    footerNavLabel: "Seiten",
   },
 } as const;
 
