@@ -33,7 +33,7 @@ export const SITE = {
   workshop: "Werkstatt",
   projects: "Projekte",
   description:
-  "Schreinerei-Meisterbetrieb für maßgefertigte Möbel, Küchen und individuellen Innenausbau. Hochwertiges Schreinerhandwerk, persönliche Beratung und individuelle Lösungen für Pocking, Passau und Umgebung.",
+  "Schreinerei-Meisterbetrieb in Pocking: Möbel nach Maß, Küchen, Innenausbau, Türen und Treppen. Aufmaß, Fertigung und Montage aus einer Hand.",
 
   // --- Business (powers the JSON-LD LocalBusiness markup) --------------------
   business: {
@@ -117,7 +117,7 @@ export const SITE = {
     // Leave "" to disable.
     titleHighlight: "Pocking",
     subtitle:
-      "Maßgefertigte Möbel und individuelle Schreinerarbeiten aus Meisterhand. Gefertigt mit Liebe zum Detail - von der Planung bis zur Montage.",
+      "Möbel nach Maß, Küchen, Innenausbau, Türen und Treppen. Wir messen bei Ihnen auf, fertigen in unserer Werkstatt in Pocking und bauen selbst ein.",
     image: heroImage,
     imageAlt: "Hobel trägt Holzspäne von einer Holzplatte ab",
     primaryCta: { label: "Unsere Leistungen", href: "/#services" },
@@ -132,41 +132,46 @@ export const SITE = {
     eyebrow: "Schreinerarbeiten nach Maß",
     title: "Was wir für Sie fertigen",
     intro:
-      "Individuelle Möbel, Innenausbau und hochwertige Holzarbeiten für Pocking, den Landkreis Passau und die Region Niederbayern. Von der ersten Planung bis zur fertigen Montage setzen wir Ihre Vorstellungen mit handwerklicher Präzision um.",
+      "Planung, Aufmaß, Fertigung und Montage kommen bei uns aus einer Hand. Wir arbeiten in Pocking, im Landkreis Passau, in Niederbayern und in Oberösterreich.",
 
     items: [
       {
+        slug: "moebel-nach-mass",
         title: "Möbel nach Maß",
         description:
-          "Individuelle Möbel nach Maß für Wohn- und Geschäftsräume. Wir fertigen Einbauschränke, Regale, Sideboards und weitere Einzelanfertigungen passend zu Ihren Räumen.",
+          "Einbauschränke für Dachschrägen und Nischen, Regalwände, Garderoben, Sideboards, Tische und Badmöbel. Jedes Stück wird auf Ihre Raummaße gefertigt, für Wohnungen ebenso wie für Büros, Praxen und Läden.",
         icon: "wardrobe",
       },
 
       {
+        slug: "innenausbau",
         title: "Innenausbau",
         description:
-          "Individueller Innenausbau für Wohnungen, Häuser, Büros und Praxen. Maßgefertigte Lösungen, die Funktionalität, Design und hochwertiges Schreinerhandwerk verbinden.",
+          "Wand- und Deckenverkleidungen, Holzböden, Raumteiler, Theken und Empfangstresen. Für Neubau, Umbau und Sanierung von Wohnungen, Häusern, Büros und Praxen.",
         icon: "home",
       },
 
       {
+        slug: "kuechen-nach-mass",
         title: "Küchen nach Maß",
         description:
-          "Individuell geplante und gefertigte Küchen nach Maß. Von der Planung über die Fertigung bis zur fachgerechten Montage entstehen Küchen, die optimal zu Ihren Räumen und Bedürfnissen passen.",
+          "Wir planen die Küche mit Ihnen nach Ihrem Grundriss, auch bei Schrägen, Nischen oder ungeraden Wänden. Fronten, Korpusse und Kochinseln fertigen wir selbst, Elektrogeräte Ihrer Wahl werden passgenau eingebaut.",
         icon: "kitchen",
       },
 
       {
+        slug: "tueren-und-treppen",
         title: "Türen & Treppen",
         description:
-          "Individuell gefertigte Türen und Treppen aus hochwertigen Materialien. Wir planen und fertigen langlebige Holzlösungen passend zu Architektur, Raum und Einrichtung.",
+          "Zimmer- und Schiebetüren sowie Holztreppen mit Geländer, für den Neubau oder als Ersatz im Bestand. Treppen messen wir vor Ort auf und fertigen sie passend zur vorhandenen Öffnung.",
         icon: "stairs",
       },
 
       {
+        slug: "reparatur-und-restaurierung",
         title: "Reparatur & Restaurierung",
         description:
-          "Fachgerechte Reparatur und Restaurierung von Möbeln und Holzelementen. Wir erhalten und erneuern beschädigte oder in die Jahre gekommene Stücke mit Erfahrung und Liebe zum Detail.",
+          "Lose Verbindungen, gebrochene Teile, Kratzer oder Wasserflecken: Wir reparieren Möbel und Holzteile und arbeiten Oberflächen neu auf. Schicken Sie uns vorab ein Foto, dann sagen wir Ihnen, ob sich die Reparatur lohnt.",
         icon: "tools",
       },
     ],
@@ -174,11 +179,11 @@ export const SITE = {
 
   // --- About -------------------------------------------------------------------
   about: {
-    eyebrow: "Handwerk mit Geschichte",
+    eyebrow: "Seit 2008 in Pocking",
     title: "Was uns ausmacht",
     paragraphs: [
-      "Seit 2008 steht unsere Schreinerei in Pocking für individuelles Handwerk, hochwertige Materialien und Lösungen, die genau zum Menschen und zum Raum passen. Als Schreinerbetrieb verbinden wir traditionelles Handwerk mit einem modernen Blick für Gestaltung und Funktion.",
-      "Ob Möbel nach Maß, individueller Innenausbau oder passgenaue Einzelanfertigungen - jedes Projekt entsteht mit viel Liebe zum Detail und wird von der ersten Idee bis zur fertigen Umsetzung persönlich begleitet."
+      "Die Schreinerei Siegfried ist ein Familien- und Meisterbetrieb in Pocking. Seit 2008 fertigen wir in unserer Werkstatt in Pocking Möbel, Küchen, Türen und Treppen für Kunden im Landkreis Passau, in Niederbayern und in Oberösterreich.",
+      "Aufmaß, Planung, Fertigung und Montage machen wir selbst. Sie haben dadurch von der Anfrage bis zum Einbau dieselben Ansprechpartner, und auch wenn später etwas nachgestellt werden muss, wissen Sie, an wen Sie sich wenden."
     ],
     image: workshopImage,
     imageAlt: "Holzregal in einer Werkstatt mit Werkzeugen",
@@ -186,8 +191,8 @@ export const SITE = {
 
   // --- Gallery (4 to 8 images) ---------------------------------------------------
   gallery: {
-    eyebrow: "Mit Liebe zum Detail",
-    title: "Was aus Holz entstehen kann",
+    eyebrow: "Aus unserer Werkstatt",
+    title: "Ausgewählte Projekte",
     // The first image is featured (2×2 in the grid): 5 or 7 images fill the
     // grid perfectly on desktop.
     images: [
@@ -232,49 +237,49 @@ export const SITE = {
       {
         question: "Wie kann ich eine Anfrage stellen?",
         answer:
-          "Kontaktieren Sie uns am besten telefonisch, per E-Mail oder über das Kontaktformular und beschreiben Sie kurz Ihr Vorhaben. Gerne können Sie uns auch erste Fotos oder Maße zukommen lassen.",
+          "Per Telefon während unserer Öffnungszeiten, per E-Mail oder über das Kontaktformular. Damit wir Ihr Vorhaben schnell einschätzen können, helfen uns: eine kurze Beschreibung, ungefähre Maße, ein paar Fotos vom Raum (per E-Mail), Ihr Wunschtermin und, falls vorhanden, eine Skizze oder ein Budgetrahmen.",
       },
 
       {
         question: "Wie läuft ein Projekt ab?",
         answer:
-          "Nach Ihrer Anfrage besprechen wir zunächst Ihre Wünsche und die Anforderungen an das Projekt. Bei Bedarf vereinbaren wir einen Termin vor Ort, nehmen die notwendigen Maße auf und besprechen anschließend die weitere Planung.",
+          "1. Sie schildern uns Ihr Vorhaben. 2. Wir besprechen Ausführung, Material und Budget und kommen zum Aufmaß zu Ihnen. 3. Sie erhalten ein Angebot. 4. Nach Ihrem Auftrag fertigen wir in unserer Werkstatt und vereinbaren mit Ihnen einen Montagetermin. 5. Wir bauen bei Ihnen ein.",
       },
 
       {
         question: "Kann ich vorab ein Angebot erhalten?",
         answer:
-          "Ja. Nach einer ersten Einschätzung Ihres Vorhabens besprechen wir die nächsten Schritte und erstellen Ihnen ein individuelles Angebot.",
+          "Ja. Für eine erste Preiseinschätzung reichen oft Fotos und ungefähre Maße. Ein verbindliches Angebot erstellen wir, sobald die genauen Maße und Ihre Wünsche zu Material und Ausführung feststehen.",
       },
 
       {
         question: "Wie lange dauert die Umsetzung eines Projekts?",
         answer:
-          "Die Dauer hängt vom Umfang und der Art des Projekts ab. Nach der Planung und Auftragserteilung besprechen wir mit Ihnen den voraussichtlichen Fertigstellungstermin.",
+          "Das hängt vom Umfang des Projekts und von unserer aktuellen Auslastung ab. Den Montagetermin nennen wir Ihnen nach der Auftragserteilung. Wenn Sie einen festen Termin haben, zum Beispiel einen Einzug oder das Ende eines Umbaus, sagen Sie es uns bitte schon bei der Anfrage.",
       },
 
       {
-        question: "Ist ein Termin vor Ort möglich?",
+        question: "Kommen Sie zum Ausmessen zu mir?",
         answer:
-          "Ja. Wenn es für die Planung erforderlich ist, vereinbaren wir einen Termin vor Ort, um die räumlichen Gegebenheiten zu besprechen und ein genaues Aufmaß zu erstellen.",
+          "Ja. Bei Einbaumöbeln, Küchen, Treppen und Innenausbau messen wir selbst vor Ort auf. Wände und Böden sind selten ganz gerade, und nur mit einem eigenen Aufmaß passt das fertige Stück beim Einbau genau.",
       },
 
       {
         question: "In welchem Gebiet ist die Schreinerei tätig?",
         answer:
-          "Unsere Schreinerei befindet sich in Pocking. Wir arbeiten hauptsächlich in Pocking und im gesamten Landkreis Passau, sowie Niederbayern und Oberösterreich. Projekte in umliegenden Orten und Regionen sind nach Absprache ebenfalls möglich.",
+          "Unsere Werkstatt ist in Pocking. Wir arbeiten im gesamten Landkreis Passau, in Niederbayern und in Oberösterreich. Projekte weiter entfernt sind nach Absprache möglich.",
       },
 
       {
         question: "Kann ich eigene Vorstellungen oder Materialien einbringen?",
         answer:
-          "Natürlich. Ihre persönlichen Vorstellungen sind ein wichtiger Bestandteil der Planung. Besondere Wünsche zu Gestaltung, Materialien oder Ausführung können wir gemeinsam besprechen und nach Möglichkeit berücksichtigen.",
+          "Ja. Holzart, Oberfläche (zum Beispiel geölt oder lackiert), Griffe und Beschläge bestimmen Sie mit. Wenn Sie eigenes Material verwenden möchten, etwa Holz aus dem eigenen Wald oder Teile eines alten Möbelstücks, sprechen Sie uns bitte vorab an. Dann prüfen wir, ob es sich verarbeiten lässt.",
       },
 
       {
-        question: "Wie kann ich einen persönlichen Beratungstermin vereinbaren?",
+        question: "Kann ich in der Werkstatt vorbeikommen?",
         answer:
-          "Rufen Sie uns gerne an, schreiben Sie uns eine E-Mail oder nutzen Sie das Kontaktformular. Wir besprechen Ihr Anliegen und vereinbaren anschließend einen passenden Termin.",
+          "Gerne, bitte vereinbaren Sie vorher einen Termin. Wir sind häufig bei Kunden auf Montage, und so ist sicher jemand für Sie da. Bei einem Termin in der Werkstatt können wir Ihnen Holzarten und Oberflächen direkt zeigen.",
       },
     ],
   },
@@ -282,7 +287,7 @@ export const SITE = {
   // --- Call-to-action banner ------------------------------------------------------
   ctaBanner: {
     title: "Planen Sie ein Projekt?",
-    text: "Wir beraten Sie gerne und erstellen Ihnen ein individuelles Angebot für Ihre maßgefertigten Möbel oder Schreinerarbeiten.",
+    text: "Schicken Sie uns eine kurze Beschreibung mit ungefähren Maßen oder Fotos. Wir melden uns innerhalb eines Geschäftstages mit einer ersten Einschätzung.",
     button: { label: "Angebot anfordern", href: "/#contact" },
   },
 
@@ -291,7 +296,7 @@ export const SITE = {
     eyebrow: "Ihr Projekt beginnt hier",
     title: "Erzählen Sie uns von Ihrer Idee",
     intro:
-      "Sie haben eine Idee, eine Frage oder ein konkretes Vorhaben? Erzählen Sie uns davon - wir beraten Sie persönlich und melden uns innerhalb eines Geschäftstages bei Ihnen.",
+      "Beschreiben Sie kurz, was Sie vorhaben, und geben Sie wenn möglich ungefähre Maße und Ihren Wunschtermin an. Fotos können Sie uns per E-Mail schicken. Wir melden uns innerhalb eines Geschäftstages bei Ihnen.",
     // Form endpoint. Options:
     //  1. Formspree/Basin: paste the URL the service gives you.
     //  2. Your own backend (any endpoint accepting a classic form POST).
