@@ -22,14 +22,18 @@ function socialLabel(url: string): string {
 <footer class="site-footer">
   <div class="container footer-grid">
     <div>
-      <p class="footer-brand">{SITE.brand} {SITE.name}</p>
+      <p class="footer-brand">
+        {SITE.brand} {SITE.name}
+      </p>
       <p class="footer-text">
-        {SITE.business.address.street}<br />
+        {SITE.business.address.street}
+        <br />
         {SITE.business.address.postalCode}
         {SITE.business.address.city}
       </p>
       <p class="footer-text">
-        <a href={`tel:${SITE.business.phone}`}>{SITE.business.phone}</a><br />
+        <a href={`tel:${SITE.business.phone}`}>{SITE.business.phone}</a>
+        <br />
         <a href={`mailto:${SITE.business.email}`}>{SITE.business.email}</a>
       </p>
     </div>
@@ -37,13 +41,11 @@ function socialLabel(url: string): string {
     <nav class="footer-nav" aria-label="Legal links">
       <a href="/legal-notice/">{SITE.ui.legalNoticeLabel}</a>
       <a href="/privacy-policy/">{SITE.ui.privacyPolicyLabel}</a>
-      {
-        SITE.business.socialProfiles.map((url) => (
-          <a href={url} target="_blank" rel="noopener noreferrer">
-            {socialLabel(url)}
-          </a>
-        ))
-      }
+      {SITE.business.socialProfiles.map((url) => (
+        <a href={url} target="_blank" rel="noopener noreferrer">
+          {socialLabel(url)}
+        </a>
+      ))}
     </nav>
   </div>
 

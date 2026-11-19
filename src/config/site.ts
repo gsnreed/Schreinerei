@@ -127,54 +127,15 @@ export const SITE = {
     highlights: ["Familienbetrieb seit 2008", "Meisterbetrieb"],
   },
 
-  // --- Services / products (3 to 6 cards) -------------------------------------
+  // --- Services section heading (cards come from src/content/services/) -------
   services: {
     eyebrow: "Schreinerarbeiten nach Maß",
     title: "Was wir für Sie fertigen",
     intro:
       "Planung, Aufmaß, Fertigung und Montage kommen bei uns aus einer Hand. Wir arbeiten in Pocking, im Landkreis Passau, in Niederbayern und in Oberösterreich.",
 
-    items: [
-      {
-        slug: "moebel-nach-mass",
-        title: "Möbel nach Maß",
-        description:
-          "Einbauschränke für Dachschrägen und Nischen, Regalwände, Garderoben, Sideboards, Tische und Badmöbel. Jedes Stück wird auf Ihre Raummaße gefertigt, für Wohnungen ebenso wie für Büros, Praxen und Läden.",
-        icon: "wardrobe",
-      },
-
-      {
-        slug: "innenausbau",
-        title: "Innenausbau",
-        description:
-          "Wand- und Deckenverkleidungen, Holzböden, Raumteiler, Theken und Empfangstresen. Für Neubau, Umbau und Sanierung von Wohnungen, Häusern, Büros und Praxen.",
-        icon: "home",
-      },
-
-      {
-        slug: "kuechen-nach-mass",
-        title: "Küchen nach Maß",
-        description:
-          "Wir planen die Küche mit Ihnen nach Ihrem Grundriss, auch bei Schrägen, Nischen oder ungeraden Wänden. Fronten, Korpusse und Kochinseln fertigen wir selbst, Elektrogeräte Ihrer Wahl werden passgenau eingebaut.",
-        icon: "kitchen",
-      },
-
-      {
-        slug: "tueren-und-treppen",
-        title: "Türen & Treppen",
-        description:
-          "Zimmer- und Schiebetüren sowie Holztreppen mit Geländer, für den Neubau oder als Ersatz im Bestand. Treppen messen wir vor Ort auf und fertigen sie passend zur vorhandenen Öffnung.",
-        icon: "stairs",
-      },
-
-      {
-        slug: "reparatur-und-restaurierung",
-        title: "Reparatur & Restaurierung",
-        description:
-          "Lose Verbindungen, gebrochene Teile, Kratzer oder Wasserflecken: Wir reparieren Möbel und Holzteile und arbeiten Oberflächen neu auf. Schicken Sie uns vorab ein Foto, dann sagen wir Ihnen, ob sich die Reparatur lohnt.",
-        icon: "tools",
-      },
-    ],
+    // The service tiles and their detail pages live in src/content/services/
+    // (one MDX file per service, see src/content.config.ts).
   },
 
   // --- About -------------------------------------------------------------------
@@ -351,6 +312,8 @@ export const SITE = {
     notFoundTitle: "Seite nicht gefunden",
     notFoundText: "Die Seite, die Sie suchen, existiert nicht oder wurde verschoben.",
     notFoundCta: "Zurück zur Startseite",
+    serviceMoreLabel: "Mehr erfahren",
+    backToServices: "Alle Leistungen",
   },
 } as const;
 

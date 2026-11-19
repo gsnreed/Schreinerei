@@ -1,0 +1,121 @@
+---
+// Service detail page — one template for every MDX file in
+// src/content/services/. The filename becomes the URL: /services/<filename>/.
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import { SITE } from "../../config/site";
+import { getServices, serviceUrl, type Service } from "../../lib/services";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const services = await getServices();
+  return services.map((service) => ({
+    params: { slug: service.id },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const { title, description, icon } = service.data;
+const { Content } = await render(service);
+
+const jsonLdService = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: title,
+  description,
+  url: new URL(serviceUrl(service), SITE.url).href,
+  areaServed: SITE.business.areaServed,
+  provider: { "@id": `${SITE.url}/#business` },
+};
+---
+
+<Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
+  <article class="container page-content service-page">
+    <a class="back-link" href="/#services">
+      ← {SITE.ui.backToServices}
+    </a>
+
+    <header class="service-header">
+      <!-- <span class="service-icon" aria-hidden="true">
+        <Icon name={icon} size={30} />
+      </span> -->
+      <div>
+        {SITE.services.eyebrow && (
+          <p class="section-eyebrow">{SITE.services.eyebrow}</p>
+        )}
+        <h1>{title}</h1>
+      </div>
+    </header>
+
+    <p class="lead">{description}</p>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+
+  <CtaBanner />
+</Base>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdService)} />
+<style>
+  .service-page {
+    max-width: calc(var(--prose-width) + 2 * var(--space-3));
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .service-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+
+  .service-header h1 {
+    margin: 0;
+  }
+
+  .service-icon {
+    flex: none;
+    color: #fff;
+    background: var(--gradient-icon);
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 16px rgba(146, 64, 14, 0.3);
+  }
+
+  .lead {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .prose :global(h2) {
+    margin-top: var(--space-4);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.25em;
+  }
+
+  .prose :global(li + li) {
+    margin-top: 0.35em;
+  }
+</style>
