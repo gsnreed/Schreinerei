@@ -34,6 +34,7 @@ const MAX_LENGTH = [
     'name' => 150,
     'email' => 254,
     'telephone' => 50,
+    'project_type' => 100,
     'message' => 5000,
 ];
 
@@ -174,10 +175,11 @@ if (is_string($elapsed) && ctype_digit($elapsed) && (int) $elapsed < MIN_FILL_MS
 $name = field('name');
 $email = field('email');
 $telephone = field('telephone');
+$projectType = field('project_type');   // optional dropdown "Worum geht es?"
 $message = field('message', true);
 $consent = $_POST['privacy_consent'] ?? '';
 
-if ($name === null || $email === null || $telephone === null || $message === null) {
+if ($name === null || $email === null || $telephone === null || $projectType === null || $message === null) {
     logEvent('rejected: malformed fields');
     respond(400, 'bad_request', 'Die Anfrage war ungültig. Bitte laden Sie die Seite neu.');
 }
@@ -203,6 +205,11 @@ if ($telephone !== '') {
     } elseif (!preg_match('/^[0-9+()\/.\-\s]{5,}$/', $telephone)) {
         $errors['telephone'] = 'Bitte geben Sie eine gültige Telefonnummer an.';
     }
+}
+
+// Optional dropdown; only its length is checked (the options come from the site).
+if (mb_strlen($projectType) > MAX_LENGTH['project_type']) {
+    $errors['project_type'] = 'Bitte wählen Sie einen Eintrag aus der Liste.';
 }
 
 if ($message === '') {
@@ -232,7 +239,11 @@ if (rateLimited()) {
 
 mb_internal_encoding('UTF-8');
 
-$subject = mb_encode_mimeheader(SUBJECT_PREFIX . ' von ' . $name, 'UTF-8', 'B', "\r\n");
+// e.g. "Anfrage (Küchen nach Maß) von Max Muster"
+$subjectText = SUBJECT_PREFIX
+    . ($projectType !== '' ? ' (' . $projectType . ')' : '')
+    . ' von ' . $name;
+$subject = mb_encode_mimeheader($subjectText, 'UTF-8', 'B', "\r\n");
 
 $body = implode("\n", [
     'Neue Kontaktanfrage über die Website',
@@ -241,6 +252,7 @@ $body = implode("\n", [
     'Name:     ' . $name,
     'E-Mail:   ' . $email,
     'Telefon:  ' . ($telephone !== '' ? $telephone : '–'),
+    'Thema:    ' . ($projectType !== '' ? $projectType : '–'),
     'Datenschutzerklärung akzeptiert: Ja',
     '',
     'Nachricht:',

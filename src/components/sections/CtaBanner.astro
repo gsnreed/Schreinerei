@@ -3,7 +3,14 @@
 // (quote, booking, order...) and a warm glow rising from the bottom.
 import { SITE } from "../../config/site";
 
+interface Props {
+  /** Override the button link, e.g. "/?leistung=kuechen-nach-mass#contact"
+      on a service page so the contact form preselects that service */
+  href?: string;
+}
+
 const { ctaBanner } = SITE;
+const { href = ctaBanner.button.href } = Astro.props;
 ---
 
 <section class="banner">
@@ -12,7 +19,7 @@ const { ctaBanner } = SITE;
       <h2 class="banner-title">{ctaBanner.title}</h2>
       <p class="banner-text">{ctaBanner.text}</p>
     </div>
-    <a class="button" href={ctaBanner.button.href}>
+    <a class="button" href={href}>
       {ctaBanner.button.label}
     </a>
   </div>

@@ -52,7 +52,9 @@ const service = await getEntry(project.data.service);
 const { Content } = await render(project);
 const { ui } = SITE;
 
-const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
+const inquiryParams = new URLSearchParams({ projekt: title });
+if (service) inquiryParams.set("leistung", service.id);
+const inquiryHref = `/?${inquiryParams}#contact`;
 
 // --- SEO -------------------------------------------------------------------
 // Generated from the MDX frontmatter; `seoTitle` / `seoDescription` in the

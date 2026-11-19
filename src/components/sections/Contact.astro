@@ -12,11 +12,15 @@
 // double submits, shows field errors and keeps the input on errors.
 // Field limits must match MAX_LENGTH in public/server/contact.php.
 import { SITE } from "../../config/site";
+import { getServices } from "../../lib/services";
 
 const { contact, business, ui } = SITE;
+// Options of the "Worum geht es?" dropdown: one per service (same order as
+// on the home page) plus a catch-all. Adding a service MDX file adds it here.
+const services = await getServices();
 const hasEndpoint = contact.endpoint.length > 0;
 
-const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
+const maxLength = { name: 150, email: 254, telephone: 50, projectType: 100, message: 5000 };
 ---
 
 <section id="contact" class="section">
@@ -133,6 +137,22 @@ const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
             </div>
           </div>
 
+          <label for="project_type">{ui.formProjectTypeLabel}</label>
+          <select
+            id="project_type"
+            name="project_type"
+            aria-describedby="project_type-error"
+          >
+            <option value="">{ui.formProjectTypePlaceholder}</option>
+            {services.map((service) => (
+              <option value={service.data.title} data-service={service.id}>
+                {service.data.title}
+              </option>
+            ))}
+            <option value={ui.formProjectTypeOther}>{ui.formProjectTypeOther}</option>
+          </select>
+          <p class="field-error" id="project_type-error" hidden />
+
           <label for="message">
             {ui.formMessageLabel}
             <span class="required">*</span>
@@ -219,6 +239,15 @@ const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
       if (params.get("sent") === "0") showError(params.get("reason") ?? "default");
 
       if (!form) return;
+
+      // Coming from a project or service page (/?leistung=<service-id>):
+      // preselect the matching option in "Worum geht es?".
+      const service = params.get("leistung");
+      const select = form.querySelector<HTMLSelectElement>("#project_type");
+      if (service && select && !select.value) {
+        const option = [...select.options].find((o) => o.dataset.service === service);
+        if (option) select.value = option.value;
+      }
 
       // Coming from a project page ("Ähnliches Projekt anfragen" → /?projekt=…):
       // start the message with the project name, unless the visitor already typed.
