@@ -24,6 +24,19 @@ export function firstThatFits(candidates: string[], max: number): string {
   return clean.find((c) => c.length <= max) ?? truncate(clean[clean.length - 1], max);
 }
 
+/** Longest run of whole sentences from `text` that, followed by `suffix`,
+    fits into `max` characters. Falls back to `truncate(text)` if not even
+    the first sentence fits. Keeps descriptions from ending mid-sentence. */
+export function fitSentences(text: string, suffix = "", max = DESCRIPTION_MAX): string {
+  const clean = text.replace(/\s+/g, " ").trim();
+  const sentences = clean.match(/[^.!?]+[.!?]+(?:\s|$)/g) ?? [clean];
+  for (let n = sentences.length; n > 0; n--) {
+    const candidate = (sentences.slice(0, n).join("").trim() + " " + suffix).trim();
+    if (candidate.length <= max) return candidate;
+  }
+  return truncate(clean, max);
+}
+
 /** Absolute URL for a site path ("/projects/" → "https://…/projects/"). */
 export function absoluteUrl(path: string): string {
   return new URL(path, SITE.url).href;

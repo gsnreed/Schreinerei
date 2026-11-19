@@ -48,8 +48,9 @@ const absoluteImage = new URL(ogImage.src, Astro.site);
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
-{noindex && <meta name="robots" content="noindex" />}
+{/* noindex pages (legal, 404) get no canonical: the 404 page has no URL of
+    its own, and the others shouldn't be promoted to search engines */}
+{noindex ? <meta name="robots" content="noindex, follow" /> : <link rel="canonical" href={canonical} />}
 
 <!-- Open Graph: link preview when shared (Facebook, LinkedIn, WhatsApp...) -->
 <meta property="og:type" content={ogType} />

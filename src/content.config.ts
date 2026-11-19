@@ -18,6 +18,9 @@ const services = defineCollection({
     icon: z.string(),
     /** Position in the services grid (ascending) */
     order: z.number().int().default(100),
+    /** Optional SEO overrides; generated from title + description if left out */
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
   }),
 });
 

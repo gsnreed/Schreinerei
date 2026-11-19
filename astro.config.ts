@@ -7,5 +7,15 @@ import { SITE } from "./src/config/site";
 // It is read from the central config: one single place to change per site.
 export default defineConfig({
   site: SITE.url,
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    // Pages marked noindex (legal notice, privacy policy, 404) stay out of
+    // the sitemap: listing them would send Google contradicting signals.
+    sitemap({
+      filter: (page) =>
+        !["/legal-notice/", "/privacy-policy/", "/404/"].some((path) =>
+          page.endsWith(path),
+        ),
+    }),
+  ],
 });

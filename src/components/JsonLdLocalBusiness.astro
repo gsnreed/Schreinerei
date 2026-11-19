@@ -5,6 +5,12 @@
 // SITE.business and SITE.openingHours: no data to maintain twice.
 // Validate with: https://search.google.com/test/rich-results
 import { SITE } from "../config/site";
+import { getImage } from "astro:assets";
+import { getServices, serviceUrl } from "../lib/services";
+
+// Photo of the business for Google: the hero image as a 1200px JPG
+const image = await getImage({ src: SITE.hero.image, width: 1200, format: "jpg" });
+const services = await getServices();
 
 // schema.org names days in English
 const SCHEMA_DAYS = [
@@ -34,7 +40,9 @@ const data = {
     {
       "@type": "WebSite",
       "@id": `${SITE.url}/#website`,
-      name: SITE.name,
+      // Google uses this as the site name in search results
+      name: SITE.business.name,
+      alternateName: SITE.shortName,
       description: SITE.description,
       url: SITE.url,
       inLanguage: SITE.lang,
@@ -46,11 +54,15 @@ const data = {
       "@type": SITE.business.schemaType,
       "@id": `${SITE.url}/#business`,
       name: SITE.business.name,
+      alternateName: SITE.shortName,
       description: SITE.business.description,
       url: SITE.url,
       telephone: SITE.business.phone,
       email: SITE.business.email,
-      image: new URL(SITE.hero.image, SITE.url).href,
+      image: new URL(image.src, SITE.url).href,
+      foundingDate: SITE.business.foundingYear,
+      // Opens the location in Google Maps
+      hasMap: `https://www.google.com/maps?q=${SITE.business.geo.latitude},${SITE.business.geo.longitude}`,
       priceRange: SITE.business.priceRange,
       address: {
         "@type": "PostalAddress",
@@ -69,6 +81,20 @@ const data = {
         name: area.name,
       })),
       // openingHoursSpecification: hoursSchema,
+      // What the business offers: one entry per service page
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "Schreinerarbeiten nach Maß",
+        itemListElement: services.map((service) => ({
+          "@type": "Offer",
+          itemOffered: {
+            "@type": "Service",
+            "@id": `${new URL(serviceUrl(service), SITE.url).href}#service`,
+            name: service.data.title,
+            url: new URL(serviceUrl(service), SITE.url).href,
+          },
+        })),
+      },
       sameAs: [
         ...SITE.business.socialProfiles,
         SITE.business.googleBusinessUrl,

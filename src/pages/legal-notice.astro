@@ -11,8 +11,8 @@ const { legal, business, ui } = SITE;
 ---
 
 <Base
-  title={`${ui.legalNoticeLabel} — ${SITE.brand} ${SITE.name}`}
-  description={`Impressum von ${SITE.brand} ${SITE.name}.`}
+  title={`${ui.legalNoticeLabel} | ${SITE.brand} ${SITE.name}`}
+  description={`Impressum der ${SITE.business.name}, ${SITE.business.address.street}, ${SITE.business.address.postalCode} ${SITE.business.address.city}.`}
   noindex
 >
   <div class="container page-content">

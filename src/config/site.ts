@@ -29,8 +29,11 @@ export const SITE = {
   tagline: "Traditionelles Handwerk. Modern gedacht.",
   workshop: "Werkstatt",
   projects: "Projekte",
+  // Home page title in Google (keep under ~60 characters: place + what you do)
+  homeTitle: "Schreinerei Siegfried in Pocking | Möbel & Küchen nach Maß",
+  // Home page meta description (~120–158 characters)
   description:
-  "Schreinerei-Meisterbetrieb in Pocking: Möbel nach Maß, Küchen, Innenausbau, Türen und Treppen. Aufmaß, Fertigung und Montage aus einer Hand.",
+  "Schreinerei-Meisterbetrieb in Pocking seit 2008: Möbel nach Maß, Küchen, Innenausbau, Türen und Treppen. Aufmaß, Fertigung und Montage aus einer Hand.",
 
   // --- Business (powers the JSON-LD LocalBusiness markup) --------------------
   business: {
@@ -38,7 +41,11 @@ export const SITE = {
     // The most specific schema.org type you can find. Useful examples:
     // "Bakery", "Restaurant", "LodgingBusiness", "HairSalon", "Plumber",
     // "SportingGoodsStore", "TouristInformationCenter"... (see schema.org)
-    schemaType: "LocalBusiness",
+    // "HomeAndConstructionBusiness" fits a joinery better than the generic
+    // "LocalBusiness" (schema.org has no dedicated carpenter type).
+    schemaType: "HomeAndConstructionBusiness",
+    // Founding year (structured data for Google)
+    foundingYear: "2008",
     name: "Schreinerei Alexander Siegfried",
     description:
     "Schreinerei in Pocking für Möbel nach Maß, individuellen Innenausbau, Küchen, Türen und Treppen sowie Reparatur und Restaurierung.",

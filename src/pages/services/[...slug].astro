@@ -9,6 +9,14 @@ import { SITE } from "../../config/site";
 import { getServices, serviceUrl, type Service } from "../../lib/services";
 import { render } from "astro:content";
 import { getProjectsForService, projectCategoryUrl } from "../../lib/projects";
+import { getImage } from "astro:assets";
+import {
+  absoluteUrl,
+  breadcrumbJsonLd,
+  firstThatFits,
+  fitSentences,
+  TITLE_MAX,
+} from "../../lib/seo";
 
 export async function getStaticPaths() {
   const services = await getServices();
@@ -27,18 +35,65 @@ const { title, description } = service.data;
 const { Content } = await render(service);
 const projects = await getProjectsForService(service.id);
 
-const jsonLdService = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  name: title,
-  description,
-  url: new URL(serviceUrl(service), SITE.url).href,
-  areaServed: SITE.business.areaServed,
-  provider: { "@id": `${SITE.url}/#business` },
-};
+// --- SEO -------------------------------------------------------------------
+// Generated from the MDX frontmatter; `seoTitle` / `seoDescription` in the
+// frontmatter override them for a single service.
+const { city } = SITE.business.address;
+
+// "Küchen nach Maß in Pocking | Schreinerei Siegfried"
+const seoTitle =
+  service.data.seoTitle ??
+  firstThatFits(
+    [
+      `${title} in ${city} | ${SITE.shortName}`,
+      `${title} | ${SITE.shortName}, ${city}`,
+      `${title} | ${SITE.shortName}`,
+    ],
+    TITLE_MAX,
+  );
+
+// As many whole sentences of the description as fit, plus the place:
+// "Wir planen die Küche … Schreinerei Siegfried aus Pocking."
+const seoDescription =
+  service.data.seoDescription ??
+  fitSentences(description, `${SITE.shortName} aus ${city}.`);
+
+// Share image: photo of the first project for this service, else the hero
+const shareImage = projects[0]?.data.image;
+const shareImageAlt = projects[0]?.data.imageAlt;
+const pageUrl = absoluteUrl(serviceUrl(service));
+const jsonLdImage = shareImage
+  ? absoluteUrl((await getImage({ src: shareImage, width: 1200, format: "jpg" })).src)
+  : undefined;
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${pageUrl}#service`,
+    name: title,
+    serviceType: title,
+    description,
+    url: pageUrl,
+    ...(jsonLdImage && { image: jsonLdImage }),
+    areaServed: SITE.business.areaServed,
+    provider: { "@id": `${SITE.url}/#business` },
+  },
+  breadcrumbJsonLd([
+    { name: "Startseite", path: "/" },
+    { name: "Leistungen", path: "/#services" },
+    { name: title, path: serviceUrl(service) },
+  ]),
+];
 ---
 
-<Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
+<Base
+  title={seoTitle}
+  description={seoDescription}
+  image={shareImage}
+  imageAlt={shareImageAlt}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="container page-content service-page">
     <BackLink href="/#services" label={SITE.ui.backToServices} />
 
@@ -81,7 +136,6 @@ const jsonLdService = {
   <CtaBanner />
 </Base>
 
-<script type="application/ld+json" set:html={JSON.stringify(jsonLdService)} />
 <style>
   .service-page {
     max-width: calc(var(--prose-width) + 2 * var(--space-3));
