@@ -1,9 +1,9 @@
 // Content collections. Each service is one MDX file in src/content/services/:
 // the frontmatter feeds the tile on the home page, the body is the detail page
-// at /services/<filename>/. Adding a file adds both — no other edits needed.
+// at /leistungen/<filename>/. Adding a file adds both — no other edits needed.
 // Projects work the same way: src/content/projects/*.mdx → project cards
-// (home page, /projects/, /projects/leistung/<service>/, the service page)
-// and a detail page at /projects/<filename>/.
+// (home page, /projekte/, /projekte/leistung/<service>/, the service page)
+// and a detail page at /projekte/<filename>/.
 import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
@@ -32,7 +32,7 @@ const projects = defineCollection({
       /** Short text: card caption, intro + meta description on the detail page */
       description: z.string(),
       /** Filename (without .mdx) of the matching service in src/content/services/.
-          Drives the filter on /projects/, the label on the cards and the
+          Drives the filter on /projekte/, the label on the cards and the
           "Projekte zu dieser Leistung" block on the service page. */
       service: reference("services"),
       /** Main photo. Path relative to the MDX file, e.g. "../../images/projects/foo.jpg".
@@ -50,7 +50,7 @@ const projects = defineCollection({
       location: z.string().optional(),
       material: z.string().optional(),
       /** Optional SEO overrides. Leave out and both are generated from
-          title, service and description (see src/pages/projects/[slug].astro) */
+          title, service and description (see src/pages/projekte/[slug].astro) */
       seoTitle: z.string().optional(),
       seoDescription: z.string().optional(),
       /** Optional; only used as a tie-breaker when sorting (not displayed) */

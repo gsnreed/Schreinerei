@@ -1,4 +1,4 @@
-// Structured data for the project lists (/projects/ and the filtered pages).
+// Structured data for the project lists (/projekte/ and the filtered pages).
 import { SITE } from "../config/site";
 import { projectUrl, type Project } from "./projects";
 import { absoluteUrl, breadcrumbJsonLd } from "./seo";

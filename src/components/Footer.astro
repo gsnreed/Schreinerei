@@ -40,14 +40,14 @@ function socialLabel(url: string): string {
 
     <nav class="footer-nav" aria-label={SITE.ui.footerNavLabel}>
       <a href="/#services">Leistungen</a>
-      <a href="/projects/">Projekte</a>
+      <a href="/projekte/">Projekte</a>
       <a href="/#info">Anfahrt</a>
       <a href="/#contact">Kontakt</a>
     </nav>
 
     <nav class="footer-nav" aria-label="Rechtliches">
-      <a href="/legal-notice/">{SITE.ui.legalNoticeLabel}</a>
-      <a href="/privacy-policy/">{SITE.ui.privacyPolicyLabel}</a>
+      <a href="/impressum/">{SITE.ui.legalNoticeLabel}</a>
+      <a href="/datenschutz/">{SITE.ui.privacyPolicyLabel}</a>
       {SITE.business.socialProfiles.map((url) => (
         <a href={url} target="_blank" rel="noopener noreferrer">
           {socialLabel(url)}

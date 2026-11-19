@@ -1,0 +1,11 @@
+# Permanent redirects from the old English URLs to the German ones
+# ("301 Moved Permanently": Google transfers the ranking to the new address).
+# Only used on Apache servers; ignored elsewhere. The forwarding pages that
+# Astro generates (see astro.config.ts) cover hosts without .htaccess.
+<IfModule mod_alias.c>
+  RedirectMatch 301 ^/projects/([^/]+)/?$ /projekte/$1/
+  RedirectMatch 301 ^/projects/?$ /projekte/
+  RedirectMatch 301 ^/services/([^/]+)/?$ /leistungen/$1/
+  RedirectMatch 301 ^/legal-notice/?$ /impressum/
+  RedirectMatch 301 ^/privacy-policy/?$ /datenschutz/
+</IfModule>

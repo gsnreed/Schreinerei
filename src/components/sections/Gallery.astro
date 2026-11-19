@@ -1,8 +1,8 @@
 ---
 // Home page projects section: the first `gallery.featuredCount` projects as
-// cards (title + service always visible), plus a button to /projects/ —
+// cards (title + service always visible), plus a button to /projekte/ —
 // shown only when that page actually has more to offer.
-// Cards come from src/content/projects/ and link to /projects/<slug>/.
+// Cards come from src/content/projects/ and link to /projekte/<slug>/.
 import { SITE } from "../../config/site";
 import ProjectCard from "../ProjectCard.astro";
 import { getProjects, getServiceTitles } from "../../lib/projects";
@@ -31,7 +31,7 @@ const hasMore = allProjects.length > projects.length;
 
     {hasMore && (
       <div class="gallery-action">
-        <a href="/projects/" class="button">
+        <a href="/projekte/" class="button">
           {ui.allProjectsLabel.replace("{count}", String(allProjects.length))}
         </a>
       </div>

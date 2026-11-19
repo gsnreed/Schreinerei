@@ -1,5 +1,5 @@
 ---
-// Project list filtered to one service: /projects/leistung/<service-file>/.
+// Project list filtered to one service: /projekte/leistung/<service-file>/.
 // One page per service that has at least one project.
 import Base from "../../../layouts/Base.astro";
 import { SITE } from "../../../config/site";
@@ -58,7 +58,7 @@ const jsonLd = projectListJsonLd(
   { name: heading, description, path: projectCategoryUrl(service.id) },
   [
     { name: "Startseite", path: "/" },
-    { name: SITE.gallery.allTitle, path: "/projects/" },
+    { name: SITE.gallery.allTitle, path: "/projekte/" },
     { name: service.data.title, path: projectCategoryUrl(service.id) },
   ],
 );

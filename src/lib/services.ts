@@ -13,5 +13,5 @@ export async function getServices(): Promise<Service[]> {
 
 /** URL of a service's detail page (the MDX filename is the slug). */
 export function serviceUrl(service: Service): string {
-  return `/services/${service.id}/`;
+  return `/leistungen/${service.id}/`;
 }

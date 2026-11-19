@@ -1,6 +1,6 @@
 ---
 // Project detail page — one template for every MDX file in
-// src/content/projects/. The filename becomes the URL: /projects/<filename>/.
+// src/content/projects/. The filename becomes the URL: /projekte/<filename>/.
 //
 // Layout: back link → text + facts box | main photo (uncropped) → optional
 // extra photos → previous / next project. The "similar project?" call to
@@ -138,7 +138,7 @@ const jsonLd = [
   },
   breadcrumbJsonLd([
     { name: "Startseite", path: "/" },
-    { name: SITE.gallery.allTitle, path: "/projects/" },
+    { name: SITE.gallery.allTitle, path: "/projekte/" },
     ...(service
       ? [{ name: service.data.title, path: projectCategoryUrl(service.id) }]
       : []),
@@ -156,7 +156,7 @@ const jsonLd = [
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="container page-content project-page">
-    <BackLink href="/projects/" label={ui.backToAllProjects} />
+    <BackLink href="/projekte/" label={ui.backToAllProjects} />
 
     <div class="project-layout">
       <div class="project-info">

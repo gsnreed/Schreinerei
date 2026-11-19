@@ -20,7 +20,7 @@ export async function getProjectsForService(serviceId: string): Promise<Project[
 }
 
 /** Services that have at least one project, with their project count —
-    these become the filter chips on /projects/. */
+    these become the filter chips on /projekte/. */
 export async function getProjectCategories(): Promise<
   { service: Service; count: number }[]
 > {
@@ -41,10 +41,10 @@ export async function getServiceTitles(): Promise<Map<string, string>> {
 
 /** URL of a project's detail page (the MDX filename is the slug). */
 export function projectUrl(project: Project): string {
-  return `/projects/${project.id}/`;
+  return `/projekte/${project.id}/`;
 }
 
 /** URL of the project list filtered to one service. */
 export function projectCategoryUrl(serviceId: string): string {
-  return `/projects/leistung/${serviceId}/`;
+  return `/projekte/leistung/${serviceId}/`;
 }

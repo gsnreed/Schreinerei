@@ -103,7 +103,7 @@ export const SITE = {
   navigation: [
     { label: "Leistungen", href: "/#services" },
     { label: "Über uns", href: "/#about" },
-    { label: "Projekte", href: "/projects/" },
+    { label: "Projekte", href: "/projekte/" },
     // { label: "Rezensionen", href: "/#reviews" },
     { label: "Anfahrt", href: "/#info" },
     { label: "Kontakt", href: "/#contact" },
@@ -158,9 +158,9 @@ export const SITE = {
   gallery: {
     eyebrow: "Aus unserer Werkstatt",
     title: "Ausgewählte Projekte",
-    // Heading of the /projects/ page, which shows ALL images below
+    // Heading of the /projekte/ page, which shows ALL images below
     allTitle: "Unsere Projekte",
-    // Intro under the heading on /projects/
+    // Intro under the heading on /projekte/
     allIntro:
       "Eine Auswahl an Arbeiten aus unserer Werkstatt in Pocking. Wählen Sie eine Leistung, um nur die passenden Projekte zu sehen.",
     // How many projects the home page shows (the first ones by `order`).
@@ -276,7 +276,7 @@ export const SITE = {
   },
 
   // --- Legal pages ---------------------------------------------------------------------
-  // Shown on /legal-notice/ — mandatory for professional sites in many
+  // Shown on /impressum/ — mandatory for professional sites in many
   // EU countries (e.g. France's LCEN, Germany's Impressumspflicht).
   legal: {
     companyType: "SARL with a capital of €10,000",  // TODO

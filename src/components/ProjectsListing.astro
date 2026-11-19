@@ -1,6 +1,6 @@
 ---
-// The project list with service filter chips. Rendered by /projects/ (all
-// projects) and /projects/leistung/<service>/ (one service). The filters are
+// The project list with service filter chips. Rendered by /projekte/ (all
+// projects) and /projekte/leistung/<service>/ (one service). The filters are
 // plain links to static pages: no JavaScript, and each filtered page can be
 // found on Google ("Küchen nach Maß Projekte Pocking").
 import { SITE } from "../config/site";
@@ -39,7 +39,7 @@ const title = service
 <section class="section projects-listing">
   <div class="container">
     {service ? (
-      <BackLink href="/projects/" label={ui.backToAllProjects} />
+      <BackLink href="/projekte/" label={ui.backToAllProjects} />
     ) : (
       <BackLink href="/" label={ui.backToHome} />
     )}
@@ -61,7 +61,7 @@ const title = service
       <nav class="filters" aria-label={ui.projectsFilterLabel}>
         <a
           class="filter"
-          href="/projects/"
+          href="/projekte/"
           aria-current={!service ? "page" : undefined}
         >
           {ui.projectsFilterAll}

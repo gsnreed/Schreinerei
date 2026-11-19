@@ -37,7 +37,7 @@ export function fitSentences(text: string, suffix = "", max = DESCRIPTION_MAX): 
   return truncate(clean, max);
 }
 
-/** Absolute URL for a site path ("/projects/" → "https://…/projects/"). */
+/** Absolute URL for a site path ("/projekte/" → "https://…/projekte/"). */
 export function absoluteUrl(path: string): string {
   return new URL(path, SITE.url).href;
 }
