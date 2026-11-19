@@ -18,6 +18,14 @@ import {
 } from "../../lib/projects";
 import { serviceUrl } from "../../lib/services";
 import { getEntry, render } from "astro:content";
+import { getImage } from "astro:assets";
+import {
+  firstThatFits,
+  absoluteUrl,
+  breadcrumbJsonLd,
+  TITLE_MAX,
+  DESCRIPTION_MAX,
+} from "../../lib/seo";
 
 export async function getStaticPaths() {
   const projects = await getProjects();
@@ -45,9 +53,108 @@ const { Content } = await render(project);
 const { ui } = SITE;
 
 const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
+
+// --- SEO -------------------------------------------------------------------
+// Generated from the MDX frontmatter; `seoTitle` / `seoDescription` in the
+// frontmatter override them for a single project.
+const { city } = SITE.business.address;
+const serviceTitle = service?.data.title;
+
+// Title: the most detailed variant that fits into ~60 characters, e.g.
+// "Kochinsel aus Holz – Küchen nach Maß | Schreinerei Siegfried"
+const brand = SITE.shortName;
+const withService = serviceTitle ? `${title} – ${serviceTitle}` : title;
+const seoTitle =
+  project.data.seoTitle ??
+  firstThatFits(
+    [
+      `${withService} | ${brand}, ${city}`,
+      `${withService} | ${brand}`,
+      `${title} | ${brand}, ${city}`,
+      `${title} | ${brand}`,
+    ],
+    TITLE_MAX,
+  );
+
+// Description: the project text plus who/where/what, as long as it fits into
+// ~158 characters without cutting a sentence:
+// "Freistehende Kücheninsel … Küchen nach Maß aus Pocking: Aufmaß, Fertigung
+//  und Montage aus einer Hand."
+const intro = description.trim().replace(/\.?$/, ".");
+const what = serviceTitle ?? "Schreinerarbeiten";
+const seoDescription =
+  project.data.seoDescription ??
+  firstThatFits(
+    [
+      `${intro} ${what} von der ${SITE.business.name} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} von der ${brand} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} von der ${brand} aus ${city}.`,
+      `${intro} ${brand}, ${city}.`,
+      intro,
+    ],
+    DESCRIPTION_MAX,
+  );
+
+const pageUrl = absoluteUrl(projectUrl(project));
+const jsonLdImage = await getImage({ src: image, width: 1200, format: "jpg" });
+
+// schema.org: the project as a piece of work by the business, plus breadcrumbs
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${pageUrl}#project`,
+    name: title,
+    headline: title,
+    description,
+    url: pageUrl,
+    inLanguage: SITE.lang,
+    image: {
+      "@type": "ImageObject",
+      url: absoluteUrl(jsonLdImage.src),
+      caption: imageAlt,
+    },
+    ...(gallery.length > 0 && {
+      associatedMedia: await Promise.all(
+        gallery.map(async (photo) => ({
+          "@type": "ImageObject",
+          url: absoluteUrl((await getImage({ src: photo.image, width: 1200, format: "jpg" })).src),
+          caption: photo.alt,
+        })),
+      ),
+    }),
+    ...(material && { material }),
+    ...(location && { locationCreated: { "@type": "Place", name: location } }),
+    ...(service && {
+      genre: service.data.title,
+      about: {
+        "@type": "Service",
+        name: service.data.title,
+        url: absoluteUrl(serviceUrl(service)),
+      },
+    }),
+    creator: { "@id": `${SITE.url}/#business` },
+  },
+  breadcrumbJsonLd([
+    { name: "Startseite", path: "/" },
+    { name: SITE.gallery.allTitle, path: "/projects/" },
+    ...(service
+      ? [{ name: service.data.title, path: projectCategoryUrl(service.id) }]
+      : []),
+    { name: title, path: projectUrl(project) },
+  ]),
+];
 ---
 
-<Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
+<Base
+  title={seoTitle}
+  description={seoDescription}
+  image={image}
+  imageAlt={imageAlt}
+  ogType="article"
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="container page-content project-page">
     <BackLink href="/projects/" label={ui.backToAllProjects} />
 

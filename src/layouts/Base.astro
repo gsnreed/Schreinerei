@@ -7,6 +7,7 @@ import JsonLdLocalBusiness from "../components/JsonLdLocalBusiness.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { ClientRouter } from "astro:transitions";
+import type { ImageMetadata } from "astro";
 
 interface Props {
   title: string;
@@ -15,9 +16,21 @@ interface Props {
   noindex?: boolean;
   /** The JSON-LD LocalBusiness markup is only useful on the home page */
   withJsonLd?: boolean;
+  /** Share image for Open Graph / Twitter (defaults to the hero image) */
+  image?: ImageMetadata;
+  imageAlt?: string;
+  ogType?: "website" | "article";
 }
 
-const { title, description, noindex = false, withJsonLd = false } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  withJsonLd = false,
+  image,
+  imageAlt,
+  ogType,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -27,8 +40,17 @@ const { title, description, noindex = false, withJsonLd = false } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <Seo title={title} description={description} noindex={noindex} />
+    <Seo
+      title={title}
+      description={description}
+      noindex={noindex}
+      image={image}
+      imageAlt={imageAlt}
+      ogType={ogType}
+    />
     {withJsonLd && <JsonLdLocalBusiness />}
+    <!-- Page-specific structured data (JSON-LD) -->
+    <slot name="head" />
     <!-- View transitions between pages (cards → detail pages and back).
          Browsers without native support get Astro's fallback animation;
          prefers-reduced-motion disables the animations. -->

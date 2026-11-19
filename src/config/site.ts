@@ -24,6 +24,8 @@ export const SITE = {
   ogLocale: "de_DE",
   brand: "Schreinerei",
   name: "Alexander Siegfried",
+  // Short brand for page titles in search results (Google shows ~60 characters)
+  shortName: "Schreinerei Siegfried",
   tagline: "Traditionelles Handwerk. Modern gedacht.",
   workshop: "Werkstatt",
   projects: "Projekte",

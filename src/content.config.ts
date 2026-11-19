@@ -32,7 +32,10 @@ const projects = defineCollection({
           Drives the filter on /projects/, the label on the cards and the
           "Projekte zu dieser Leistung" block on the service page. */
       service: reference("services"),
-      /** Main photo. Path relative to the MDX file, e.g. "../../images/projects/foo.jpg" */
+      /** Main photo. Path relative to the MDX file, e.g. "../../images/projects/foo.jpg".
+          IMPORTANT: remove the GPS location from phone photos before adding
+          them (the original file is published too and would reveal the
+          customer's address), e.g. `exiftool -gps:all= foto.jpg`. */
       image: image(),
       /** Describe what is visible (wood, room, details) — read by screen readers and Google */
       imageAlt: z.string(),
@@ -43,6 +46,10 @@ const projects = defineCollection({
       /** Optional facts shown in the info box on the detail page */
       location: z.string().optional(),
       material: z.string().optional(),
+      /** Optional SEO overrides. Leave out and both are generated from
+          title, service and description (see src/pages/projects/[slug].astro) */
+      seoTitle: z.string().optional(),
+      seoDescription: z.string().optional(),
       /** Optional; only used as a tie-breaker when sorting (not displayed) */
       date: z.coerce.date().optional(),
       /** Position in the lists (ascending); the first ones appear on the home page */

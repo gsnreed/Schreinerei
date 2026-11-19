@@ -5,12 +5,43 @@ import Base from "../../layouts/Base.astro";
 import { SITE } from "../../config/site";
 import ProjectsListing from "../../components/ProjectsListing.astro";
 import CtaBanner from "../../components/sections/CtaBanner.astro";
+import { getProjects, getProjectCategories } from "../../lib/projects";
+import { projectListJsonLd } from "../../lib/projectsSeo";
+import { truncate, firstThatFits, TITLE_MAX } from "../../lib/seo";
+
+const [projects, categories] = await Promise.all([getProjects(), getProjectCategories()]);
+const { city } = SITE.business.address;
+
+// Generated: "Unsere Projekte | Schreinerei Alexander Siegfried, Pocking"
+const title = firstThatFits(
+  [
+    `${SITE.gallery.allTitle} | ${SITE.brand} ${SITE.name}, ${city}`,
+    `${SITE.gallery.allTitle} | ${SITE.shortName}, ${city}`,
+  ],
+  TITLE_MAX,
+);
+const serviceNames = categories.map((c) => c.service.data.title).join(", ");
+const description = truncate(
+  `${projects.length} Projekte der ${SITE.business.name} aus ${city}: ${serviceNames}. Aufmaß, Fertigung und Montage aus einer Hand.`,
+);
+const first = projects[0];
+const jsonLd = projectListJsonLd(
+  projects,
+  { name: SITE.gallery.allTitle, description, path: "/projects/" },
+  [
+    { name: "Startseite", path: "/" },
+    { name: SITE.gallery.allTitle, path: "/projects/" },
+  ],
+);
 ---
 
 <Base
-  title={`${SITE.gallery.allTitle} — ${SITE.brand} ${SITE.name}`}
-  description={`Projekte der ${SITE.business.name}: Küchen, Treppen, Böden und Möbel nach Maß aus unserer Werkstatt in ${SITE.business.address.city}.`}
+  title={title}
+  description={description}
+  image={first?.data.image}
+  imageAlt={first?.data.imageAlt}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <ProjectsListing />
   <CtaBanner />
 </Base>

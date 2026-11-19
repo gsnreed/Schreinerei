@@ -5,7 +5,13 @@ import Base from "../../../layouts/Base.astro";
 import { SITE } from "../../../config/site";
 import ProjectsListing from "../../../components/ProjectsListing.astro";
 import CtaBanner from "../../../components/sections/CtaBanner.astro";
-import { getProjectCategories } from "../../../lib/projects";
+import {
+  getProjectCategories,
+  getProjectsForService,
+  projectCategoryUrl,
+} from "../../../lib/projects";
+import { projectListJsonLd } from "../../../lib/projectsSeo";
+import { firstThatFits, TITLE_MAX, DESCRIPTION_MAX } from "../../../lib/seo";
 import type { Service } from "../../../lib/services";
 
 export async function getStaticPaths() {
@@ -21,13 +27,50 @@ interface Props {
 }
 
 const { service } = Astro.props;
-const title = SITE.ui.projectsForServiceTitle.replace("{service}", service.data.title);
+const projects = await getProjectsForService(service.id);
+const { city } = SITE.business.address;
+
+// Generated: "Projekte: Küchen nach Maß | Schreinerei Siegfried, Pocking"
+const heading = SITE.ui.projectsForServiceTitle.replace("{service}", service.data.title);
+const title = firstThatFits(
+  [
+    `${heading} | ${SITE.brand} ${SITE.name}, ${city}`,
+    `${heading} | ${SITE.shortName}, ${city}`,
+    `${heading} | ${SITE.shortName}`,
+  ],
+  TITLE_MAX,
+);
+// "Unsere Projekte für Küchen nach Maß aus Pocking: Küche mit Holzfronten,
+//  Kochinsel aus Holz. <service description>"
+const intro = `Unsere Projekte für ${service.data.title} aus ${city}: ${projects.map((p) => p.data.title).join(", ")}.`;
+const description = firstThatFits(
+  [
+    `${intro} ${service.data.description}`,
+    `${intro} Planung, Aufmaß, Fertigung und Montage aus einer Hand.`,
+    `${intro} Aufmaß, Fertigung und Montage aus einer Hand.`,
+    intro,
+  ],
+  DESCRIPTION_MAX,
+);
+const first = projects[0];
+const jsonLd = projectListJsonLd(
+  projects,
+  { name: heading, description, path: projectCategoryUrl(service.id) },
+  [
+    { name: "Startseite", path: "/" },
+    { name: SITE.gallery.allTitle, path: "/projects/" },
+    { name: service.data.title, path: projectCategoryUrl(service.id) },
+  ],
+);
 ---
 
 <Base
-  title={`${title} — ${SITE.brand} ${SITE.name}`}
-  description={`${service.data.title}: Projekte der ${SITE.business.name} aus ${SITE.business.address.city}. ${service.data.description}`}
+  title={title}
+  description={description}
+  image={first?.data.image}
+  imageAlt={first?.data.imageAlt}
 >
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <ProjectsListing service={service} />
   <CtaBanner />
 </Base>
