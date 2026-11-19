@@ -37,8 +37,9 @@ const [beforeHl, afterHl] = hasHighlight
         src={hero.image}
         alt=""
         class="hero-backdrop"
-        width="1920"
-        height="1280"
+        widths={[640, 960, 1280, 1600]}
+        sizes="100vw"
+        loading="eager"
         fetchpriority="high"
       />
     )
@@ -86,6 +87,9 @@ const [beforeHl, afterHl] = hasHighlight
             class="hero-image"
             width="560"
             height="420"
+            widths={[400, 560, 840, 1120]}
+            sizes="(max-width: 820px) calc(100vw - 3rem), 560px"
+            loading="eager"
             fetchpriority="high"
           />
         </figure>
