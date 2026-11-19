@@ -37,10 +37,11 @@ const Heading = all ? "h1" : "h2";
             <Image
               src={project.data.image}
               alt={project.data.imageAlt}
-              loading="lazy"
+              loading={all ? "eager" : "lazy"}
               width="400"
               height="300"
               class="gallery-image"
+              transition:name={`project-image-${project.id}`}
             />
             <figcaption class="gallery-caption">
               <span class="gallery-title">{project.data.title}</span>
@@ -87,6 +88,7 @@ const Heading = all ? "h1" : "h2";
     position: relative;
     color: #fff;
     text-decoration: none;
+    transition: box-shadow var(--transition);
   }
 
   .gallery-item figure {
@@ -158,6 +160,10 @@ const Heading = all ? "h1" : "h2";
   @media (hover: hover) {
     .gallery-item:hover .gallery-image {
       transform: scale(1.05);
+    }
+
+    .gallery-item:hover {
+      box-shadow: var(--shadow-lift);
     }
 
     .gallery-item:hover::after,

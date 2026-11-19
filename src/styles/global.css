@@ -320,3 +320,51 @@ textarea:hover {
     transform: none;
   }
 }
+
+/* --- View transitions (Astro <ClientRouter />) --------------------------------- */
+/* Shared elements morph between a card and its detail page. Names are set
+   per item with transition:name; these classes style them as groups. */
+.gallery-image,
+.project-image {
+  view-transition-class: project-image;
+}
+
+.service-title {
+  view-transition-class: service-title;
+}
+
+::view-transition-group(.project-image),
+::view-transition-group(.service-title) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The card crop and the square crop differ: fill the morphing box like
+   object-fit: cover, clipped with rounded corners, so the image grows
+   instead of stretching. */
+::view-transition-group(.project-image) {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+::view-transition-old(.project-image),
+::view-transition-new(.project-image) {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Titles: scale by height and keep their aspect ratio (no squashed text) */
+::view-transition-old(.service-title),
+::view-transition-new(.service-title) {
+  width: auto;
+  height: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

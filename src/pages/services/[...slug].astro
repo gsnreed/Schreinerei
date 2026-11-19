@@ -49,7 +49,9 @@ const jsonLdService = {
         {SITE.services.eyebrow && (
           <p class="section-eyebrow">{SITE.services.eyebrow}</p>
         )}
-        <h1>{title}</h1>
+        <h1 class="service-title" transition:name={`service-title-${service.id}`}>
+          {title}
+        </h1>
       </div>
     </header>
 
@@ -86,6 +88,7 @@ const jsonLdService = {
 
   .service-header h1 {
     margin: 0;
+    width: fit-content; /* tight box for the title morph from the card */
   }
 
   .service-icon {

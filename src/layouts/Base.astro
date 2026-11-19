@@ -6,6 +6,7 @@ import Seo from "../components/Seo.astro";
 import JsonLdLocalBusiness from "../components/JsonLdLocalBusiness.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title: string;
@@ -28,6 +29,10 @@ const { title, description, noindex = false, withJsonLd = false } = Astro.props;
     <link rel="sitemap" href="/sitemap-index.xml" />
     <Seo title={title} description={description} noindex={noindex} />
     {withJsonLd && <JsonLdLocalBusiness />}
+    <!-- View transitions between pages (cards → detail pages and back).
+         Browsers without native support get Astro's fallback animation;
+         prefers-reduced-motion disables the animations. -->
+    <ClientRouter />
   </head>
   <body>
     <a href="#content" class="skip-link">{SITE.ui.skipToContent}</a>
@@ -38,3 +43,32 @@ const { title, description, noindex = false, withJsonLd = false } = Astro.props;
     <Footer />
   </body>
 </html>
+
+<script>
+  // Shared-element morph (e.g. card image → large project image): wait
+  // briefly until the new page's named images are decoded, so the morph
+  // doesn't land on an empty box. Capped at 400 ms — never blocks navigation.
+  document.addEventListener("astro:before-preparation", (event) => {
+    const load = event.loader;
+    event.loader = async () => {
+      await load();
+      const images = [
+        ...(event.newDocument?.querySelectorAll<HTMLImageElement>(
+          "img[data-astro-transition-scope]",
+        ) ?? []),
+      ];
+      if (!images.length) return;
+      const decoded = images.map((source) => {
+        const img = new Image();
+        img.sizes = source.sizes;
+        img.srcset = source.srcset;
+        img.src = source.src;
+        return img.decode().catch(() => {});
+      });
+      await Promise.race([
+        Promise.all(decoded),
+        new Promise((resolve) => setTimeout(resolve, 400)),
+      ]);
+    };
+  });
+</script>

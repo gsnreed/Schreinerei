@@ -54,7 +54,12 @@ const formError = false;
 
     {
       hasEndpoint ? (
-        <form class="contact-form card" method="POST" action={contact.endpoint}>
+        <form
+          class="contact-form card"
+          method="POST"
+          action={contact.endpoint}
+          data-astro-reload
+        >
           {/* Honeypot anti-spam: a field invisible to humans. Bots fill it in —
               the backend rejects any submission where it is not empty. */}
           <div class="hp" aria-hidden="true">
@@ -144,19 +149,21 @@ const formError = false;
     }
   </div>
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const sent = params.get("sent");
+    document.addEventListener("astro:page-load", () => {
+      const params = new URLSearchParams(window.location.search);
+      const sent = params.get("sent");
 
-    const success = document.getElementById("form-success");
-    const error = document.getElementById("form-error");
+      const success = document.getElementById("form-success");
+      const error = document.getElementById("form-error");
 
-    if (sent === "1" && success) {
-      success.hidden = false;
-    }
+      if (sent === "1" && success) {
+        success.hidden = false;
+      }
 
-    if (sent === "0" && error) {
-      error.hidden = false;
-    }
+      if (sent === "0" && error) {
+        error.hidden = false;
+      }
+    });
   </script>
 </section>
 

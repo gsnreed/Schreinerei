@@ -208,21 +208,25 @@ import { SITE } from "../config/site";
 
 <script>
   // Mobile menu: ~10 lines of JS — the entire JavaScript budget of the site.
-  const burger = document.getElementById("menu-burger");
-  const menu = document.getElementById("main-menu");
+  // Runs on every page (astro:page-load), since the view-transition router
+  // swaps the header without reloading the page.
+  document.addEventListener("astro:page-load", () => {
+    const burger = document.getElementById("menu-burger");
+    const menu = document.getElementById("main-menu");
 
-  burger?.addEventListener("click", () => {
-    const open = menu?.classList.toggle("open");
-    burger?.classList.toggle("open", Boolean(open));
-    burger.setAttribute("aria-expanded", String(Boolean(open)));
-  });
+    burger?.addEventListener("click", () => {
+      const open = menu?.classList.toggle("open");
+      burger?.classList.toggle("open", Boolean(open));
+      burger.setAttribute("aria-expanded", String(Boolean(open)));
+    });
 
-  // Close the menu when a link is clicked (anchor navigation)
-  menu?.addEventListener("click", (e) => {
-    if ((e.target as HTMLElement).tagName === "A") {
-      menu.classList.remove("open");
-      burger?.classList.remove("open");
-      burger?.setAttribute("aria-expanded", "false");
-    }
+    // Close the menu when a link is clicked (anchor navigation)
+    menu?.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).tagName === "A") {
+        menu.classList.remove("open");
+        burger?.classList.remove("open");
+        burger?.setAttribute("aria-expanded", "false");
+      }
+    });
   });
 </script>

@@ -59,6 +59,7 @@ const isoDate = date.toISOString().slice(0, 10);
           sizes="(max-width: 820px) 100vw, 50vw"
           loading="eager"
           class="project-image"
+          transition:name={`project-image-${project.id}`}
         />
       </figure>
     </div>
