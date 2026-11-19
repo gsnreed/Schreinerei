@@ -321,6 +321,7 @@ export const SITE = {
     projectsForServiceTitle: "Projekte: {service}",
     projectsServiceLink: "Mehr zur Leistung",
     projectFactsTitle: "Auf einen Blick",
+    projectServiceLabel: "Leistung",
     projectLocationLabel: "Ort",
     projectMaterialLabel: "Material",
     projectMorePhotos: "Weitere Bilder",

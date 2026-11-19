@@ -13,6 +13,7 @@ import { SITE } from "../../config/site";
 import {
   getProjects,
   projectUrl,
+  projectCategoryUrl,
   type Project,
 } from "../../lib/projects";
 import { serviceUrl } from "../../lib/services";
@@ -53,7 +54,7 @@ const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
     <div class="project-layout">
       <div class="project-info">
         {service && (
-          <a class="project-service" href={serviceUrl(service)}>
+          <a class="project-service" href={projectCategoryUrl(service.id)}>
             {service.data.title}
           </a>
         )}
@@ -63,22 +64,26 @@ const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
           <Content />
         </div>
 
-        {(location || material) && (
-          <dl class="project-facts">
-            {location && (
-              <div>
-                <dt>{ui.projectLocationLabel}</dt>
-                <dd>{location}</dd>
-              </div>
-            )}
-            {material && (
-              <div>
-                <dt>{ui.projectMaterialLabel}</dt>
-                <dd>{material}</dd>
-              </div>
-            )}
-          </dl>
-        )}
+        <dl class="project-facts">
+          {service && (
+            <div>
+              <dt>{ui.projectServiceLabel}</dt>
+              <dd><a href={serviceUrl(service)}>{service.data.title}</a></dd>
+            </div>
+          )}
+          {location && (
+            <div>
+              <dt>{ui.projectLocationLabel}</dt>
+              <dd>{location}</dd>
+            </div>
+          )}
+          {material && (
+            <div>
+              <dt>{ui.projectMaterialLabel}</dt>
+              <dd>{material}</dd>
+            </div>
+          )}
+        </dl>
 
         <div class="similar-project">
           <p><strong>{ui.similarProjectTitle}</strong> {ui.similarProjectText}</p>
@@ -149,8 +154,7 @@ const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
     min-width: 0;
   }
 
-  /* Service badge above the title — the one mention of the service,
-     linking to its page */
+  /* Service badge above the title — links to the filtered project list */
   .project-service {
     display: inline-block;
     margin-bottom: var(--space-2);
@@ -216,10 +220,6 @@ const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
     width: 100%;
     height: auto;
     display: block;
-  }
-
-  .similar-project {
-    margin-top: var(--space-3);
   }
 
   .similar-project p {
