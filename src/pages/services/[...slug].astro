@@ -2,11 +2,13 @@
 // Service detail page — one template for every MDX file in
 // src/content/services/. The filename becomes the URL: /services/<filename>/.
 import Base from "../../layouts/Base.astro";
-import Icon from "../../components/Icon.astro";
+import BackLink from "../../components/BackLink.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
 import CtaBanner from "../../components/sections/CtaBanner.astro";
 import { SITE } from "../../config/site";
 import { getServices, serviceUrl, type Service } from "../../lib/services";
 import { render } from "astro:content";
+import { getProjectsForService, projectCategoryUrl } from "../../lib/projects";
 
 export async function getStaticPaths() {
   const services = await getServices();
@@ -21,8 +23,9 @@ interface Props {
 }
 
 const { service } = Astro.props;
-const { title, description, icon } = service.data;
+const { title, description } = service.data;
 const { Content } = await render(service);
+const projects = await getProjectsForService(service.id);
 
 const jsonLdService = {
   "@context": "https://schema.org",
@@ -37,14 +40,9 @@ const jsonLdService = {
 
 <Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
   <article class="container page-content service-page">
-    <a class="back-link" href="/#services">
-      ← {SITE.ui.backToServices}
-    </a>
+    <BackLink href="/#services" label={SITE.ui.backToServices} />
 
     <header class="service-header">
-      <!-- <span class="service-icon" aria-hidden="true">
-        <Icon name={icon} size={30} />
-      </span> -->
       <div>
         {SITE.services.eyebrow && (
           <p class="section-eyebrow">{SITE.services.eyebrow}</p>
@@ -62,6 +60,24 @@ const jsonLdService = {
     </div>
   </article>
 
+  {projects.length > 0 && (
+    <section class="section service-projects" aria-labelledby="service-projects-title">
+      <div class="container service-page">
+        <h2 id="service-projects-title">{SITE.ui.serviceProjectsTitle}</h2>
+        <div class="grid-3">
+          {projects.slice(0, 3).map((project) => <ProjectCard project={project} />)}
+        </div>
+        {projects.length > 3 && (
+          <p class="service-projects-more">
+            <a class="button button-secondary" href={projectCategoryUrl(service.id)}>
+              {SITE.ui.allProjectsLabel.replace("{count}", String(projects.length))}
+            </a>
+          </p>
+        )}
+      </div>
+    </section>
+  )}
+
   <CtaBanner />
 </Base>
 
@@ -71,12 +87,16 @@ const jsonLdService = {
     max-width: calc(var(--prose-width) + 2 * var(--space-3));
   }
 
-  .back-link {
-    display: inline-block;
+  .service-projects {
+    padding-top: 0;
+  }
+
+  .service-projects h2 {
     margin-bottom: var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-decoration: none;
+  }
+
+  .service-projects-more {
+    margin-top: var(--space-4);
   }
 
   .service-header {

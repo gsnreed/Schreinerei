@@ -1,61 +1,101 @@
 ---
 // Project detail page — one template for every MDX file in
 // src/content/projects/. The filename becomes the URL: /projects/<filename>/.
+//
+// Layout: back link → text + facts box | main photo (uncropped) → optional
+// extra photos → previous / next project. The "similar project?" call to
+// action sits right under the facts and pre-fills the contact form.
+// Every page has a clear way back, a way onward and a way to get in touch.
 import Base from "../../layouts/Base.astro";
-import Icon from "../../components/Icon.astro";
-import CtaBanner from "../../components/sections/CtaBanner.astro";
+import BackLink from "../../components/BackLink.astro";
 import { Image } from "astro:assets";
 import { SITE } from "../../config/site";
 import {
   getProjects,
-  formatProjectDate,
+  projectUrl,
+  projectCategoryUrl,
   type Project,
 } from "../../lib/projects";
-import { render } from "astro:content";
+import { serviceUrl } from "../../lib/services";
+import { getEntry, render } from "astro:content";
 
 export async function getStaticPaths() {
   const projects = await getProjects();
-  return projects.map((project) => ({
+  return projects.map((project, index) => ({
     params: { slug: project.id },
-    props: { project },
+    props: {
+      project,
+      prev: projects[index - 1],
+      next: projects[index + 1],
+    },
   }));
 }
 
 interface Props {
   project: Project;
+  prev?: Project;
+  next?: Project;
 }
 
-const { project } = Astro.props;
-const { title, description, image, imageAlt, date } = project.data;
+const { project, prev, next } = Astro.props;
+const { title, description, image, imageAlt, gallery, location, material } =
+  project.data;
+const service = await getEntry(project.data.service);
 const { Content } = await render(project);
-const isoDate = date.toISOString().slice(0, 10);
+const { ui } = SITE;
+
+const inquiryHref = `/?projekt=${encodeURIComponent(title)}#contact`;
 ---
 
 <Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
   <article class="container page-content project-page">
+    <BackLink href="/projects/" label={ui.backToAllProjects} />
+
     <div class="project-layout">
       <div class="project-info">
-        <time class="project-date" datetime={isoDate}>
-          {formatProjectDate(date)}
-        </time>
+        {service && (
+          <a class="project-service" href={projectCategoryUrl(service.id)}>
+            {service.data.title}
+          </a>
+        )}
         <h1>{title}</h1>
         <p class="project-description">{description}</p>
         <div class="prose">
           <Content />
         </div>
-        <a class="button button-secondary back-button" href="/projects/">
-          {SITE.ui.allProjectsLabel}
-        </a>
+
+        <dl class="project-facts">
+          {service && (
+            <div>
+              <dt>{ui.projectServiceLabel}</dt>
+              <dd><a href={serviceUrl(service)}>{service.data.title}</a></dd>
+            </div>
+          )}
+          {location && (
+            <div>
+              <dt>{ui.projectLocationLabel}</dt>
+              <dd>{location}</dd>
+            </div>
+          )}
+          {material && (
+            <div>
+              <dt>{ui.projectMaterialLabel}</dt>
+              <dd>{material}</dd>
+            </div>
+          )}
+        </dl>
+
+        <div class="similar-project">
+          <p><strong>{ui.similarProjectTitle}</strong> {ui.similarProjectText}</p>
+          <a class="button" href={inquiryHref}>{ui.similarProjectCta}</a>
+        </div>
       </div>
 
       <figure class="project-figure">
         <Image
           src={image}
           alt={imageAlt}
-          width={900}
-          height={900}
-          fit="cover"
-          widths={[450, 700, 900, 1200]}
+          widths={[480, 800, 1200]}
           sizes="(max-width: 820px) 100vw, 50vw"
           loading="eager"
           class="project-image"
@@ -63,43 +103,46 @@ const isoDate = date.toISOString().slice(0, 10);
         />
       </figure>
     </div>
-  </article>
 
-  <CtaBanner />
+    {gallery.length > 0 && (
+      <section class="project-gallery" aria-labelledby="more-photos">
+        <h2 id="more-photos">{ui.projectMorePhotos}</h2>
+        <div class="project-gallery-grid">
+          {gallery.map((photo) => (
+            <figure>
+              <Image
+                src={photo.image}
+                alt={photo.alt}
+                widths={[400, 700, 1000]}
+                sizes="(max-width: 820px) 100vw, 33vw"
+                loading="lazy"
+              />
+            </figure>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {(prev || next) && (
+      <nav class="project-pager" aria-label="Weitere Projekte">
+        {prev ? (
+          <a class="pager-link pager-prev" href={projectUrl(prev)} rel="prev">
+            <span class="pager-label">← {ui.projectPrevLabel}</span>
+            <span class="pager-title">{prev.data.title}</span>
+          </a>
+        ) : <span />}
+        {next && (
+          <a class="pager-link pager-next" href={projectUrl(next)} rel="next">
+            <span class="pager-label">{ui.projectNextLabel} →</span>
+            <span class="pager-title">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
 </Base>
 
 <style>
-  /* Small text link above the layout (outside the grid, so it doesn't
-     take a grid cell) */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-bottom: var(--space-3);
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .back-link :global(svg) {
-    transition: transform var(--transition);
-  }
-
-  @media (hover: hover) {
-    .back-link:hover :global(svg) {
-      transform: translateX(-3px);
-    }
-  }
-
-  /* Second way back, after reading: right below the text */
-  .back-button {
-    margin-top: var(--space-2);
-  }
-
-  .back-button:active {
-    transform: translateY(0);
-  }
-
   .project-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -111,8 +154,8 @@ const isoDate = date.toISOString().slice(0, 10);
     min-width: 0;
   }
 
-  /* Date: small accent badge above the title */
-  .project-date {
+  /* Service badge above the title — links to the filtered project list */
+  .project-service {
     display: inline-block;
     margin-bottom: var(--space-2);
     padding: 0.3rem 0.85rem;
@@ -122,6 +165,12 @@ const isoDate = date.toISOString().slice(0, 10);
     font-size: var(--text-sm);
     font-weight: 700;
     letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background-color var(--transition);
+  }
+
+  .project-service:hover {
+    background: color-mix(in srgb, var(--color-accent) 20%, transparent);
   }
 
   .project-info h1 {
@@ -133,9 +182,35 @@ const isoDate = date.toISOString().slice(0, 10);
     color: var(--color-text-muted);
   }
 
+  /* Facts box */
+  .project-facts {
+    display: grid;
+    gap: var(--space-1);
+    margin: var(--space-3) 0;
+    padding: var(--space-2) 0;
+    border-block: 1px solid var(--color-border);
+  }
+
+  .project-facts div {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .project-facts dt {
+    flex: 0 0 6.5rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .project-facts dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  /* Main photo: shown whole, in its own proportions (no square crop) */
   .project-figure {
     margin: 0;
-    aspect-ratio: 1 / 1;
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
@@ -143,23 +218,92 @@ const isoDate = date.toISOString().slice(0, 10);
 
   .project-image {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
     display: block;
   }
 
-  /* Tablet: give the text a little more room */
+  .similar-project p {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .similar-project strong {
+    color: var(--color-text);
+  }
+
+  .project-gallery {
+    margin-top: var(--space-section);
+  }
+
+  .project-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    gap: var(--space-2);
+  }
+
+  .project-gallery-grid figure {
+    margin: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .project-gallery-grid :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Previous / next project */
+  .project-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-decoration: none;
+  }
+
+  .pager-next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .pager-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  .pager-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-text);
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--color-accent);
+  }
+
   @media (max-width: 1024px) {
     .project-layout {
       grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     }
   }
 
-  /* Mobile: stack — text first, image below */
+  /* Mobile: photo first (it's what people came for), then the text */
   @media (max-width: 820px) {
     .project-layout {
       grid-template-columns: minmax(0, 1fr);
-      align-items: start;
+    }
+
+    .project-figure {
+      order: -1;
     }
   }
 </style>

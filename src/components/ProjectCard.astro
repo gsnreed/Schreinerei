@@ -1,0 +1,139 @@
+---
+// One project card: photo (4:3) with the title and service ALWAYS visible
+// below it — no hover needed to know what you are clicking.
+// Used on the home page, /projects/, the filtered lists and service pages.
+import { Image } from "astro:assets";
+import { projectUrl, type Project } from "../lib/projects";
+
+interface Props {
+  project: Project;
+  /** Service title shown as a small label above the project title */
+  serviceTitle?: string;
+  /** Show the short description under the title (list pages) */
+  showDescription?: boolean;
+  /** Heading level of the title inside the card */
+  headingLevel?: "h2" | "h3";
+  eager?: boolean;
+}
+
+const {
+  project,
+  serviceTitle,
+  showDescription = false,
+  headingLevel = "h3",
+  eager = false,
+} = Astro.props;
+const Heading = headingLevel;
+---
+
+<a class="card project-card reveal" href={projectUrl(project)}>
+  <div class="project-card-media">
+    <Image
+      src={project.data.image}
+      alt={project.data.imageAlt}
+      width={640}
+      height={480}
+      fit="cover"
+      widths={[400, 640, 960]}
+      sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33vw"
+      loading={eager ? "eager" : "lazy"}
+      class="gallery-image"
+      transition:name={`project-image-${project.id}`}
+    />
+  </div>
+  <div class="project-card-body">
+    {serviceTitle && <span class="project-card-service">{serviceTitle}</span>}
+    <Heading class="project-card-title">{project.data.title}</Heading>
+    {showDescription && (
+      <p class="project-card-description">{project.data.description}</p>
+    )}
+    <span class="project-card-more" aria-hidden="true">
+      Projekt ansehen <span class="project-card-arrow">→</span>
+    </span>
+  </div>
+</a>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .project-card-media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .project-card-media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 420ms ease;
+  }
+
+  .project-card-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.35rem;
+    padding: var(--space-2) var(--space-3) var(--space-3);
+  }
+
+  .project-card-service {
+    color: var(--color-accent);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .project-card-title {
+    margin: 0;
+    font-size: var(--text-h3);
+    line-height: 1.25;
+  }
+
+  .project-card-description {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .project-card-more {
+    margin-top: auto;
+    padding-top: var(--space-1);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  .project-card-arrow {
+    display: inline-block;
+    transition: transform var(--transition);
+  }
+
+  @media (hover: hover) {
+    .project-card:hover .project-card-media :global(img) {
+      transform: scale(1.04);
+    }
+
+    .project-card:hover .project-card-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  .project-card:focus-visible .project-card-media :global(img) {
+    transform: scale(1.04);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card:hover .project-card-media :global(img),
+    .project-card:focus-visible .project-card-media :global(img) {
+      transform: none;
+    }
+  }
+</style>

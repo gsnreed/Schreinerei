@@ -1,0 +1,33 @@
+---
+// Project list filtered to one service: /projects/leistung/<service-file>/.
+// One page per service that has at least one project.
+import Base from "../../../layouts/Base.astro";
+import { SITE } from "../../../config/site";
+import ProjectsListing from "../../../components/ProjectsListing.astro";
+import CtaBanner from "../../../components/sections/CtaBanner.astro";
+import { getProjectCategories } from "../../../lib/projects";
+import type { Service } from "../../../lib/services";
+
+export async function getStaticPaths() {
+  const categories = await getProjectCategories();
+  return categories.map(({ service }) => ({
+    params: { service: service.id },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const title = SITE.ui.projectsForServiceTitle.replace("{service}", service.data.title);
+---
+
+<Base
+  title={`${title} — ${SITE.brand} ${SITE.name}`}
+  description={`${service.data.title}: Projekte der ${SITE.business.name} aus ${SITE.business.address.city}. ${service.data.description}`}
+>
+  <ProjectsListing service={service} />
+  <CtaBanner />
+</Base>

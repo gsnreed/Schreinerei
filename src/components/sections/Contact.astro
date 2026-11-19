@@ -71,6 +71,7 @@ const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
           method="POST"
           action={contact.endpoint}
           data-astro-reload
+          data-prefill={ui.similarProjectMessage}
         >
           {/* Honeypot anti-spam: a field invisible to humans. Bots fill it in —
               the backend rejects any submission where it is not empty. */}
@@ -218,6 +219,15 @@ const maxLength = { name: 150, email: 254, telephone: 50, message: 5000 };
       if (params.get("sent") === "0") showError(params.get("reason") ?? "default");
 
       if (!form) return;
+
+      // Coming from a project page ("Ähnliches Projekt anfragen" → /?projekt=…):
+      // start the message with the project name, unless the visitor already typed.
+      const project = params.get("projekt");
+      const message = form.querySelector<HTMLTextAreaElement>("#message");
+      if (project && message && !message.value && form.dataset.prefill) {
+        message.value = form.dataset.prefill.replace("{project}", project.slice(0, 120));
+      }
+
       const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
       const elapsedField = form.querySelector<HTMLInputElement>('input[name="form_elapsed"]');
       const startedAt = Date.now();

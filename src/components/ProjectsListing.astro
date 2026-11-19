@@ -1,0 +1,181 @@
+---
+// The project list with service filter chips. Rendered by /projects/ (all
+// projects) and /projects/leistung/<service>/ (one service). The filters are
+// plain links to static pages: no JavaScript, and each filtered page can be
+// found on Google ("Küchen nach Maß Projekte Pocking").
+import { SITE } from "../config/site";
+import BackLink from "./BackLink.astro";
+import ProjectCard from "./ProjectCard.astro";
+import {
+  getProjects,
+  getProjectCategories,
+  getServiceTitles,
+  projectCategoryUrl,
+} from "../lib/projects";
+import { serviceUrl, type Service } from "../lib/services";
+
+interface Props {
+  /** Set on a filtered page: only this service's projects */
+  service?: Service;
+}
+
+const { service } = Astro.props;
+const { gallery, ui } = SITE;
+
+const [allProjects, categories, serviceTitles] = await Promise.all([
+  getProjects(),
+  getProjectCategories(),
+  getServiceTitles(),
+]);
+const projects = service
+  ? allProjects.filter((p) => p.data.service.id === service.id)
+  : allProjects;
+
+const title = service
+  ? ui.projectsForServiceTitle.replace("{service}", service.data.title)
+  : gallery.allTitle;
+---
+
+<section class="section projects-listing">
+  <div class="container">
+    {service ? (
+      <BackLink href="/projects/" label={ui.backToAllProjects} />
+    ) : (
+      <BackLink href="/" label={ui.backToHome} />
+    )}
+
+    {gallery.eyebrow && <p class="section-eyebrow">{gallery.eyebrow}</p>}
+    <h1>{title}</h1>
+    {service ? (
+      <p class="intro">
+        {service.data.description}{" "}
+        <a href={serviceUrl(service)}>
+          {ui.projectsServiceLink} „{service.data.title}“ →
+        </a>
+      </p>
+    ) : (
+      <p class="intro">{gallery.allIntro}</p>
+    )}
+
+    {categories.length > 1 && (
+      <nav class="filters" aria-label={ui.projectsFilterLabel}>
+        <a
+          class="filter"
+          href="/projects/"
+          aria-current={!service ? "page" : undefined}
+        >
+          {ui.projectsFilterAll}
+          <span class="filter-count">{allProjects.length}</span>
+        </a>
+        {categories.map(({ service: s, count }) => (
+          <a
+            class="filter"
+            href={projectCategoryUrl(s.id)}
+            aria-current={service?.id === s.id ? "page" : undefined}
+          >
+            {s.data.title}
+            <span class="filter-count">{count}</span>
+          </a>
+        ))}
+      </nav>
+    )}
+
+    <div class="grid-3 projects-grid">
+      {projects.map((project, index) => (
+        <ProjectCard
+          project={project}
+          serviceTitle={service ? undefined : serviceTitles.get(project.data.service.id)}
+          headingLevel="h2"
+          showDescription
+          eager={index < 3}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-listing {
+    padding-top: var(--space-4);
+  }
+
+  .projects-listing h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .intro {
+    max-width: var(--prose-width);
+    color: var(--color-text-muted);
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-3);
+  }
+
+  .intro a {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* Filter chips: wrap on desktop, scroll sideways on narrow screens */
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-bottom: var(--space-4);
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-text);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      border-color var(--transition),
+      background-color var(--transition),
+      color var(--transition);
+  }
+
+  .filter:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .filter[aria-current="page"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .filter-count {
+    min-width: 1.5em;
+    padding: 0 0.4em;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-alt);
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+
+  .filter[aria-current="page"] .filter-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--color-on-accent);
+  }
+
+  @media (max-width: 600px) {
+    .filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      margin-inline: calc(-1 * var(--space-3));
+      padding-inline: var(--space-3);
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+  }
+</style>

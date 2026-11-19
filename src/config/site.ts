@@ -94,7 +94,7 @@ export const SITE = {
   navigation: [
     { label: "Leistungen", href: "/#services" },
     { label: "Über uns", href: "/#about" },
-    { label: "Projekte", href: "/#gallery" },
+    { label: "Projekte", href: "/projects/" },
     // { label: "Rezensionen", href: "/#reviews" },
     { label: "Anfahrt", href: "/#info" },
     { label: "Kontakt", href: "/#contact" },
@@ -150,10 +150,14 @@ export const SITE = {
     eyebrow: "Aus unserer Werkstatt",
     title: "Ausgewählte Projekte",
     // Heading of the /projects/ page, which shows ALL images below
-    allTitle: "Alle Projekte",
-    // How many projects the home page shows (the rest only on /projects/).
-    // The first one is featured (2×2): 5 or 7 fill the desktop grid perfectly.
-    featuredCount: 5,
+    allTitle: "Unsere Projekte",
+    // Intro under the heading on /projects/
+    allIntro:
+      "Eine Auswahl an Arbeiten aus unserer Werkstatt in Pocking. Wählen Sie eine Leistung, um nur die passenden Projekte zu sehen.",
+    // How many projects the home page shows (the first ones by `order`).
+    // 3 fills one row on desktop. The "all projects" button only appears
+    // when there are more projects than this.
+    featuredCount: 3,
     // The project cards and their detail pages live in src/content/projects/
     // (one MDX file per project, see src/content.config.ts).
   },
@@ -285,7 +289,7 @@ export const SITE = {
     closedLabel: "Geschlossen",
     hoursTitle: "Öffnungszeiten",
     findUsTitle: "Besuchen Sie uns",
-    infoEyebrow: "Wo ihre Idee entsteht",
+    infoEyebrow: "Wo Ihre Idee entsteht",
     infoTitle: "Anfahrt",
     directionsLabel: "Google Maps",
     googleProfileLabel: "Google Profil",
@@ -294,7 +298,7 @@ export const SITE = {
     ratingOutOf: "von 5",
     reviewsScoreLabel: "laut Google reviews", // under the big average score
     formNameLabel: "Ihr Name",
-    formEmailLabel: "Ihre Email",
+    formEmailLabel: "Ihre E-Mail-Adresse",
     formTelephoneLabel: "Ihre Telefonnummer",
     formMessageLabel: "Ihre Nachricht",
     formSubmitLabel: "Nachricht senden",
@@ -307,8 +311,31 @@ export const SITE = {
     notFoundCta: "Zurück zur Startseite",
     serviceMoreLabel: "Mehr erfahren",
     backToServices: "Alle Leistungen",
-    allProjectsLabel: "Alle Projekte ansehen",
-    backToProjects: "Projektübersicht",
+    // "{count}" is replaced with the number of projects
+    allProjectsLabel: "Alle {count} Projekte ansehen",
+    backToAllProjects: "Alle Projekte",
+    backToHome: "Startseite",
+    projectsFilterLabel: "Projekte nach Leistung filtern",
+    projectsFilterAll: "Alle",
+    // Heading of a filtered list; "{service}" is replaced with the service name
+    projectsForServiceTitle: "Projekte: {service}",
+    projectsServiceLink: "Mehr zur Leistung",
+    projectFactsTitle: "Auf einen Blick",
+    projectServiceLabel: "Leistung",
+    projectLocationLabel: "Ort",
+    projectMaterialLabel: "Material",
+    projectMorePhotos: "Weitere Bilder",
+    projectPrevLabel: "Vorheriges Projekt",
+    projectNextLabel: "Nächstes Projekt",
+    similarProjectTitle: "Etwas Ähnliches geplant?",
+    similarProjectText:
+      "Erzählen Sie uns von Ihrem Vorhaben. Wir melden uns innerhalb eines Geschäftstages mit einer ersten Einschätzung.",
+    similarProjectCta: "Ähnliches Projekt anfragen",
+    // Pre-filled into the contact form; "{project}" = project title
+    similarProjectMessage:
+      "Guten Tag, ich interessiere mich für ein ähnliches Projekt wie „{project}“. ",
+    serviceProjectsTitle: "Projekte zu dieser Leistung",
+    footerNavLabel: "Seiten",
   },
 } as const;
 

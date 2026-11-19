@@ -1,58 +1,16 @@
 ---
-// Projects overview: every project from src/content/projects/, rendered with the
-// same Gallery section as the home page (which only shows the featured ones).
+// Projects overview: every project from src/content/projects/ as cards,
+// with filter chips per service (see ProjectsListing.astro).
 import Base from "../../layouts/Base.astro";
 import { SITE } from "../../config/site";
-import Gallery from "../../components/sections/Gallery.astro";
+import ProjectsListing from "../../components/ProjectsListing.astro";
 import CtaBanner from "../../components/sections/CtaBanner.astro";
-import Icon from "../../components/Icon.astro";
 ---
 
 <Base
   title={`${SITE.gallery.allTitle} — ${SITE.brand} ${SITE.name}`}
   description={`Projekte der ${SITE.business.name}: Küchen, Treppen, Böden und Möbel nach Maß aus unserer Werkstatt in ${SITE.business.address.city}.`}
 >
-  <div class="projects-page">
-    <div class="container back-bar">
-      <a class="back-link" href="/#gallery">
-        <Icon name="arrow-left" size={16} />
-        {SITE.ui.backToProjects}
-      </a>
-    </div>
-    <Gallery all />
-  </div>
+  <ProjectsListing />
   <CtaBanner />
 </Base>
-
-<style>
-  /* Back link aligned with the page content, same style as on the
-     project detail pages */
-  .back-bar {
-    padding-top: var(--space-4);
-  }
-
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: var(--text-sm);
-    font-weight: 700;
-    text-decoration: none;
-  }
-
-  .back-link :global(svg) {
-    transition: transform var(--transition);
-  }
-
-  @media (hover: hover) {
-    .back-link:hover :global(svg) {
-      transform: translateX(-3px);
-    }
-  }
-
-  /* The link already opens the page: pull the gallery heading up to it
-     instead of the full section spacing */
-  .projects-page :global(.section) {
-    padding-top: var(--space-3);
-  }
-</style>
