@@ -3,36 +3,52 @@
 // the rest tile around it. Lazy loading, gentle hover zoom with a warm
 // bottom gradient (both disabled under prefers-reduced-motion / touch).
 // Tip: 5 or 7 images fill the desktop grid perfectly.
+//
+// Used twice: on the home page it shows the first `gallery.featuredCount`
+// images plus a button to /projects/; on /projects/ (`all`) it shows every
+// image with the page's <h1>. Same data, same cards.
 import { SITE } from "../../config/site";
 import { Image } from "astro:assets";
 
+interface Props {
+  /** true on the /projects/ page: every image, h1 heading, no button */
+  all?: boolean;
+}
+
+const { all = false } = Astro.props;
 const { gallery } = SITE;
+const images = all
+  ? gallery.images
+  : gallery.images.slice(0, gallery.featuredCount);
+const Heading = all ? "h1" : "h2";
 ---
 
-<section id="gallery" class="section">
+<section id={all ? undefined : "gallery"} class="section">
   <div class="container">
     {gallery.eyebrow && <p class="section-eyebrow">{gallery.eyebrow}</p>}
-    <h2>{gallery.title}</h2>
+    <Heading>{all ? gallery.allTitle : gallery.title}</Heading>
     <div class="gallery-grid">
-      {
-        gallery.images.map((image) => (
-          <figure class="gallery-item reveal">
-            <Image
-              src={image.src}
-              alt={image.alt}
-              loading="lazy"
-              width="400"
-              height="300"
-              class="gallery-image"
-            />
-          </figure>
-        ))
-      }
+      {images.map((image) => (
+        <figure class="gallery-item reveal">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            width="400"
+            height="300"
+            class="gallery-image"
+          />
+        </figure>
+      ))}
     </div>
 
-    <!-- <div class="gallery-action">
-      <a href="/projects" class="button"> Mehr Projekte ansehen </a>
-    </div> -->
+    {!all && (
+      <div class="gallery-action">
+        <a href="/projects/" class="button">
+          {SITE.ui.allProjectsLabel}
+        </a>
+      </div>
+    )}
   </div>
 </section>
 
@@ -81,7 +97,7 @@ const { gallery } = SITE;
   .gallery-action {
     display: flex;
     justify-content: flex-start;
-    margin-top: 2.5rem;
+    margin-top: var(--space-4);
   }
 
   @media (hover: hover) {

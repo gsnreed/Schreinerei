@@ -1,0 +1,16 @@
+---
+// Projects overview: every gallery image from SITE.gallery, rendered with the
+// same Gallery section as the home page (which only shows the featured ones).
+import Base from "../layouts/Base.astro";
+import { SITE } from "../config/site";
+import Gallery from "../components/sections/Gallery.astro";
+import CtaBanner from "../components/sections/CtaBanner.astro";
+---
+
+<Base
+  title={`${SITE.gallery.allTitle} — ${SITE.brand} ${SITE.name}`}
+  description={`Projekte der ${SITE.business.name}: Küchen, Treppen, Böden und Möbel nach Maß aus unserer Werkstatt in ${SITE.business.address.city}.`}
+>
+  <Gallery all />
+  <CtaBanner />
+</Base>

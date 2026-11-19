@@ -154,6 +154,10 @@ export const SITE = {
   gallery: {
     eyebrow: "Aus unserer Werkstatt",
     title: "Ausgewählte Projekte",
+    // Heading of the /projects/ page, which shows ALL images below
+    allTitle: "Alle Projekte",
+    // How many images the home page shows (the rest only on /projects/)
+    featuredCount: 5,
     // The first image is featured (2×2 in the grid): 5 or 7 images fill the
     // grid perfectly on desktop.
     images: [
@@ -314,6 +318,7 @@ export const SITE = {
     notFoundCta: "Zurück zur Startseite",
     serviceMoreLabel: "Mehr erfahren",
     backToServices: "Alle Leistungen",
+    allProjectsLabel: "Alle Projekte ansehen",
   },
 } as const;
 

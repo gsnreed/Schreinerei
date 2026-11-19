@@ -159,6 +159,11 @@ a:hover {
   color: var(--color-on-accent);
 }
 
+.button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-glow);
+}
+
 .button-secondary {
   background: transparent;
   color: var(--color-accent);
