@@ -15,11 +15,6 @@
 
 import workshopImage from "../images/workshop.jpg";
 import heroImage from "../images/hero.jpeg";
-import gallery1 from "../images/gallery-1.jpg";
-import gallery2 from "../images/gallery-2.jpg";
-import gallery3 from "../images/gallery-3.jpg";
-import gallery4 from "../images/gallery-4.jpg";
-import gallery5 from "../images/gallery-5.jpg";
 
 export const SITE = {
   // --- Identity & URLs -------------------------------------------------------
@@ -150,23 +145,17 @@ export const SITE = {
     imageAlt: "Holzregal in einer Werkstatt mit Werkzeugen",
   },
 
-  // --- Gallery (4 to 8 images) ---------------------------------------------------
+  // --- Projects / gallery section (cards come from src/content/projects/) --------
   gallery: {
     eyebrow: "Aus unserer Werkstatt",
     title: "Ausgewählte Projekte",
     // Heading of the /projects/ page, which shows ALL images below
     allTitle: "Alle Projekte",
-    // How many images the home page shows (the rest only on /projects/)
+    // How many projects the home page shows (the rest only on /projects/).
+    // The first one is featured (2×2): 5 or 7 fill the desktop grid perfectly.
     featuredCount: 5,
-    // The first image is featured (2×2 in the grid): 5 or 7 images fill the
-    // grid perfectly on desktop.
-    images: [
-      { src: gallery1, alt: "Komplette Kücheneinrichtung mit Holzverkleidung" },
-      { src: gallery2, alt: "Küchenmittelinsel mit Holzverkleidung" },
-      { src: gallery3, alt: "Holzfußboden" },
-      { src: gallery4, alt: "Hölzernes Treppenhaus mit Geländer" },
-      { src: gallery5, alt: "Natürlicher Holztisch" },
-    ],
+    // The project cards and their detail pages live in src/content/projects/
+    // (one MDX file per project, see src/content.config.ts).
   },
 
   // --- Customer reviews (copied from the business's Google profile) --------------
@@ -319,6 +308,7 @@ export const SITE = {
     serviceMoreLabel: "Mehr erfahren",
     backToServices: "Alle Leistungen",
     allProjectsLabel: "Alle Projekte ansehen",
+    backToProjects: "Projektübersicht",
   },
 } as const;
 

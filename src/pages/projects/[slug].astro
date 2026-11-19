@@ -1,0 +1,164 @@
+---
+// Project detail page — one template for every MDX file in
+// src/content/projects/. The filename becomes the URL: /projects/<filename>/.
+import Base from "../../layouts/Base.astro";
+import Icon from "../../components/Icon.astro";
+import CtaBanner from "../../components/sections/CtaBanner.astro";
+import { Image } from "astro:assets";
+import { SITE } from "../../config/site";
+import {
+  getProjects,
+  formatProjectDate,
+  type Project,
+} from "../../lib/projects";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, description, image, imageAlt, date } = project.data;
+const { Content } = await render(project);
+const isoDate = date.toISOString().slice(0, 10);
+---
+
+<Base title={`${title} — ${SITE.brand} ${SITE.name}`} description={description}>
+  <article class="container page-content project-page">
+    <div class="project-layout">
+      <div class="project-info">
+        <time class="project-date" datetime={isoDate}>
+          {formatProjectDate(date)}
+        </time>
+        <h1>{title}</h1>
+        <p class="project-description">{description}</p>
+        <div class="prose">
+          <Content />
+        </div>
+        <a class="button button-secondary back-button" href="/projects/">
+          {SITE.ui.allProjectsLabel}
+        </a>
+      </div>
+
+      <figure class="project-figure">
+        <Image
+          src={image}
+          alt={imageAlt}
+          width={900}
+          height={900}
+          fit="cover"
+          widths={[450, 700, 900, 1200]}
+          sizes="(max-width: 820px) 100vw, 50vw"
+          loading="eager"
+          class="project-image"
+        />
+      </figure>
+    </div>
+  </article>
+
+  <CtaBanner />
+</Base>
+
+<style>
+  /* Small text link above the layout (outside the grid, so it doesn't
+     take a grid cell) */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: var(--space-3);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .back-link :global(svg) {
+    transition: transform var(--transition);
+  }
+
+  @media (hover: hover) {
+    .back-link:hover :global(svg) {
+      transform: translateX(-3px);
+    }
+  }
+
+  /* Second way back, after reading: right below the text */
+  .back-button {
+    margin-top: var(--space-2);
+  }
+
+  .back-button:active {
+    transform: translateY(0);
+  }
+
+  .project-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-3), 5vw, calc(var(--space-4) * 1.6));
+    align-items: start;
+  }
+
+  .project-info {
+    min-width: 0;
+  }
+
+  /* Date: small accent badge above the title */
+  .project-date {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .project-info h1 {
+    margin-top: 0;
+  }
+
+  .project-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .project-figure {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Tablet: give the text a little more room */
+  @media (max-width: 1024px) {
+    .project-layout {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+  }
+
+  /* Mobile: stack — text first, image below */
+  @media (max-width: 820px) {
+    .project-layout {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+</style>
