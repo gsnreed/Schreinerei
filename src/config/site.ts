@@ -80,7 +80,7 @@ export const SITE = {
       }
     ],
     // Link to the business's Google Business Profile
-    googleBusinessUrl: "https://share.google/ymASqFChMcwKLtKoY",  //TODO
+    googleBusinessUrl: "https://maps.app.goo.gl/2CHXoKfnLutAn4EB6",
     socialProfiles: [
       //"https://www.instagram.com/example",  //TODO
       //"https://www.facebook.com/example",
@@ -176,7 +176,7 @@ export const SITE = {
     eyebrow: "Reviews",
     title: "In their words",
     // Link to the "reviews" tab of the Google profile, to read or leave more
-    allReviewsUrl: "https://maps.google.com/?cid=EXAMPLE",
+    allReviewsUrl: "https://maps.app.goo.gl/2CHXoKfnLutAn4EB6",
     items: [
       {
         author: "Marie L.",
