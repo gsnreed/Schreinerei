@@ -12,7 +12,9 @@ const { ctaBanner } = SITE;
       <h2 class="banner-title">{ctaBanner.title}</h2>
       <p class="banner-text">{ctaBanner.text}</p>
     </div>
-    <a class="button" href={ctaBanner.button.href}>{ctaBanner.button.label}</a>
+    <a class="button" href={ctaBanner.button.href}>
+      {ctaBanner.button.label}
+    </a>
   </div>
 </section>
 
@@ -32,7 +34,11 @@ const { ctaBanner } = SITE;
     inset: 0;
     z-index: -1;
     background:
-      radial-gradient(70% 130% at 50% 118%, rgba(194, 95, 8, 0.42) 0%, transparent 68%),
+      radial-gradient(
+        70% 130% at 50% -18%,
+        rgba(194, 95, 8, 0.42) 0%,
+        transparent 68%
+      ),
       var(--color-dark-bg);
   }
 
