@@ -152,6 +152,8 @@ export const SITE = {
     ],
     image: workshopImage,
     imageAlt: "Holzregal in einer Werkstatt mit Werkzeugen",
+    // Button under the text → page written in src/content/seiten/werkstatt.mdx
+    moreLink: { label: "Werkstatt & Team", href: "/werkstatt/" },
   },
 
   // --- Projects / gallery section (cards come from src/content/projects/) --------

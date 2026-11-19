@@ -60,4 +60,28 @@ const projects = defineCollection({
     }),
 });
 
-export const collections = { services, projects };
+// Free-form pages written in MDX: src/content/seiten/<name>.mdx → /<name>/.
+// Text, headings, lists and photos in the body; header photo and photo grid
+// in the frontmatter. Used for "Werkstatt & Team" (werkstatt.mdx).
+const seiten = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/seiten" }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      /** Intro under the heading; also the meta description in Google */
+      description: z.string(),
+      /** Small label above the heading (optional) */
+      eyebrow: z.string().optional(),
+      /** Large photo next to the intro (optional) */
+      image: image().optional(),
+      imageAlt: z.string().default(""),
+      /** Photo grid below the text (optional) */
+      gallery: z
+        .array(z.object({ image: image(), alt: z.string(), caption: z.string().optional() }))
+        .default([]),
+      /** Optional SEO title (otherwise "<title> | Schreinerei Siegfried, Pocking") */
+      seoTitle: z.string().optional(),
+    }),
+});
+
+export const collections = { services, projects, seiten };

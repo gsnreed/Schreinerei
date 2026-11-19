@@ -23,9 +23,13 @@ const { about } = SITE;
       <h2>{about.title}</h2>
       {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 
-      <!-- <div class="about-action">
-        <a href="/workshop" class="button"> Werkstatt & Team </a>
-      </div> -->
+      {about.moreLink && (
+        <div class="about-action">
+          <a href={about.moreLink.href} class="button">
+            {about.moreLink.label} <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      )}
     </div>
   </div>
 </section>
