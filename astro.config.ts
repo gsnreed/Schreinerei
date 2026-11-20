@@ -3,6 +3,23 @@ import sitemap from "@astrojs/sitemap";
 import mdx from "@astrojs/mdx";
 import { readdirSync } from "node:fs";
 import { SITE } from "./src/config/site";
+import { checkPhotos, formatProblems } from "./scripts/foto-check.mjs";
+
+// --- Foto-Check ----------------------------------------------------------------
+// Before every build: stop if a photo contains a GPS location or an invalid
+// orientation (see scripts/foto-check.mjs). In `npm run dev` only a warning.
+const fotoCheck = {
+  name: "foto-check",
+  hooks: {
+    "astro:config:setup": ({ command, logger }: { command: string; logger: { warn: (m: string) => void } }) => {
+      const problems = checkPhotos();
+      if (!problems.length) return;
+      const message = formatProblems(problems);
+      if (command === "build") throw new Error(message);
+      logger.warn(message);
+    },
+  },
+};
 
 // --- Redirects from the old English URLs ------------------------------------
 // The site used to live at /projects/, /services/, /legal-notice/ and
@@ -30,6 +47,7 @@ export default defineConfig({
   site: SITE.url,
   redirects,
   integrations: [
+    fotoCheck,
     mdx(),
     // Pages marked noindex (legal notice, privacy policy, 404) stay out of
     // the sitemap: listing them would send Google contradicting signals.
