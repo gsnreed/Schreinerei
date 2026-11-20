@@ -1,11 +1,55 @@
-# Permanent redirects from the old English URLs to the German ones
-# ("301 Moved Permanently": Google transfers the ranking to the new address).
-# Only used on Apache servers; ignored elsewhere. The forwarding pages that
-# Astro generates (see astro.config.ts) cover hosts without .htaccess.
+# Server settings for Apache (Hetzner webhosting). Ignored on other servers.
+# Every block is wrapped in <IfModule>, so a missing module never breaks
+# the site.
+
+# --- 1. One address: https://schreinerei-siegfried.de/… ----------------------
+# http:// and www. are redirected permanently (301) to the https:// address
+# without www: encrypted contact enquiries, no "Nicht sicher" warning, and
+# Google sees each page under exactly one address.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # www.schreinerei-siegfried.de/… → https://schreinerei-siegfried.de/…
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+  # http:// → https:// (the X-Forwarded-Proto check prevents a redirect
+  # loop if the host terminates HTTPS in front of Apache)
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# --- 2. Old English URLs → German URLs (301) -----------------------------------
 <IfModule mod_alias.c>
   RedirectMatch 301 ^/projects/([^/]+)/?$ /projekte/$1/
   RedirectMatch 301 ^/projects/?$ /projekte/
   RedirectMatch 301 ^/services/([^/]+)/?$ /leistungen/$1/
   RedirectMatch 301 ^/legal-notice/?$ /impressum/
   RedirectMatch 301 ^/privacy-policy/?$ /datenschutz/
+</IfModule>
+
+# --- 3. Own 404 page --------------------------------------------------------------
+ErrorDocument 404 /404.html
+
+# --- 4. Compression: text files are sent gzip-compressed (much smaller) ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml image/svg+xml application/javascript application/json application/xml application/ld+json
+</IfModule>
+
+# --- 5. Browser caching -----------------------------------------------------------
+# Files in /_astro/ have a fingerprint in their name (e.g. hero.Q6MAvg77.webp):
+# every change creates a new name, so browsers may keep them for a year.
+# HTML pages are always re-checked, so changes to the site show up at once.
+<IfModule mod_headers.c>
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  <ElseIf "%{REQUEST_URI} =~ m#(/|\.html)$#">
+    Header set Cache-Control "no-cache"
+  </ElseIf>
+
+  # Browsers remember for a year to use https:// only (no http:// attempt
+  # first). Sent only over https://.
+  Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
 </IfModule>
