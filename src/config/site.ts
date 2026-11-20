@@ -338,7 +338,7 @@ export const SITE = {
     projectServiceLabel: "Leistung",
     projectLocationLabel: "Ort",
     projectMaterialLabel: "Material",
-    projectMorePhotos: "Weitere Bilder",
+    projectMorePhotos: "Fotos zum Projekt",
     projectPrevLabel: "Vorheriges Projekt",
     projectNextLabel: "Nächstes Projekt",
     similarProjectTitle: "Etwas Ähnliches geplant?",

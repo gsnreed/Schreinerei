@@ -1,0 +1,33 @@
+---
+// Photo pages: /projekte/<slug>/foto/2/, /foto/3/ … — the project page with
+// another photo as the main photo (one page per `gallery` entry). Clicking a
+// thumbnail navigates here and the view transition swaps the photos.
+// Canonical → the project page; not listed in the sitemap.
+import ProjectPage from "../../../../components/ProjectPage.astro";
+import { getProjects, type Project } from "../../../../lib/projects";
+
+export async function getStaticPaths() {
+  const projects = await getProjects();
+  return projects.flatMap((project, index) =>
+    project.data.gallery.map((_, galleryIndex) => ({
+      // gallery[0] is photo 2 (photo 1 is the main photo)
+      params: { slug: project.id, nr: String(galleryIndex + 2) },
+      props: {
+        project,
+        prev: projects[index - 1],
+        next: projects[index + 1],
+        activePhoto: galleryIndex + 1,
+      },
+    })),
+  );
+}
+
+interface Props {
+  project: Project;
+  prev?: Project;
+  next?: Project;
+  activePhoto: number;
+}
+---
+
+<ProjectPage {...Astro.props} />

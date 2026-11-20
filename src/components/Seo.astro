@@ -18,6 +18,9 @@ interface Props {
   ogType?: "website" | "article";
   /** true on pages that must not be indexed (legal notice, 404...) */
   noindex?: boolean;
+  /** Path of the original page if this one is a variant of it (e.g. the
+      photo pages of a project point to the project page) */
+  canonical?: string;
 }
 
 const {
@@ -27,11 +30,12 @@ const {
   imageAlt = SITE.hero.imageAlt,
   ogType = "website",
   noindex = false,
+  canonical: canonicalPath,
 } = Astro.props;
 
 // Absolute canonical URL of the current page — essential to avoid duplicate
 // content issues (www/non-www, with/without trailing slash...)
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
 // Share image in the size Facebook/WhatsApp/LinkedIn expect (1200×630, JPG),
 // instead of the multi-megabyte original
 const OG_WIDTH = 1200;

@@ -44,6 +44,12 @@ export function projectUrl(project: Project): string {
   return `/projekte/${project.id}/`;
 }
 
+/** URL of one photo of a project: 0 = main photo (the project page itself),
+    1+ = gallery photos → /projekte/<slug>/foto/2/, /foto/3/ … */
+export function projectPhotoUrl(project: Project, index: number): string {
+  return index === 0 ? projectUrl(project) : `${projectUrl(project)}foto/${index + 1}/`;
+}
+
 /** URL of the project list filtered to one service. */
 export function projectCategoryUrl(serviceId: string): string {
   return `/projekte/leistung/${serviceId}/`;

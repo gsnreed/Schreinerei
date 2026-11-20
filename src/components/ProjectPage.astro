@@ -1,0 +1,498 @@
+---
+// Project detail page (used by src/pages/projekte/[slug].astro and, for
+// each extra photo, src/pages/projekte/[slug]/foto/[nr].astro).
+//
+// Layout: back link → text + facts box | square main photo with a row of
+// thumbnails below it → previous / next project. The "similar project?"
+// call to action sits right under the facts and pre-fills the contact form.
+//
+// Photo switching: every photo has its own small page (/foto/2/, /foto/3/…)
+// that shows it as the main photo. Thumbnails link there, and Astro's view
+// transitions morph the images: each photo keeps the same transition name
+// on every page, so the clicked thumbnail grows into the main spot while
+// the previous main photo shrinks back into its thumbnail. Without
+// JavaScript these are plain links and still work.
+import Base from "../layouts/Base.astro";
+import BackLink from "./BackLink.astro";
+import { Image } from "astro:assets";
+import { SITE } from "../config/site";
+import {
+  projectUrl,
+  projectPhotoUrl,
+  projectCategoryUrl,
+  type Project,
+} from "../lib/projects";
+import { serviceUrl } from "../lib/services";
+import { getEntry, render } from "astro:content";
+import { getImage } from "astro:assets";
+import {
+  firstThatFits,
+  absoluteUrl,
+  breadcrumbJsonLd,
+  TITLE_MAX,
+  DESCRIPTION_MAX,
+} from "../lib/seo";
+
+interface Props {
+  project: Project;
+  prev?: Project;
+  next?: Project;
+  /** Which photo is the main photo: 0 = `image`, 1+ = `gallery` entries */
+  activePhoto?: number;
+}
+
+const { project, prev, next, activePhoto = 0 } = Astro.props;
+const { title, description, image, imageAlt, imagePosition, gallery, location, material } =
+  project.data;
+const service = await getEntry(project.data.service);
+const { Content } = await render(project);
+const { ui } = SITE;
+
+// All photos of the project: the main photo first, then the gallery
+const photos = [
+  { image, alt: imageAlt, position: imagePosition },
+  ...gallery,
+];
+const active = photos[activePhoto] ?? photos[0];
+
+// Transition name per photo, identical on every photo page of this project.
+// Photo 0 keeps the name the project cards use, so card → project page
+// still morphs as before.
+const photoTransition = (index: number) =>
+  index === 0 ? `project-image-${project.id}` : `project-image-${project.id}-${index}`;
+
+const inquiryParams = new URLSearchParams({ projekt: title });
+if (service) inquiryParams.set("leistung", service.id);
+const inquiryHref = `/?${inquiryParams}#contact`;
+
+// --- SEO -------------------------------------------------------------------
+// Generated from the MDX frontmatter; `seoTitle` / `seoDescription` in the
+// frontmatter override them for a single project.
+const { city } = SITE.business.address;
+const serviceTitle = service?.data.title;
+
+// Title: the most detailed variant that fits into ~60 characters, e.g.
+// "Kochinsel aus Holz – Küchen nach Maß | Schreinerei Siegfried"
+const brand = SITE.shortName;
+const withService = serviceTitle ? `${title} – ${serviceTitle}` : title;
+const seoTitle =
+  project.data.seoTitle ??
+  firstThatFits(
+    [
+      `${withService} | ${brand}, ${city}`,
+      `${withService} | ${brand}`,
+      `${title} | ${brand}, ${city}`,
+      `${title} | ${brand}`,
+    ],
+    TITLE_MAX,
+  );
+
+// Description: the project text plus who/where/what, as long as it fits into
+// ~158 characters without cutting a sentence:
+// "Freistehende Kücheninsel … Küchen nach Maß aus Pocking: Aufmaß, Fertigung
+//  und Montage aus einer Hand."
+const intro = description.trim().replace(/\.?$/, ".");
+const what = serviceTitle ?? "Schreinerarbeiten";
+const seoDescription =
+  project.data.seoDescription ??
+  firstThatFits(
+    [
+      `${intro} ${what} von der ${SITE.business.name} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} von der ${brand} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} aus ${city}: Aufmaß, Fertigung und Montage aus einer Hand.`,
+      `${intro} ${what} von der ${brand} aus ${city}.`,
+      `${intro} ${brand}, ${city}.`,
+      intro,
+    ],
+    DESCRIPTION_MAX,
+  );
+
+const pageUrl = absoluteUrl(projectUrl(project));
+const jsonLdImage = await getImage({ src: image, width: 1200, format: "jpg" });
+
+// schema.org: the project as a piece of work by the business, plus breadcrumbs
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "@id": `${pageUrl}#project`,
+    name: title,
+    headline: title,
+    description,
+    url: pageUrl,
+    inLanguage: SITE.lang,
+    image: {
+      "@type": "ImageObject",
+      url: absoluteUrl(jsonLdImage.src),
+      caption: imageAlt,
+    },
+    ...(gallery.length > 0 && {
+      associatedMedia: await Promise.all(
+        gallery.map(async (photo) => ({
+          "@type": "ImageObject",
+          url: absoluteUrl((await getImage({ src: photo.image, width: 1200, format: "jpg" })).src),
+          caption: photo.alt,
+        })),
+      ),
+    }),
+    ...(material && { material }),
+    ...(location && { locationCreated: { "@type": "Place", name: location } }),
+    ...(service && {
+      genre: service.data.title,
+      about: {
+        "@type": "Service",
+        name: service.data.title,
+        url: absoluteUrl(serviceUrl(service)),
+      },
+    }),
+    creator: { "@id": `${SITE.url}/#business` },
+  },
+  breadcrumbJsonLd([
+    { name: "Startseite", path: "/" },
+    { name: SITE.gallery.allTitle, path: "/projekte/" },
+    ...(service
+      ? [{ name: service.data.title, path: projectCategoryUrl(service.id) }]
+      : []),
+    { name: title, path: projectUrl(project) },
+  ]),
+];
+---
+
+<Base
+  title={seoTitle}
+  description={seoDescription}
+  image={image}
+  imageAlt={imageAlt}
+  ogType="article"
+  canonical={projectUrl(project)}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <article class="container page-content project-page">
+    <BackLink href="/projekte/" label={ui.backToAllProjects} />
+
+    <div class="project-layout">
+      <div class="project-info">
+        {service && (
+          <a class="project-service" href={projectCategoryUrl(service.id)}>
+            {service.data.title}
+          </a>
+        )}
+        <h1>{title}</h1>
+        <p class="project-description">{description}</p>
+        <div class="prose">
+          <Content />
+        </div>
+
+        <dl class="project-facts">
+          {service && (
+            <div>
+              <dt>{ui.projectServiceLabel}</dt>
+              <dd><a href={serviceUrl(service)}>{service.data.title}</a></dd>
+            </div>
+          )}
+          {location && (
+            <div>
+              <dt>{ui.projectLocationLabel}</dt>
+              <dd>{location}</dd>
+            </div>
+          )}
+          {material && (
+            <div>
+              <dt>{ui.projectMaterialLabel}</dt>
+              <dd>{material}</dd>
+            </div>
+          )}
+        </dl>
+
+        <div class="similar-project">
+          <p><strong>{ui.similarProjectTitle}</strong> {ui.similarProjectText}</p>
+          <a class="button" href={inquiryHref}>{ui.similarProjectCta}</a>
+        </div>
+      </div>
+
+      <div class="project-photos">
+        <figure class="project-figure">
+          <Image
+            src={active.image}
+            alt={active.alt}
+            width={1200}
+            height={1200}
+            fit="cover"
+            position={active.position}
+            widths={[400, 560, 720, 960, 1200]}
+            sizes="(max-width: 820px) calc(100vw - 3rem), (max-width: 1150px) 45vw, 500px"
+            loading="eager"
+            class="project-image"
+            transition:name={photoTransition(activePhoto)}
+          />
+        </figure>
+
+        {photos.length > 1 && (
+          <nav class="photo-thumbs" aria-label={ui.projectMorePhotos}>
+            {photos.map((photo, index) =>
+              index === activePhoto ? (
+                <span class="photo-thumb is-active" aria-current="true">
+                  <Image
+                    src={photo.image}
+                    alt=""
+                    width={240}
+                    height={240}
+                    fit="cover"
+                    position={photo.position}
+                    widths={[120, 180, 240]}
+                    sizes="100px"
+                    transition:name={`project-thumb-active-${project.id}`}
+                  />
+                </span>
+              ) : (
+                <a
+                  class="photo-thumb"
+                  href={projectPhotoUrl(project, index)}
+                  data-photo-link
+                  data-astro-history="replace"
+                  data-astro-prefetch="hover"
+                  aria-label={`Foto ${index + 1} von ${photos.length}: ${photo.alt}`}
+                >
+                  <Image
+                    src={photo.image}
+                    alt=""
+                    width={240}
+                    height={240}
+                    fit="cover"
+                    position={photo.position}
+                    widths={[120, 180, 240]}
+                    sizes="100px"
+                    transition:name={photoTransition(index)}
+                  />
+                </a>
+              ),
+            )}
+          </nav>
+        )}
+      </div>
+    </div>
+
+    {(prev || next) && (
+      <nav class="project-pager" aria-label="Weitere Projekte">
+        {prev ? (
+          <a class="pager-link pager-prev" href={projectUrl(prev)} rel="prev">
+            <span class="pager-label">← {ui.projectPrevLabel}</span>
+            <span class="pager-title">{prev.data.title}</span>
+          </a>
+        ) : <span />}
+        {next && (
+          <a class="pager-link pager-next" href={projectUrl(next)} rel="next">
+            <span class="pager-label">{ui.projectNextLabel} →</span>
+            <span class="pager-title">{next.data.title}</span>
+          </a>
+        )}
+      </nav>
+    )}
+  </article>
+</Base>
+
+<style>
+  .project-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-3), 5vw, calc(var(--space-4) * 1.6));
+    align-items: start;
+  }
+
+  .project-info {
+    min-width: 0;
+  }
+
+  /* Service badge above the title — links to the filtered project list */
+  .project-service {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    transition: background-color var(--transition);
+  }
+
+  .project-service:hover {
+    background: color-mix(in srgb, var(--color-accent) 20%, transparent);
+  }
+
+  .project-info h1 {
+    margin-top: 0;
+  }
+
+  .project-description {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  /* Facts box */
+  .project-facts {
+    display: grid;
+    gap: var(--space-1);
+    margin: var(--space-3) 0;
+    padding: var(--space-2) 0;
+    border-block: 1px solid var(--color-border);
+  }
+
+  .project-facts div {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .project-facts dt {
+    flex: 0 0 6.5rem;
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .project-facts dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  /* Main photo: square, cropped around `imagePosition` (see content.config.ts) */
+  .project-photos {
+    min-width: 0;
+  }
+
+  .project-figure {
+    margin: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .similar-project p {
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .similar-project strong {
+    color: var(--color-text);
+  }
+
+  /* Thumbnail row under the main photo (only with extra photos) */
+  .photo-thumbs {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .photo-thumb {
+    display: block;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    transition: outline-color var(--transition), opacity var(--transition);
+  }
+
+  .photo-thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  a.photo-thumb {
+    opacity: 0.75;
+  }
+
+  a.photo-thumb:hover,
+  a.photo-thumb:focus-visible {
+    opacity: 1;
+    outline-color: var(--color-border);
+  }
+
+  /* The photo currently shown big */
+  .photo-thumb.is-active {
+    outline-color: var(--color-accent);
+  }
+
+  /* Previous / next project */
+  .project-pager {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pager-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-decoration: none;
+  }
+
+  .pager-next {
+    grid-column: 2;
+    text-align: right;
+  }
+
+  .pager-label {
+    font-size: var(--text-sm);
+    font-weight: 700;
+  }
+
+  .pager-title {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    color: var(--color-text);
+  }
+
+  .pager-link:hover .pager-title {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 1024px) {
+    .project-layout {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+  }
+
+  /* Mobile: photo first (it's what people came for), then the text */
+  @media (max-width: 820px) {
+    .project-layout {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project-photos {
+      order: -1;
+    }
+  }
+</style>
+
+<script>
+  // Switching photos keeps the scroll position (by default the router jumps
+  // to the top of the new page, which would hide the photo you just picked).
+  let keepScroll: number | null = null;
+  document.addEventListener("click", (event) => {
+    const link = (event.target as HTMLElement).closest("[data-photo-link]");
+    if (link) keepScroll = window.scrollY;
+  });
+  document.addEventListener("astro:after-swap", () => {
+    if (keepScroll !== null) {
+      window.scrollTo({ top: keepScroll, behavior: "instant" });
+      keepScroll = null;
+    }
+  });
+</script>

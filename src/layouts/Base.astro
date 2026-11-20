@@ -20,6 +20,8 @@ interface Props {
   image?: ImageMetadata;
   imageAlt?: string;
   ogType?: "website" | "article";
+  /** Canonical path, if this page is a variant of another one */
+  canonical?: string;
 }
 
 const {
@@ -30,6 +32,7 @@ const {
   image,
   imageAlt,
   ogType,
+  canonical,
 } = Astro.props;
 ---
 
@@ -47,6 +50,7 @@ const {
       image={image}
       imageAlt={imageAlt}
       ogType={ogType}
+      canonical={canonical}
     />
     {withJsonLd && <JsonLdLocalBusiness />}
     <!-- Page-specific structured data (JSON-LD) -->

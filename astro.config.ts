@@ -34,10 +34,12 @@ export default defineConfig({
     // Pages marked noindex (legal notice, privacy policy, 404) stay out of
     // the sitemap: listing them would send Google contradicting signals.
     sitemap({
+      // Photo pages of a project (/projekte/<slug>/foto/2/) only switch the
+      // main photo; the project page itself is the one for Google.
       filter: (page) =>
         !["/impressum/", "/datenschutz/", "/404/"].some((path) =>
           page.endsWith(path),
-        ),
+        ) && !page.includes("/foto/"),
     }),
   ],
 });
