@@ -363,45 +363,6 @@ select:hover {
   height: 100%;
 }
 
-/* Descriptions: the card wraps the text into many narrow lines, the service
-   page into a few wide ones, so scaling would squash it. Instead the box
-   glides and resizes while the text itself stays unscaled: the old text
-   fades out while the new one fades in (overlapping, so it never blinks). */
-::view-transition-group(.service-text) {
-  animation-duration: 420ms;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-}
-
-::view-transition-old(.service-text),
-::view-transition-new(.service-text) {
-  width: auto;
-  height: auto;
-  object-fit: none;
-  object-position: left top;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(.service-text) {
-  animation: vt-text-out 260ms ease-out both;
-}
-
-::view-transition-new(.service-text) {
-  animation: vt-text-in 300ms ease-out 100ms both;
-}
-
-@keyframes vt-text-out {
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes vt-text-in {
-  from {
-    opacity: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
