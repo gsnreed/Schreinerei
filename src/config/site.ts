@@ -50,7 +50,7 @@ export const SITE = {
     description:
     "Schreinerei in Pocking für Möbel nach Maß, individuellen Innenausbau, Küchen, Türen und Treppen sowie Reparatur und Restaurierung.",
     phone: "+49 8531 9130931",
-    email: "schreinerei_siegfried@yahoo.com",
+    email: "info@schreinerei-siegfried.de",
     address: {
       street: "Oberer Mühlweg 2",
       postalCode: "94060",
