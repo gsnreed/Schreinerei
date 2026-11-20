@@ -341,14 +341,11 @@ select:hover {
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* The card crop and the square crop differ: fill the morphing box like
-   object-fit: cover, clipped with rounded corners, so the image grows
-   instead of stretching. */
-::view-transition-group(.project-image) {
-  overflow: hidden;
-  border-radius: var(--radius-sm);
-}
-
+/* Project photos carry their own rounded corners (set on the <img> itself:
+   card = rounded on top only, project page = 16px, thumbnails = 10px), so
+   the corners are part of the animated snapshots and blend from the old
+   shape to the new one. Don't add a border-radius to the group here: it
+   would show during the animation and snap away at the end. */
 ::view-transition-old(.project-image),
 ::view-transition-new(.project-image) {
   width: 100%;

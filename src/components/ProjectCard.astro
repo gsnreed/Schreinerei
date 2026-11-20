@@ -73,6 +73,9 @@ const Heading = headingLevel;
     height: 100%;
     object-fit: cover;
     display: block;
+    /* same corners as the card itself (top rounded, bottom square): the
+       photo keeps them while it morphs to the project page */
+    border-radius: var(--radius) var(--radius) 0 0;
     transition: transform 420ms ease;
   }
 

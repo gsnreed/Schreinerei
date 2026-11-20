@@ -375,6 +375,8 @@ const jsonLd = [
     height: 100%;
     object-fit: cover;
     display: block;
+    /* corners on the photo itself, so they travel with it in the morph */
+    border-radius: var(--radius);
   }
 
   .similar-project p {
@@ -409,6 +411,7 @@ const jsonLd = [
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: var(--radius-sm);
   }
 
   a.photo-thumb {
