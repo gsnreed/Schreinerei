@@ -30,7 +30,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "fotos:pruefen": "node scripts/foto-check.mjs",
+    "fotos:bereinigen": "node scripts/foto-check.mjs --fix"
   },
   "dependencies": {
     "@astrojs/mdx": "^6.0.3",
