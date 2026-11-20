@@ -108,7 +108,9 @@ const jsonLd = [
       </div>
     </header>
 
-    <p class="lead">{description}</p>
+    <p class="lead" transition:name={`service-description-${service.id}`}>
+      {description}
+    </p>
 
     <div class="prose">
       <Content />
@@ -179,6 +181,8 @@ const jsonLd = [
   }
 
   .lead {
+    view-transition-class: service-text;
+    width: fit-content; /* tight box for the morph from the card */
     font-size: var(--text-lg);
     color: var(--color-text-muted);
   }

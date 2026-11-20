@@ -52,7 +52,9 @@ const jsonLdServices = {
             <h3 class="service-title" transition:name={`service-title-${item.id}`}>
               {item.data.title}
             </h3>
-            <p class="service-description">{item.data.description}</p>
+            <p class="service-description" transition:name={`service-description-${item.id}`}>
+              {item.data.description}
+            </p>
             <span class="service-more" aria-hidden="true">
               {SITE.ui.serviceMoreLabel} <span class="service-arrow">→</span>
             </span>
@@ -150,6 +152,7 @@ const jsonLdServices = {
   }
 
   .service-description {
+    view-transition-class: service-text;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
     margin: 0;
