@@ -1,5 +1,5 @@
 ---
-// One project card: photo (4:3) with the title and service ALWAYS visible
+// One project card: square photo with the title and service ALWAYS visible
 // below it — no hover needed to know what you are clicking.
 // Used on the home page, /projekte/, the filtered lists and service pages.
 import { Image } from "astro:assets";
@@ -32,8 +32,9 @@ const Heading = headingLevel;
       src={project.data.image}
       alt={project.data.imageAlt}
       width={640}
-      height={480}
+      height={640}
       fit="cover"
+      position={project.data.imagePosition}
       widths={[360, 480, 640, 800, 1024]}
       sizes="(max-width: 600px) calc(100vw - 3rem), (max-width: 1000px) calc(50vw - 2.5rem), 340px"
       loading={eager ? "eager" : "lazy"}
@@ -63,7 +64,7 @@ const Heading = headingLevel;
   }
 
   .project-card-media {
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
   }
 

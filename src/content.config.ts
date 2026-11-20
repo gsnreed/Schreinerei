@@ -42,9 +42,23 @@ const projects = defineCollection({
       image: image(),
       /** Describe what is visible (wood, room, details) — read by screen readers and Google */
       imageAlt: z.string(),
-      /** Optional extra photos (details, before/after, workshop), shown below the main photo */
+      /** Project photos are shown SQUARE (cards and project page). Most photos
+          are wider than tall, so the sides get cut off. This sets which part
+          stays visible: "center" (default), "left", "right", "top", "bottom",
+          combinations like "left top", or percentages like "30% 50%"
+          (30 % from the left, 50 % from the top). */
+      imagePosition: z.string().default("center"),
+      /** Optional extra photos (details, before/after, workshop): square
+          thumbnails below the main photo; a click opens the full photo.
+          Each one can have its own `position` (same values as imagePosition). */
       gallery: z
-        .array(z.object({ image: image(), alt: z.string() }))
+        .array(
+          z.object({
+            image: image(),
+            alt: z.string(),
+            position: z.string().default("center"),
+          }),
+        )
         .default([]),
       /** Optional facts shown in the info box on the detail page */
       location: z.string().optional(),
