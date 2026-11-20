@@ -17,7 +17,7 @@ declare(strict_types=1);
 
 // --- Configuration ------------------------------------------------------------
 
-const RECIPIENT = 'schreinerei_siegfried@yahoo.com';
+const RECIPIENT = 'info@schreinerei-siegfried.de';
 const SENDER = 'kontakt@schreinerei-siegfried.de'; // must exist / be allowed on the host
 const SENDER_NAME = 'Website Schreinerei Siegfried';
 const SUBJECT_PREFIX = 'Kontaktanfrage';
