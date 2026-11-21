@@ -1,8 +1,10 @@
 // Content collections. Each service is one MDX file in src/content/services/:
 // the frontmatter feeds the tile on the home page, the body is the detail page
 // at /leistungen/<filename>/. Adding a file adds both — no other edits needed.
-// Projects work the same way: src/content/projects/*.mdx → project cards
-// (their photos sit in the same folder, next to the MDX files)
+// Projects: one folder per project, src/content/projects/<name>/ with the
+// text (index.mdx) and all its photos. The folder name becomes the URL
+// (/projekte/<name>/); deleting the folder removes the project completely.
+// → project cards
 // (home page, /projekte/, /projekte/leistung/<service>/, the service page)
 // and a detail page at /projekte/<filename>/.
 import { defineCollection, reference } from "astro:content";
@@ -26,7 +28,12 @@ const services = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: "**/*.mdx", base: "./src/content/projects" }),
+  loader: glob({
+    pattern: "*/index.mdx",
+    base: "./src/content/projects",
+    // "kochinsel-aus-holz/index.mdx" → id "kochinsel-aus-holz" (= the URL)
+    generateId: ({ entry }) => entry.split("/")[0],
+  }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
@@ -36,8 +43,8 @@ const projects = defineCollection({
           Drives the filter on /projekte/, the label on the cards and the
           "Projekte zu dieser Leistung" block on the service page. */
       service: reference("services"),
-      /** Main photo. Photos sit in the same folder as the project files
-          (src/content/projects/), so the path is just "./foo.jpg".
+      /** Main photo. Photos sit in the project's own folder, next to
+          index.mdx, so the path is just "./foo.jpg".
           IMPORTANT: remove the GPS location from phone photos before adding
           them (the original file is published too and would reveal the
           customer's address), e.g. `exiftool -gps:all= foto.jpg`. */

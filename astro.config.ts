@@ -30,7 +30,12 @@ const slugs = (dir: string) =>
   readdirSync(new URL(dir, import.meta.url))
     .filter((file) => file.endsWith(".mdx"))
     .map((file) => file.replace(/\.mdx$/, ""));
-const projectSlugs = slugs("./src/content/projects/");
+// Projects: one folder per project (src/content/projects/<name>/index.mdx)
+const projectSlugs = readdirSync(new URL("./src/content/projects/", import.meta.url), {
+  withFileTypes: true,
+})
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name);
 const serviceSlugs = slugs("./src/content/services/");
 
 const redirects: Record<string, string> = {

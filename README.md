@@ -45,7 +45,7 @@ npm run preview      # look at the finished build locally
 | What | Where |
 |---|---|
 | Texts, contact details, opening hours, FAQ, navigation | `src/config/site.ts` |
-| Projects: texts **and** photos | `src/content/projects/` |
+| Projects: one folder per project (text **and** photos) | `src/content/projects/<name>/` |
 | Services (one file per service) | `src/content/services/` |
 | Free pages, e.g. "Werkstatt & Team" | `src/content/seiten/` |
 | Other photos (hero, workshop …) | `src/images/` |
@@ -62,17 +62,28 @@ Files ending in `.mdx` are text files: a block of settings between two
 
 ## 3. Add a project
 
-Texts and photos of all projects are in the same folder,
-`src/content/projects/`.
+Every project has its own folder in `src/content/projects/` with its text
+(`index.mdx`) and all its photos:
 
-1. Put the photo in `src/content/projects/`, e.g. `eckbank-eiche.jpg`.
-   Use lowercase letters, no spaces or umlauts (`ae`, `oe`, `ue`, `ss`).
-   Tip: start the photo names with the project name, so a project's text
-   and photos stay next to each other in the folder.
-2. Copy an existing project file in the same folder and rename it,
-   e.g. `eckbank-eiche.mdx`. **The file name becomes the address:**
+```
+src/content/projects/
+├── eckbank-eiche/
+│   ├── index.mdx          ← text and settings
+│   ├── eckbank-eiche.jpg  ← main photo
+│   └── detail.jpg         ← more photos (optional)
+├── kochinsel-aus-holz/
+│   ├── index.mdx
+│   └── kochinsel-aus-holz.jpg
+└── …
+```
+
+1. Copy an existing project folder and rename it, e.g. `eckbank-eiche`.
+   **The folder name becomes the address:**
    `https://schreinerei-siegfried.de/projekte/eckbank-eiche/`
-3. Adjust the settings:
+   Use lowercase letters and hyphens, no spaces or umlauts
+   (`ae`, `oe`, `ue`, `ss`).
+2. Replace the photos in the folder with your own (any file names).
+3. Adjust the settings in `index.mdx`:
 
 ```yaml
 ---
@@ -106,6 +117,10 @@ The project then appears automatically on the home page (if `order` is
 among the first 3), in the project overview, in the filter of its service
 and on the service page.
 
+
+**Remove a project:** delete its folder. Text and photos are gone together;
+the cards, filters and service pages update by themselves.
+
 ---
 
 ## 4. Photos
@@ -119,7 +134,7 @@ location, with a message like:
 
 ```
 Foto-Check: Diese Fotos dürfen so nicht veröffentlicht werden:
-  • src/content/projects/eckbank-eiche.jpg enthält einen GPS-Standort
+  • src/content/projects/eckbank-eiche/eckbank-eiche.jpg enthält einen GPS-Standort
 ```
 
 Fix it with:
@@ -273,7 +288,7 @@ browsers cache images.
 |---|---|
 | Build stops with "Foto-Check" | `npm run fotos:bereinigen`, then build again |
 | Build error mentioning a project file | Check the settings between the `---` lines: quotes closed? indentation of `gallery` entries correct? `service` spelled like a file in `src/content/services/`? |
-| Photo not found | The photo must be in `src/content/projects/` and referenced as `./name.jpg`; check the exact spelling (upper/lower case counts) |
+| Photo not found | The photo must be in the project's own folder (next to `index.mdx`) and referenced as `./name.jpg`; check the exact spelling (upper/lower case counts) |
 | Important part of a photo cut off | `imagePosition`, see [4](#4-photos) |
 | "500 Internal Server Error" after uploading | The server doesn't accept a setting in `.htaccess`: delete `.htaccess` on the server, then adjust it |
 | Contact form says it could not send | Check `RECIPIENT`/`SENDER` in `contact.php`; the sender address must exist on the server |
