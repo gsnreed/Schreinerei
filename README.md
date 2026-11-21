@@ -45,10 +45,10 @@ npm run preview      # look at the finished build locally
 | What | Where |
 |---|---|
 | Texts, contact details, opening hours, FAQ, navigation | `src/config/site.ts` |
-| Projects (one file per project) | `src/content/projects/` |
+| Projects: texts **and** photos | `src/content/projects/` |
 | Services (one file per service) | `src/content/services/` |
 | Free pages, e.g. "Werkstatt & Team" | `src/content/seiten/` |
-| Photos | `src/images/` (projects in `src/images/projects/`) |
+| Other photos (hero, workshop …) | `src/images/` |
 | Impressum / Datenschutz | `src/pages/impressum.astro`, `src/pages/datenschutz.astro` |
 | Colours and fonts | `src/styles/tokens.css` |
 | Contact form (server side) | `public/server/contact.php` |
@@ -62,9 +62,14 @@ Files ending in `.mdx` are text files: a block of settings between two
 
 ## 3. Add a project
 
-1. Put the photo in `src/images/projects/`, e.g. `eckbank-eiche.jpg`.
+Texts and photos of all projects are in the same folder,
+`src/content/projects/`.
+
+1. Put the photo in `src/content/projects/`, e.g. `eckbank-eiche.jpg`.
    Use lowercase letters, no spaces or umlauts (`ae`, `oe`, `ue`, `ss`).
-2. Copy an existing project file in `src/content/projects/` and rename it,
+   Tip: start the photo names with the project name, so a project's text
+   and photos stay next to each other in the folder.
+2. Copy an existing project file in the same folder and rename it,
    e.g. `eckbank-eiche.mdx`. **The file name becomes the address:**
    `https://schreinerei-siegfried.de/projekte/eckbank-eiche/`
 3. Adjust the settings:
@@ -74,7 +79,7 @@ Files ending in `.mdx` are text files: a block of settings between two
 title: "Eckbank aus Eiche"
 description: "Eckbank mit Stauraum für eine Wohnküche, Eiche massiv, geölt."
 service: "moebel-nach-mass"          # file name of the service, see below
-image: "../../images/projects/eckbank-eiche.jpg"
+image: "./eckbank-eiche.jpg"
 imageAlt: "Eckbank aus Eiche mit Sitzkissen in einer Wohnküche"
 order: 6                             # position in the lists (lowest first)
 ---
@@ -114,7 +119,7 @@ location, with a message like:
 
 ```
 Foto-Check: Diese Fotos dürfen so nicht veröffentlicht werden:
-  • src/images/projects/eckbank-eiche.jpg enthält einen GPS-Standort
+  • src/content/projects/eckbank-eiche.jpg enthält einen GPS-Standort
 ```
 
 Fix it with:
@@ -146,9 +151,9 @@ a click swaps them into the big spot (with an animation).
 
 ```yaml
 gallery:
-  - image: "../../images/projects/eckbank-eiche-detail.jpg"
+  - image: "./eckbank-eiche-detail.jpg"
     alt: "Stauraum unter der Sitzfläche der Eckbank"
-  - image: "../../images/projects/eckbank-eiche-werkstatt.jpg"
+  - image: "./eckbank-eiche-werkstatt.jpg"
     alt: "Die Eckbank während der Fertigung in der Werkstatt"
     position: "right"          # optional, like imagePosition
 ```
@@ -268,7 +273,7 @@ browsers cache images.
 |---|---|
 | Build stops with "Foto-Check" | `npm run fotos:bereinigen`, then build again |
 | Build error mentioning a project file | Check the settings between the `---` lines: quotes closed? indentation of `gallery` entries correct? `service` spelled like a file in `src/content/services/`? |
-| Photo not found | Path in `image` is relative to the project file: `../../images/projects/name.jpg`; check the exact spelling |
+| Photo not found | The photo must be in `src/content/projects/` and referenced as `./name.jpg`; check the exact spelling (upper/lower case counts) |
 | Important part of a photo cut off | `imagePosition`, see [4](#4-photos) |
 | "500 Internal Server Error" after uploading | The server doesn't accept a setting in `.htaccess`: delete `.htaccess` on the server, then adjust it |
 | Contact form says it could not send | Check `RECIPIENT`/`SENDER` in `contact.php`; the sender address must exist on the server |
