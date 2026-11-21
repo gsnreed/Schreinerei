@@ -1,18 +1,18 @@
 ---
-// Home page projects section: the first `gallery.featuredCount` projects as
-// cards (title + service always visible), plus a button to /projekte/ —
-// shown only when that page actually has more to offer.
+// Home page projects section: the projects marked `star: true` (at most
+// `gallery.featuredCount`, alphabetically) as cards, plus a button to
+// /projekte/ — shown only when that page actually has more to offer.
 // Cards come from src/content/projects/ and link to /projekte/<slug>/.
 import { SITE } from "../../config/site";
 import ProjectCard from "../ProjectCard.astro";
-import { getProjects, getServiceTitles } from "../../lib/projects";
+import { getProjects, getFeaturedProjects, getServiceTitles } from "../../lib/projects";
 
 const { gallery, ui } = SITE;
-const [allProjects, serviceTitles] = await Promise.all([
+const [allProjects, projects, serviceTitles] = await Promise.all([
   getProjects(),
+  getFeaturedProjects(),
   getServiceTitles(),
 ]);
-const projects = allProjects.slice(0, gallery.featuredCount);
 const hasMore = allProjects.length > projects.length;
 ---
 

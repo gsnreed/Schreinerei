@@ -92,7 +92,8 @@ description: "Eckbank mit Stauraum für eine Wohnküche, Eiche massiv, geölt."
 service: "moebel-nach-mass"          # file name of the service, see below
 image: "./eckbank-eiche.jpg"
 imageAlt: "Eckbank aus Eiche mit Sitzkissen in einer Wohnküche"
-order: 6                             # position in the lists (lowest first)
+date: 2026-11-21                     # project date: newest projects come first
+star: true                           # optional: show on the home page
 ---
 
 A few sentences about the project: what the customer wanted, what was
@@ -107,15 +108,17 @@ and is what Google reads.
 | `service` | yes | Which service it belongs to: `moebel-nach-mass`, `innenausbau`, `kuechen-nach-mass`, `tueren-und-treppen` or `reparatur-und-restaurierung` |
 | `image` | yes | Main photo |
 | `imageAlt` | yes | What can be seen in the photo (for screen readers and Google) |
-| `order` | no | Position; the first 3 appear on the home page |
+| `date` | yes | Project date (`YYYY-MM-DD`). Lists show the newest project first; same date → alphabetical |
+| `star` | no | `true` = shown on the home page (alphabetically). **At most 3 projects**: with more, the build stops and names them |
 | `imagePosition` | no | Which part of the photo stays visible in the square, see [4](#4-photos) |
 | `gallery` | no | More photos, see [4](#4-photos) |
 | `location`, `material` | no | Shown in the info box, e.g. `location: "Bad Füssing"`, `material: "Eiche, geölt"` |
 | `seoTitle`, `seoDescription` | no | Only if Google should show a different title/description than the generated one |
 
-The project then appears automatically on the home page (if `order` is
-among the first 3), in the project overview, in the filter of its service
-and on the service page.
+The project then appears automatically in the project overview (sorted by
+date), in the filter of its service and on the service page; with
+`star: true` also on the home page. Without any star, the home page shows
+the 3 newest projects.
 
 
 **Remove a project:** delete its folder. Text and photos are gone together;
@@ -287,6 +290,7 @@ browsers cache images.
 | Problem | Solution |
 |---|---|
 | Build stops with "Foto-Check" | `npm run fotos:bereinigen`, then build again |
+| Build stops with "Zu viele Projekte mit \"star: true\"" | More than 3 projects have a star: remove `star: true` from one of the listed projects |
 | Build error mentioning a project file | Check the settings between the `---` lines: quotes closed? indentation of `gallery` entries correct? `service` spelled like a file in `src/content/services/`? |
 | Photo not found | The photo must be in the project's own folder (next to `index.mdx`) and referenced as `./name.jpg`; check the exact spelling (upper/lower case counts) |
 | Important part of a photo cut off | `imagePosition`, see [4](#4-photos) |

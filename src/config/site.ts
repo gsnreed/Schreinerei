@@ -165,9 +165,10 @@ export const SITE = {
     // Intro under the heading on /projekte/
     allIntro:
       "Eine Auswahl an Arbeiten aus unserer Werkstatt in Pocking. Wählen Sie eine Leistung, um nur die passenden Projekte zu sehen.",
-    // How many projects the home page shows (the first ones by `order`).
-    // 3 fills one row on desktop. The "all projects" button only appears
-    // when there are more projects than this.
+    // Maximum number of projects with `star: true` (shown on the home page,
+    // alphabetically). 3 fills one row on desktop; the build stops if more
+    // projects have a star. The "all projects" button only appears when
+    // there are more projects than the home page shows.
     featuredCount: 3,
     // The project cards and their detail pages live in src/content/projects/
     // (one MDX file per project, see src/content.config.ts).

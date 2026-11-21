@@ -1,17 +1,38 @@
 // Helpers for the "projects" content collection (src/content/projects/).
 import { getCollection, type CollectionEntry } from "astro:content";
 import { getServices, type Service } from "./services";
+import { SITE } from "../config/site";
+
+/** Alphabetical comparison of project titles, German rules (ä after a …) */
+const byTitle = (a: Project, b: Project) =>
+  a.data.title.localeCompare(b.data.title, SITE.lang);
 
 export type Project = CollectionEntry<"projects">;
 
-/** All projects, in the order set by their `order` frontmatter field. */
+/** All projects, newest first (same date: alphabetically). */
 export async function getProjects(): Promise<Project[]> {
   const projects = await getCollection("projects");
   return projects.sort(
-    (a, b) =>
-      a.data.order - b.data.order ||
-      (b.data.date?.getTime() ?? 0) - (a.data.date?.getTime() ?? 0),
+    (a, b) => b.data.date.getTime() - a.data.date.getTime() || byTitle(a, b),
   );
+}
+
+/** Projects for the home page: those with `star: true`, alphabetically.
+    Stops the build if more than SITE.gallery.featuredCount have a star.
+    Without any star, the newest projects are shown instead. */
+export async function getFeaturedProjects(): Promise<Project[]> {
+  const projects = await getProjects();
+  const max = SITE.gallery.featuredCount;
+  const starred = projects.filter((p) => p.data.star).sort(byTitle);
+
+  if (starred.length > max) {
+    throw new Error(
+      `Zu viele Projekte mit "star: true": ${starred.length}, erlaubt sind höchstens ${max}.\n` +
+        starred.map((p) => `  • src/content/projects/${p.id}/index.mdx (${p.data.title})`).join("\n") +
+        `\nBitte bei ${starred.length - max} davon "star: false" setzen oder die Zeile entfernen.`,
+    );
+  }
+  return starred.length > 0 ? starred : projects.slice(0, max);
 }
 
 /** Projects belonging to one service (same order as getProjects). */

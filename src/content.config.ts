@@ -76,10 +76,12 @@ const projects = defineCollection({
           title, service and description (see src/pages/projekte/[slug].astro) */
       seoTitle: z.string().optional(),
       seoDescription: z.string().optional(),
-      /** Optional; only used as a tie-breaker when sorting (not displayed) */
-      date: z.coerce.date().optional(),
-      /** Position in the lists (ascending); the first ones appear on the home page */
-      order: z.number().int().default(100),
+      /** Project date (YYYY-MM-DD). Lists show the newest project first. */
+      date: z.coerce.date(),
+      /** true = shown on the home page (alphabetically). At most
+          SITE.gallery.featuredCount (3) projects may have a star; the build
+          stops with a message otherwise. */
+      star: z.boolean().default(false),
     }),
 });
 
